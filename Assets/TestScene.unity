@@ -618,12 +618,14 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 80067387}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.262, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1322816951}
   - {fileID: 1526481065}
   - {fileID: 1829778180}
+  - {fileID: 498743177}
+  - {fileID: 1920031412}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -660,7 +662,7 @@ MonoBehaviour:
   - Fire1
   - Fire2
   - Fire3
-  - 
+  - Movement
 --- !u!114 &80067393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2064,6 +2066,48 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2113f8eb8d532954a923c28b1ae0bcfd, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &282561828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 282561829}
+  - component: {fileID: 282561830}
+  m_Layer: 0
+  m_Name: out
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &282561829
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282561828}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1920031412}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &282561830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282561828}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf71c3561a298544a8da0423b99c03a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 80067388}
+  movementSpeed: -170
 --- !u!1001 &285282951
 Prefab:
   m_ObjectHideFlags: 0
@@ -2803,6 +2847,69 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2113f8eb8d532954a923c28b1ae0bcfd, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &498743176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 498743177}
+  - component: {fileID: 498743179}
+  - component: {fileID: 498743178}
+  m_Layer: 0
+  m_Name: dagger-push
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &498743177
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 498743176}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 80067390}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &498743178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 498743176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78dc5f4dc696034f924282d4e3b3250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyId: 2
+  energyCost: 0
+  cd:
+    cd: 0.5
+  animCode: dagger-push
+  stopMovement: 0
+  rotateToMouse: 1
+  mouseRotationApplyTimer:
+    cd: 0
+--- !u!114 &498743179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 498743176}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf71c3561a298544a8da0423b99c03a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 80067388}
+  movementSpeed: 180
 --- !u!4 &500115277 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4743370800842782, guid: 2113f8eb8d532954a923c28b1ae0bcfd,
@@ -9583,6 +9690,70 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2113f8eb8d532954a923c28b1ae0bcfd, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1920031411
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1920031412}
+  - component: {fileID: 1920031414}
+  - component: {fileID: 1920031413}
+  m_Layer: 0
+  m_Name: dagger-pull
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1920031412
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1920031411}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 282561829}
+  m_Father: {fileID: 80067390}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1920031413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1920031411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78dc5f4dc696034f924282d4e3b3250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyId: 3
+  energyCost: 0
+  cd:
+    cd: 0.5
+  animCode: dagger-pull
+  stopMovement: 0
+  rotateToMouse: 1
+  mouseRotationApplyTimer:
+    cd: 0
+--- !u!114 &1920031414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1920031411}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf71c3561a298544a8da0423b99c03a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 80067388}
+  movementSpeed: 90
 --- !u!4 &1927383500 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4909920035473058, guid: 3c7c0d24f3e352144826523c7b21c00f,
