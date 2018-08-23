@@ -618,7 +618,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 80067387}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.262, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1322816951}
@@ -626,6 +626,7 @@ Transform:
   - {fileID: 1829778180}
   - {fileID: 498743177}
   - {fileID: 1920031412}
+  - {fileID: 2129833235}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2700,7 +2701,7 @@ Transform:
   m_GameObject: {fileID: 475349108}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0.97151, y: 0.0028916, z: 0}
-  m_LocalScale: {x: 0.19939412, y: 4.5371475, z: 0.995875}
+  m_LocalScale: {x: 0.1993941, y: 4.5371475, z: 0.995875}
   m_Children: []
   m_Father: {fileID: 718135747}
   m_RootOrder: 1
@@ -9706,7 +9707,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1920031412
 Transform:
   m_ObjectHideFlags: 0
@@ -10619,6 +10620,69 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3c7c0d24f3e352144826523c7b21c00f, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2129833234
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2129833235}
+  - component: {fileID: 2129833237}
+  - component: {fileID: 2129833236}
+  m_Layer: 0
+  m_Name: dagger-push (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2129833235
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2129833234}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 80067390}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2129833236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2129833234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78dc5f4dc696034f924282d4e3b3250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyId: 3
+  energyCost: 0
+  cd:
+    cd: 0.5
+  animCode: dagger-throw
+  stopMovement: 0
+  rotateToMouse: 1
+  mouseRotationApplyTimer:
+    cd: 0
+--- !u!114 &2129833237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2129833234}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf71c3561a298544a8da0423b99c03a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 80067388}
+  movementSpeed: 180
 --- !u!4 &2135092142 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4295582904228224, guid: 6ce5e771ddbaa2e4f9985f1687dea151,
