@@ -1,27 +1,71 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using ReAnim;
 
-public class SkillBase : MonoBehaviour {
-
-    public int keyId;
-    public float energyCost;
-    public Timer cd;
+public abstract class SkillBase : MonoBehaviour {
 
     protected EnergyController resource;
-    protected InputManager input;
+    protected InputManagerBase input;
     protected Animator animator;
     protected new AudioSource audio;
     protected PlayerMovement movement;
+    protected SkillManagament skillManager;
+    [NonSerialized] public bool bufferedInput = false;
+
+    /// TODO move to dictionary when performance will be a bottle neck
+    public Transition[] transitions;
+
+    public int keyId;
+    public float energyCost;
+    public Timer cd = new Timer();
+    public bool canBePlayedFromIdle = true;
+
+    public Transition GetTransition(SkillBase skill)
+    {
+        foreach (var it in transitions)
+            if (it.target == skill)
+                return it;
+        return null;
+    }
+
+   
+
+    
 
     protected void Start()
     {
         resource = GetComponentInParent<EnergyController>();
-        input = GetComponentInParent<InputManager>();
+        input = GetComponentInParent<InputManagerBase>();
         animator = GetComponentInParent<Animator>();
         audio = GetComponentInParent<AudioSource>();
         movement = GetComponentInParent<PlayerMovement>();
+        skillManager = GetComponentInParent<SkillManagament>();
     }
+
+    ///////////////////////////////////////////////////
+
+    public virtual bool CanEnter()
+    {
+        return input.IsInputDown(keyId) && cd.isReady();
+    }
+    public virtual void InitPlayback(Transition transition)
+    {
+        resource.SpendClamp(energyCost);
+        cd.restart();
+        skillManager.appliedAnimationCount++;
+        skillManager.SetCurrentSkill(this);
+    }
+
+    public virtual void OnAnimationBeggin(AnimatorStateInfo stateInfo) { }
+    public virtual void OnAnimationUpdate(AnimatorStateInfo stateInfo) { }
+    public virtual void OnAnimationEnd(AnimatorStateInfo stateInfo)    { skillManager.appliedAnimationCount--; }
+    
+
+
+
+    //////////////////////////////////////////////////////////////////
 
     protected void PlaySound()
     {
@@ -36,65 +80,8 @@ public class SkillBase : MonoBehaviour {
     protected void PlayAnimation(string animCode)
     {
         if (animator)
-            animator.SetTrigger(animCode);
-    }
-
-    protected bool IsActivatedStart()
-    {
-        return input.IsInputDown(keyId);
-    }
-    protected bool IsActivated()
-    {
-        return input.IsInputPressed(keyId);
-    }
-    protected bool IsActivatedEnd()
-    {
-        return input.IsInputDown(keyId);
-    }
-
-    protected bool CastSkill()
-    {
-        if(cd.isReady() && resource.HasEnough(energyCost))
         {
-            resource.Spend(energyCost);
-            cd.restart();
-            return true;
+            animator.SetTrigger(animCode);
         }
-        return false;
     }
-
-    protected Vector2 ApplyRotationtoMouse()
-    {
-        movement.ApplyRotationToMouse();
-        return input.GetLastPositionInput();
-    }
-    protected void OverrideRotation(float rotation)
-    {
-        movement.ApplyExternalRotation(rotation);
-    }
-    protected void OverrideRotation(Vector2 _input)
-    {
-        input.SetLastInput(_input);
-        movement.ApplyExternalRotation(Vector2.Angle(Vector2.up, _input) * (_input.x > 0 ? -1 : 1));
-    }
-    protected void TurnMovement(bool b, bool stopCurrentMovement = false)
-    {
-        movement.moveToDirection = b;
-
-        if (!b && stopCurrentMovement)
-            movement.StopCurrentMovement();
-    }
-    protected void TurnRotation(bool b, bool stopCurrentRotation = false)
-    {
-        movement.rotateToDirection = b;
-
-        if (!b && stopCurrentRotation)
-            movement.StopCurrentRotation();
-    }
-    protected void ApplyForce(Vector2 force)
-    {
-        ///TODO
-    }
-
-
 }

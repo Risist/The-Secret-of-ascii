@@ -59,8 +59,8 @@ public class HealthController : ResourceController
             BroadcastMessage("OnReceiveDamage", data );
         else
 			BroadcastMessage("OnDeath", data);
-
-        Gain(damage);
+        
+        actual = Mathf.Clamp(actual + data.damage, -max, max);
     }
 
 	public void OnReceiveDamage(DamageData data){}

@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
 
     public Transform player;
+    InputManagerBase playerInput;
 
     [Range(0.0f,10.0f)]
 	public float learpFactor = 10.0f;
@@ -27,6 +28,7 @@ public class CameraController : MonoBehaviour
         initialOffsetPosition = transform.position - player.position;
 		initialOffsetRotation = transform.rotation.eulerAngles.z;
 		initialOffsetScale = Camera.main.orthographicSize;
+        playerInput = player.GetComponent<InputManagerBase>();
 	}
 
     // Update is called once per frame

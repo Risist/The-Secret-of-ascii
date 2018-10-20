@@ -16,8 +16,8 @@ public class AiUnitMind : MonoBehaviour
 		conditionChance = new RandomChance();
 		conditionChance.chances = new float[conditions.Length];
 		
-		myFraction = GetComponentInParent<AiFraction>();
-		myPerception = GetComponentInParent<AiPerception>();
+		//myFraction = GetComponentInParent<AiFraction>();
+		//myPerception = GetComponentInParent<AiPerception>();
 	}
 
 	void Update()
@@ -74,13 +74,13 @@ public class AiUnitMind : MonoBehaviour
 	}
 #endregion behaviours
 
-#region Perception
+/*#region Perception
 	[System.NonSerialized]
 	public AiFraction myFraction;
 	[System.NonSerialized]
 	public AiPerception myPerception;
 #endregion Perception
-
+*/
 
 
 #region Memory

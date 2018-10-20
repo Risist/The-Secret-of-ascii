@@ -20,6 +20,10 @@ public class AiFraction : MonoBehaviour
 	public string[] friendlyFractions;
 	public string[] enemyFractions;
 
+    public Attitude GetAttitude(AiFraction fraction)
+    {
+        return GetAttitude(fraction.fractionName);
+    }
 	public Attitude GetAttitude(string fraction)
 	{
 		if (fraction.Equals(fractionName))

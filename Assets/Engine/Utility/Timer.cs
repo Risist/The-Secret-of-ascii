@@ -36,6 +36,14 @@ public class Timer
     {
         actualTime = Time.time;
     }
+    public void restart(float diff)
+    {
+        actualTime = Time.time + diff;
+    }
+    public void restartIncrease()
+    {
+
+    }
 
     // returns true if time elapsed from last reset is greather than passed argument (cd)
     public bool isReady( float cd)

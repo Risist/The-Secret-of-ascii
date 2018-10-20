@@ -13,33 +13,37 @@ public class DeathEventPhysicsDestruction : MonoBehaviour {
 	// remove & fadeout data
 	public float removeDelay;
 	// physics data
-	public float mass;
+    [Range(0f,1f)]
 	public float linearDamping;
-	public float angularDamping;
 
-	void AddExplosionForce(Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius)
+    #region Dmg Accumulator
+    [Range(0f,1f)]
+    public float dmgDamping;
+    float dmgAccumulator;
+    public void OnReceiveDamage(HealthController.DamageData data) {
+        if(data.damage < 0)
+            dmgAccumulator += data.damage;
+    }
+    void FixedUpdate()
+    {
+        dmgAccumulator *= dmgDamping;
+    }
+
+    #endregion Dmg Accumulator
+
+    Vector2 GetExplosionForce(Transform body, float explosionForce, Vector3 explosionPosition, float explosionRadius)
 	{
 		var dir = (body.transform.position - explosionPosition);
 		float wearoff = 1 - (dir.magnitude / explosionRadius);
-		body.AddForce(dir.normalized * explosionForce * wearoff);
-	}
-
-	void AddExplosionForce(Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, float upliftModifier)
-	{
-		var dir = (body.transform.position - explosionPosition);
-		float wearoff = 1 - (dir.magnitude / explosionRadius);
-		Vector3 baseForce = dir.normalized * explosionForce * wearoff;
-		body.AddForce(baseForce);
-
-		float upliftWearoff = 1 - upliftModifier / explosionRadius;
-		Vector3 upliftForce = Vector2.up * explosionForce * upliftWearoff;
-		body.AddForce(upliftForce);
+		return dir.normalized * explosionForce * wearoff;
 	}
 
 	public void OnDeath(HealthController.DamageData data)
 	{
         if (!active)
             return;
+
+        OnReceiveDamage(data);
 
 		Vector2 explosionPosition = transform.position;
 		if (data.causer)
@@ -49,23 +53,16 @@ public class DeathEventPhysicsDestruction : MonoBehaviour {
 		foreach(var it in sprites)
 		{
 			it.transform.parent = null;
-			var rb = it.GetComponent<Rigidbody2D>();
+            var particle = it.GetComponent<DestructionParticle>();
 
-			if (!rb)
-				rb = it.gameObject.AddComponent<Rigidbody2D>();
+            if (!particle)
+                particle = it.gameObject.AddComponent<DestructionParticle>();
 
-			rb.mass = mass;
-			rb.drag = linearDamping;
-			rb.angularDrag = angularDamping;
-			AddExplosionForce(rb, Mathf.Clamp( forceBase - forceScale * data.damage,-forceMax, forceMax) , explosionPosition, explosionRadius);
+            particle.delayTime = new Timer(removeDelay);
 
-			var remove = it.gameObject.AddComponent<RemoveAfterDelay>();
-			remove.timer = new Timer(removeDelay);
-
-			/*var fader = it.gameObject.AddComponent<SpriteFader>();
-			fader.changeRate = -it.color.a / removeDelay;
-			fader.reverseTimer = new Timer();
-			fader.reverse = false;*/
+            particle.damping = linearDamping;
+            particle.force = GetExplosionForce(it.transform, Mathf.Clamp(forceBase - forceScale * dmgAccumulator, -forceMax, forceMax), explosionPosition, explosionRadius);
+            particle.Start();
 		}
 		Destroy(this);
 	}

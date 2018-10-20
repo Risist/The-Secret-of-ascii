@@ -38,7 +38,19 @@ public class ResourceController : MonoBehaviour {
 		BroadcastMessage("OnResourceLack", required);
 		return false;
 	}
-	public void Gain(float amount)
+    public bool SpendClamp(float required)
+    {
+        if (HasEnough(required))
+        {
+            actual -= required;
+            BroadcastMessage("OnResourceSpend", required);
+            return true;
+        }
+        actual = 0;
+        BroadcastMessage("OnResourceLack", required);
+        return false;
+    }
+    public void Gain(float amount)
 	{
 		actual = Mathf.Clamp(actual + amount, 0, max);
 	}

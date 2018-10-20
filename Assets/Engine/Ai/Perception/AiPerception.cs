@@ -6,7 +6,7 @@ using UnityEngine;
  * Detects fraction objects.
  * Not designed to detect obstacles, only aims of attack, follow, cast spells ect
  */
-public class AiPerception : MonoBehaviour {
+/*public class AiPerception : MonoBehaviour {
 
     public static float scanTimeDiff = 0.25f;
     public float addictionalRotation = 0.0f;
@@ -180,4 +180,4 @@ public class AiPerception : MonoBehaviour {
 			memory.Add(memoryItem);
 		}
 	}
-}
+}*/

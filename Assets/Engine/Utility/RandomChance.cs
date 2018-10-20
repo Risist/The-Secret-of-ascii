@@ -9,6 +9,8 @@ using UnityEngine;
 [System.Serializable]
 public class RandomChance
 {
+    public RandomChance() { }
+    public RandomChance(float[] _chances) { chances = _chances; }
     public float[] chances = null;
 
     public int GetRandedId()
@@ -16,6 +18,9 @@ public class RandomChance
         float sum = 0;
         foreach (float it in chances)
             sum += it;
+
+        if (sum == 0)
+            return -1;
 
         float randed = Random.Range(0, sum);
 
