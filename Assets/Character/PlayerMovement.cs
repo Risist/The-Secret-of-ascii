@@ -9,7 +9,15 @@ public class PlayerMovement : MonoBehaviour
     [Range(0.0f, 1.0f)]
     public float rotationSpeed = 1.0f;
     Rigidbody2D body;
-    InputManagerBase input;
+    InputManagerBase input
+    {
+        get
+        {
+            return controller.GetInput();
+        }
+    }
+    CharacterController controller;
+
 
     [Space]
     public bool moveToDirection = true;
@@ -18,6 +26,11 @@ public class PlayerMovement : MonoBehaviour
 
     public string atMoveTrigger = "AtMove";
     Animator animator;
+
+    [Space]
+    public float speedBeginDrag;
+    public float speedDragIncreaseRatio;
+    float baseDrag;
 
     public void StopCurrentMovement()
     {
@@ -44,8 +57,9 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        input = GetComponent<InputManagerBase>();
         animator = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
+        baseDrag = body.drag;
     }
 
     private void LateUpdate()
@@ -57,11 +71,16 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         animator.SetBool(atMoveTrigger, false);
-        if (!enabled)
+        if (!enabled || !controller.GetInput())
             return;
         if (!moveToDirection)
             return;
 
+        float velocitySq = body.velocity.sqrMagnitude;
+        float desiredDrag = baseDrag + 
+            Mathf.Clamp(velocitySq - speedBeginDrag * speedBeginDrag, 0, float.PositiveInfinity)
+            * speedDragIncreaseRatio;
+        body.drag = desiredDrag;    
 
 
 

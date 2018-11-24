@@ -19,6 +19,7 @@ public class DeathEventPhysicsDestruction : MonoBehaviour {
     #region Dmg Accumulator
     [Range(0f,1f)]
     public float dmgDamping;
+    public void AlterDamageAccumulator(float s) { dmgAccumulator = s; }
     float dmgAccumulator;
     public void OnReceiveDamage(HealthController.DamageData data) {
         if(data.damage < 0)
@@ -66,4 +67,26 @@ public class DeathEventPhysicsDestruction : MonoBehaviour {
 		}
 		Destroy(this);
 	}
+    public void OnDeath(Vector2 explosionPosition)
+    {
+        if (!active)
+            return;
+        
+        var sprites = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var it in sprites)
+        {
+            it.transform.parent = null;
+            var particle = it.GetComponent<DestructionParticle>();
+
+            if (!particle)
+                particle = it.gameObject.AddComponent<DestructionParticle>();
+
+            particle.delayTime = new Timer(removeDelay);
+
+            particle.damping = linearDamping;
+            particle.force = GetExplosionForce(it.transform, Mathf.Clamp(forceBase - forceScale * dmgAccumulator, -forceMax, forceMax), explosionPosition, explosionRadius);
+            particle.Start();
+        }
+        Destroy(this);
+    }
 }

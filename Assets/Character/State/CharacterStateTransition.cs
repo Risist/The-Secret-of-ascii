@@ -83,11 +83,26 @@ namespace Character
     {
         public CStateAutoTransition(State _target) { target = _target; }
         public State target;
-        public override void OnAnimationEnd(AnimatorStateInfo stateInfo)
+        public bool beggin = false;
+        public bool end = true;
+
+        public CStateAutoTransition ApplyOnBeggin(bool b = true) { beggin = b; return this; }
+        public CStateAutoTransition ApplyOnEnd(bool b = true) { beggin = b; return this; }
+        public override void OnAnimationUpdate(AnimatorStateInfo stateInfo)
         {
-            if (state == controller.GetCurrentState())
+            if (beggin)
                 controller.SetCurrentState(target);
         }
+        public override void OnAnimationEnd(AnimatorStateInfo stateInfo)
+        {
+            if (end && state == controller.GetCurrentState())
+                controller.SetCurrentState(target);
+        }
+        /*public override void FinishPlayback()
+        {
+            //if (state == controller.GetCurrentState())
+            controller.SetCurrentState(target);
+        }*/
     }
     public class CStateInstantTransition : StateComponent
     {

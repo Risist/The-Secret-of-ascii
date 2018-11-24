@@ -4,15 +4,14 @@ using UnityEngine;
 
 namespace ReAi
 {
-    class ActionBase
+    public class ActionBase
     {
-        /// for identification
-        public string name = "";
         public void SetMind(UnitMind s) { mind = s; }
         protected UnitMind mind;
 
         #region Utility
         public float baseUtility = 1.0f;
+        public ActionBase SetBaseUtility(float s) { baseUtility = s; return this; } 
 
         /// how likely is the action to be chosen as next
         public virtual float GetUtility() { return baseUtility; }
@@ -33,8 +32,16 @@ namespace ReAi
         #endregion Performance
     }
 
-    class UnitMind
+    public class UnitMind
     {
+        public UnitMind(InputManagerExternal _input)
+        {
+            input = _input;
+            perception = _input.GetComponentInParent<AiPerceptionBase>();
+            fraction = input.GetComponentInParent<AiFraction>();
+            character = input.GetComponentInParent<CharacterController>();
+        }
+        
         public void Update()
         {
             if (currentAction != null && currentAction.PerformAction()) {
@@ -46,12 +53,13 @@ namespace ReAi
         public float utilityThreshold = 0;
 
         List<ActionBase> actions = new List<ActionBase>();
-        public void AddAction(ActionBase action)
+        public ActionBase AddAction(ActionBase action)
         {
             action.SetMind(this);
             actions.Add(action);
             if (actions.Count > actionChance.chances.Length)
                 actionChance.chances = new float[actions.Count];
+            return action;
         }
         ActionBase GetAction(int id) { return actions[id]; }
 
@@ -88,5 +96,59 @@ namespace ReAi
             else return null;
         }
         #endregion Actions
+
+
+        #region Input
+        protected InputManagerExternal input;
+        public Vector2 positionInput
+        {
+            set { input.positionInput = value; }
+            get { return input.positionInput; }
+        }
+        public Vector2 directionInput
+        {
+            set { input.directionInput = value; }
+            get { return input.directionInput; }
+        }
+        public bool key0
+        {
+            set { input.input[0] = value; }
+            get { return input.input[0]; }
+        }
+        public bool key1
+        {
+            set { input.input[1] = value; }
+            get { return input.input[1]; }
+        }
+        public bool key2
+        {
+            set { input.input[2] = value; }
+            get { return input.input[2]; }
+        }
+        public bool key3
+        {
+            set { input.input[3] = value; }
+            get { return input.input[3]; }
+        }
+        public void SetKey(int id, bool b)
+        {
+            if(id != -1)
+                input.input[id] = b;
+        }
+        #endregion Input;
+
+        #region Perception
+        public AiPerceptionBase perception;
+        public AiFraction fraction;
+        public CharacterController character;
+        public MemoryItem SearchInMemory(AiFraction.Attitude attitude)
+        {
+            return perception.SearchInMemory(fraction, attitude);
+        }
+        public MemoryItem SearchInMemory(string fractionName)
+        {
+            return perception.SearchInMemory(fractionName);
+        }
+        #endregion
     }
 }

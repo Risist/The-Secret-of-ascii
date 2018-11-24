@@ -5,16 +5,11 @@ using UnityEngine;
 public class SkillAnimationBehaviour : StateMachineBehaviour
 {
     public int skillId;
-    SkillManagament skillManager;
     CharacterController controller;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
-        skillManager = animator.GetComponent<SkillManagament>();
-        if(skillManager)
-            skillManager.GetSkill(skillId).OnAnimationBeggin(stateInfo);
         controller = animator.GetComponent<CharacterController>();
         if(controller)
             controller.GetState(skillId).OnAnimationBeggin(stateInfo);
@@ -22,8 +17,6 @@ public class SkillAnimationBehaviour : StateMachineBehaviour
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (skillManager)
-            skillManager.GetSkill(skillId).OnAnimationUpdate(stateInfo);
         if (controller)
             controller.GetState(skillId).OnAnimationUpdate(stateInfo);
     }
@@ -31,8 +24,6 @@ public class SkillAnimationBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (skillManager)
-            skillManager.GetSkill(skillId).OnAnimationEnd(stateInfo);
         if (controller)
             controller.GetState(skillId).OnAnimationEnd(stateInfo);
     }

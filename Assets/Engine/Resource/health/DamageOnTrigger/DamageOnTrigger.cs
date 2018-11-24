@@ -6,13 +6,18 @@ public class DamageOnTrigger : MonoBehaviour {
 	public float damageEnter;
 	public float damageStay;
 	public float damageExit;
-	
-	public bool removeOnEnter = false;
+    [Space]
+    public float painEnter;
+    public float painStay;
+    public float painExit;
+    [Space]
+    public bool customPain = false;
+    public bool removeOnEnter = false;
 	public bool removeOnExit = false;
     public bool removeOnCollision = true;
     public bool removeOnTrigger = true;
     public GameObject objToRemove;
-	//public AiFraction myFraction;
+	AiFraction myFraction;
 	public GameObject instigator;
 
 	private void Start()
@@ -21,21 +26,22 @@ public class DamageOnTrigger : MonoBehaviour {
 			objToRemove = gameObject;
 		if (!instigator)
 			instigator = gameObject;
+        myFraction = instigator.GetComponent<AiFraction>();
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		/*if (myFraction)
+		if (myFraction)
 		{
 			var otherFraction = other.gameObject.GetComponent<AiFraction>();
 			if (otherFraction && myFraction.GetAttitude(otherFraction.fractionName) == AiFraction.Attitude.friendly)
 				return;
-		}*/
+		}
 
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageEnter, instigator);
+			healthController.DealDamage(damageEnter, customPain? painEnter : damageEnter, instigator);
             if (removeOnEnter)
             {
                 if( (other.isTrigger && removeOnTrigger) ||
@@ -47,33 +53,33 @@ public class DamageOnTrigger : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D other)
 	{
-		/*if(myFraction)
+		if(myFraction)
 		{
 			var otherFraction = other.gameObject.GetComponent<AiFraction>();
 			if (otherFraction && myFraction.GetAttitude(otherFraction.fractionName) == AiFraction.Attitude.friendly)
 				return;
-		}*/
+		}
 
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if (healthController != null)
 		{
-			healthController.DealDamage(damageStay, instigator);
+			healthController.DealDamage(damageStay, customPain ? painStay : damageStay, instigator);
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		/*if (myFraction)
+		if (myFraction)
 		{
 			var otherFraction = other.gameObject.GetComponent<AiFraction>();
 			if (otherFraction && myFraction.GetAttitude(otherFraction.fractionName) == AiFraction.Attitude.friendly)
 				return;
-		}*/
+		}
 
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null)
 		{
-			healthController.DealDamage(damageExit, instigator);
+			healthController.DealDamage(damageExit, customPain ? painExit : damageExit, instigator);
 			if (removeOnExit)
             {
                 if ((other.isTrigger && removeOnTrigger) ||
@@ -95,7 +101,7 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageEnter, gameObject);
+			healthController.DealDamage(damageEnter, customPain ? painEnter : damageEnter, gameObject);
 			if (removeOnEnter)
             {
                 if ((other.collider.isTrigger && removeOnTrigger) ||
@@ -117,7 +123,7 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageStay, gameObject);
+			healthController.DealDamage(damageStay, customPain ? painStay : damageStay, gameObject);
 		}
 	}
 
@@ -133,7 +139,7 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageExit, gameObject);
+			healthController.DealDamage(damageExit, customPain ? painExit : damageExit, gameObject);
 			if (removeOnExit)
             {
                 if ((other.collider.isTrigger && removeOnTrigger) ||

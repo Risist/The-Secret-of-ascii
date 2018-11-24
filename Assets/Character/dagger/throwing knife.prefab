@@ -68,10 +68,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4193256217311578}
   - component: {fileID: 61996505249511924}
-  - component: {fileID: 114515212318485824}
   - component: {fileID: 50964738695963838}
   - component: {fileID: 114139328261846374}
   - component: {fileID: 250386245276681538}
+  - component: {fileID: 114584777721566560}
+  - component: {fileID: 114177015331880138}
   m_Layer: 0
   m_Name: throwing knife
   m_TagString: Untagged
@@ -102,7 +103,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1308631909760284}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.6812022, y: -0.994884, z: 0}
+  m_LocalPosition: {x: -5.699671, y: -6.6149945, z: 0}
   m_LocalScale: {x: 0.8467902, y: 0.7784201, z: 1}
   m_Children:
   - {fileID: 4942215077574326}
@@ -196,7 +197,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.5}
+  m_Offset: {x: 0, y: 1.2526212}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -207,7 +208,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.25, y: 1.5}
+  m_Size: {x: 1, y: 1.0052427}
   m_EdgeRadius: 0
 --- !u!114 &114139328261846374
 MonoBehaviour:
@@ -224,9 +225,15 @@ MonoBehaviour:
   force: 500
   forceFallof: 0.98
   forceMinimal: 100
+  damageDealed: -10
+  removeOnHit: 1
+  destructionOffset: {x: 0, y: -2.25}
+  destructionForce: -3
   destroyAfter:
     cd: 0.8
---- !u!114 &114515212318485824
+  turnOnCollisionAfter:
+    cd: 0.15
+--- !u!114 &114177015331880138
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,18 +241,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 1308631909760284}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41e6ec63ad6ef364ebece5cc90b6f378, type: 3}
+  m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageEnter: -10
-  damageStay: 0
-  damageExit: 0
-  removeOnEnter: 1
-  removeOnExit: 0
-  removeOnCollision: 1
-  removeOnTrigger: 1
-  objToRemove: {fileID: 0}
-  instigator: {fileID: 0}
+  type: 
+  actual: 5
+  max: 5
+  regeneration: 0
+  removeAfterDeath: 1
+  objectToRemove: {fileID: 0}
+--- !u!114 &114584777721566560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308631909760284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ccbfacab6ca02d4c9a2a8311b1e4501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  forceBase: 0
+  forceScale: -17
+  forceMax: 500
+  explosionRadius: 2.5
+  removeDelay: 0.75
+  linearDamping: 0.975
+  dmgDamping: 0.9
 --- !u!212 &212068104962271148
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -436,7 +459,7 @@ PointEffector2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1308631909760284}
-  m_Enabled: 1
+  m_Enabled: 0
   m_UseColliderMask: 0
   m_ColliderMask:
     serializedVersion: 2

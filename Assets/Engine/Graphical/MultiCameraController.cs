@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MultiCameraController : MonoBehaviour
 {
-    public Transform[] targets;
+    public List<Transform> targets = new List<Transform>();
     InputManagerBase playerInput;
 
     [Range(0.0f, 10.0f)]
@@ -13,8 +13,7 @@ public class MultiCameraController : MonoBehaviour
     [Space]
     public float minScaleDistance;
     public float scaleFactor;
-
-    Vector3 initialOffsetPosition;
+    
     float initialOffsetRotation;
     float initialOffsetScale;
 
@@ -42,7 +41,6 @@ public class MultiCameraController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        initialOffsetPosition = transform.position - GetAveragePosition();
         initialOffsetRotation = transform.rotation.eulerAngles.z;
         initialOffsetScale = Camera.main.orthographicSize;
     }
@@ -55,9 +53,10 @@ public class MultiCameraController : MonoBehaviour
         Vector3 middlePos = GetAveragePosition();
         if (!s)
         {
+            float z = transform.position.z;
             transform.position = transform.position + (middlePos - transform.position) * learpFactor * Time.deltaTime
                 + (Vector3)shakePositionInfluence;
-            transform.position = new Vector3(transform.position.x, transform.position.y, initialOffsetPosition.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y, z);
         }
 
         float maxDist = 0;

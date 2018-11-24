@@ -46,21 +46,27 @@ public class HealthController : ResourceController
 	/// struct for broadcasting messages
 	public struct DamageData
     {
-        public DamageData(float _d, GameObject _o) { damage = _d; causer = _o; }
+        public DamageData(float _d, GameObject _o) { damage = _d; causer = _o; pain = _d; }
+        public DamageData(float _d, float _p = 0, GameObject _o = null) { damage = _d; causer = _o; pain = _p; }
         public float damage;
         public GameObject causer;
+        public float pain;
     }
 
-    public void DealDamage(float damage, GameObject causer = null)
+    public void DealDamage(float damage, float pain, GameObject causer = null)
     {
-        var data = new DamageData(damage, causer);
+        var data = new DamageData(damage, pain, causer);
 
         if (IsAlive())
-            BroadcastMessage("OnReceiveDamage", data );
+            BroadcastMessage("OnReceiveDamage", data);
         else
-			BroadcastMessage("OnDeath", data);
-        
+            BroadcastMessage("OnDeath", data);
+
         actual = Mathf.Clamp(actual + data.damage, -max, max);
+    }
+    public void DealDamage(float damage, GameObject causer = null)
+    {
+        DealDamage(damage, damage, causer);
     }
 
 	public void OnReceiveDamage(DamageData data){}

@@ -8,16 +8,24 @@ public class DirectionIndicator : MonoBehaviour {
     public float fadeRatio;
 
     SpriteRenderer[] renders;
-    InputManagerBase input;
+    CharacterController controller;
+    InputManagerBase input
+    {
+        get
+        {
+            return controller.GetInput();
+        }
+     
+    }
     float position;
     float angle;
-    float alpha;
+    //[System.NonSerialized]
+    public float alpha;
 	// Use this for initialization
 	void Start () {
-        input = GetComponentInParent<InputManagerBase>();
+        controller = GetComponentInParent<CharacterController>();
         position = transform.parent.position.y - transform.position.y;
         renders = GetComponentsInChildren<SpriteRenderer>();
-        alpha = renders[0].color.a;
 	}
 	
 	// Update is called once per frame

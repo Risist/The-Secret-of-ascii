@@ -8,18 +8,37 @@ namespace Character
 {
     public class CStateSequentionalAnimation : StateComponent
     {
-        public CStateSequentionalAnimation(string[] _animcodes) { animCodes = _animcodes; }
+        public CStateSequentionalAnimation(string[] _animcodes, int _stateId = -1, int _step = 1) { animCodes = _animcodes; stateId = _stateId; step = _step; }
         public string[] animCodes;
-        int current;
+        int current
+        {
+            get
+            {
+                return controller.GetCommonInt(stateId);
+            }
+            set
+            {
+                controller.SetCommonInt(stateId, value);
+            }
+        }
+        public int stateId;
+        public int step;
 
+        public override void Init()
+        {
+            if (stateId == -1)
+                stateId = controller.AddCommonInt();
+        }
         public override void InitPlayback(StateTransition transition)
         {
             controller.PlayAnimation(animCodes[current]);
         }
         public override void OnAnimationBeggin(AnimatorStateInfo stateInfo)
         {
-            controller.ResetAnimation(animCodes[current]);
-            current = (current + 1) % animCodes.Length;
+            foreach (var it in animCodes)
+                controller.ResetAnimation(it);
+            //controller.ResetAnimation(animCodes[(current + stateOffset) % animCodes.Length]);
+            current = (current + step) % animCodes.Length;
         }
     }
     public class CStateRandomAnimation : StateComponent

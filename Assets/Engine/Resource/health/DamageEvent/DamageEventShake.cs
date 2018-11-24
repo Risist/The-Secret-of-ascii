@@ -24,56 +24,37 @@ public class DamageEventShake : MonoBehaviour {
 	public float shakeScaleBaseDeath = 0.0f;
 	public float shakeScaleDamageDeath = 0.0f;
 
-	MultiCameraController controller;
-
-    [Space]
-    [Range(0,1)]
-    public float damageDamping = 0.95f;
-	float damageAcumulator = 0;
-
+	new MultiCameraController camera;
+    CharacterController controller;
+    
 
 	// Use this for initialization
 	void Start () {
-		controller = Camera.main.GetComponent<MultiCameraController>();
+		camera = Camera.main.GetComponent<MultiCameraController>();
+        controller = GetComponentInParent<CharacterController>();
 	}
-
-    void OnReceiveDamage(HealthController.DamageData data)
-    {
-        if (data.damage < 0)
-            damageAcumulator += data.damage;
-    }
 
     public void shake()
 	{
-		if (damageAcumulator < 0)
+		if (controller.GetDamageAccumulator() < 0)
 		{
-			controller.shakePosition(	Random.insideUnitCircle.normalized	* (shakePositionDamage + shakePositionDamage	* damageAcumulator));
-			controller.shakeRotation(	Random.Range(-1, 1)					* (shakeRotationDamage + shakeRotationDamage	* damageAcumulator));
-			controller.shakeScale(		Random.Range(-1, 1)					* (shakeScaleDamage	+ shakeScaleDamage		* damageAcumulator));
+			camera.shakePosition(	Random.insideUnitCircle.normalized	* (shakePositionDamage + shakePositionDamage	* controller.GetDamageAccumulator()));
+			camera.shakeRotation(	Random.Range(-1, 1)					* (shakeRotationDamage + shakeRotationDamage	* controller.GetDamageAccumulator()));
+			camera.shakeScale(		Random.Range(-1, 1)					* (shakeScaleDamage	+ shakeScaleDamage		* controller.GetDamageAccumulator()));
 		}
 	}
 
 	public void OnDeath(HealthController.DamageData data)
 	{
-		if (data.damage < 0)
-            damageAcumulator += data.damage;
-
-        {
-            controller.shakePosition(Random.insideUnitCircle.normalized * (shakePositionDamageDeath + shakePositionDamageDeath * damageAcumulator));
-			controller.shakeRotation(Random.Range(-1, 1) * (shakeRotationDamage + shakeRotationDamageDeath * damageAcumulator));
-			controller.shakeScale(Random.Range(-1, 1) * (shakeScaleDamageDeath + shakeScaleDamageDeath * damageAcumulator));
-		}
-	}
-
-	private void OnDestroy()
-	{
-		controller.shakePosition(Random.insideUnitCircle.normalized * (shakePositionDamageDeath + shakePositionDamageDeath * damageAcumulator));
-		controller.shakeRotation(Random.Range(-1, 1) * (shakeRotationDamage + shakeRotationDamageDeath * damageAcumulator));
-		controller.shakeScale(Random.Range(-1, 1) * (shakeScaleDamageDeath + shakeScaleDamageDeath * damageAcumulator));
-	}
-
-    private void FixedUpdate()
-    {
-        damageAcumulator *= damageDamping;
+        camera.shakePosition(Random.insideUnitCircle.normalized * (shakePositionDamageDeath + shakePositionDamageDeath * controller.GetDamageAccumulator()));
+        camera.shakeRotation(Random.Range(-1, 1) * (shakeRotationDamage + shakeRotationDamageDeath * controller.GetDamageAccumulator()));
+        camera.shakeScale(Random.Range(-1, 1) * (shakeScaleDamageDeath + shakeScaleDamageDeath * controller.GetDamageAccumulator()));
     }
+
+    private void OnDestroy()
+	{
+		camera.shakePosition(Random.insideUnitCircle.normalized * (shakePositionDamageDeath + shakePositionDamageDeath * controller.GetDamageAccumulator()));
+		camera.shakeRotation(Random.Range(-1, 1) * (shakeRotationDamage + shakeRotationDamageDeath * controller.GetDamageAccumulator()));
+		camera.shakeScale(Random.Range(-1, 1) * (shakeScaleDamageDeath + shakeScaleDamageDeath * controller.GetDamageAccumulator()));
+	}
 }

@@ -6,14 +6,16 @@ public class HealthStateDisplayer : MonoBehaviour {
 
     HealthController controller;
     new SpriteRenderer renderer;
-    Color color;
+    //[HideInInspector]
+    public Color color;
 
 	// Use this for initialization
 	void Start () {
         controller = GetComponentInParent<HealthController>();
         renderer = GetComponent<SpriteRenderer>();
-        color = renderer.color;
-	}
+        color.a = renderer.color.a;
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {

@@ -44,7 +44,7 @@ namespace Character
         public virtual void OnAnimationUpdate(AnimatorStateInfo stateInfo) {}
     }
 
-    public class State
+    public class State 
     {
         public int stateId;
 
@@ -162,13 +162,12 @@ namespace Character
         /// Its not the exact moment when animation starts to play but rather when animation is sheduled
         public void InitPlayback(StateTransition transition)
         {
-            controller.GetCurrentState().FinishPlayback();
             controller.SetCurrentState(this);
 
             foreach (var it in components)
                 it.InitPlayback(transition);
         }
-        public virtual void FinishPlayback()
+        public void FinishPlayback()
         {
             controller.ResetInputBuffer();
             foreach (var it in components)
@@ -178,6 +177,8 @@ namespace Character
         /// animation events -> used to make sure the events will be applied in correct time (can varry because of animation blending )
         public void OnAnimationBeggin(AnimatorStateInfo stateInfo)
         {
+            if(controller.GetPreviousState() != null)
+                controller.GetPreviousState().FinishPlayback();
             controller.ResetInputBuffer();
             foreach (var it in components)
                 it.OnAnimationBeggin(stateInfo);

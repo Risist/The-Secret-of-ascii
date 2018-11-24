@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 114588498140579304}
   - component: {fileID: 114159928264934996}
   - component: {fileID: 114375136700177852}
+  - component: {fileID: 114788365355519448}
   m_Layer: 0
   m_Name: black rock 2
   m_TagString: rock
@@ -310,7 +311,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1452750459279704}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -31.278223, y: 1.1771193, z: 10}
+  m_LocalPosition: {x: 49.357803, y: -16.696384, z: 20}
   m_LocalScale: {x: 1.5000007, y: 1.5000007, z: 1}
   m_Children:
   - {fileID: 4534926664113742}
@@ -532,7 +533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 
-  actual: 350
+  actual: 500
   max: 10000
   regeneration: 0
   removeAfterDeath: 1
@@ -554,6 +555,19 @@ MonoBehaviour:
   regeneration: 0
   removeAfterDeath: 1
   objectToRemove: {fileID: 0}
+--- !u!114 &114788365355519448
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1452750459279704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b8b1337a2dc4547a9cbea1303f7056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appliedPainValue: 100
+  stabilityLevel: -100
 --- !u!114 &114837343729415612
 MonoBehaviour:
   m_ObjectHideFlags: 1

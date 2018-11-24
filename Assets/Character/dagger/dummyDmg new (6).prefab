@@ -1001,6 +1001,9 @@ GameObject:
   - component: {fileID: 114708278155186014}
   - component: {fileID: 114797605547164790}
   - component: {fileID: 114133774787096000}
+  - component: {fileID: 114242197657173564}
+  - component: {fileID: 114325601482234052}
+  - component: {fileID: 114415375415205332}
   m_Layer: 0
   m_Name: dummyDmg new (6)
   m_TagString: Untagged
@@ -2487,7 +2490,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1642249311750818}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.56, y: -24.1, z: 0}
+  m_LocalPosition: {x: -13.49, y: -22.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4018260286826680}
@@ -2750,6 +2753,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeRatio: 0.1
+--- !u!114 &114242197657173564
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1642249311750818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9cddd715e3a4df44a20ee38dcec86ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  memoryTime: 5
+  timerPerformSearch:
+    cd: 0.3
+  radius: 60
 --- !u!114 &114323917081490184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2763,6 +2781,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 50254069627601230}
   movementSpeed: 170
+--- !u!114 &114325601482234052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1642249311750818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f966943b0e3d6bd40b07a6b0569998f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fractionName: Enemy
+  friendlyFractions: []
+  enemyFractions:
+  - Player
 --- !u!114 &114366737339312878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2776,6 +2809,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 50254069627601230}
   movementSpeed: -150
+--- !u!114 &114415375415205332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1642249311750818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a3db3dbb54a78b4d9c63366c14b75e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceModificator: 1
+  blocksVision: 1
+  memoriable: 1
+  fraction: {fileID: 114325601482234052}
 --- !u!114 &114419401445347846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2835,8 +2883,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6ec63ad6ef364ebece5cc90b6f378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageEnter: -0.85
-  damageStay: -1.25
+  damageEnter: -0.75
+  damageStay: -1.2
   damageExit: 0
   removeOnEnter: 0
   removeOnExit: 0
@@ -2883,7 +2931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e93cbbf30e20542bfffc8caa671934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logStateId: 1
+  logStateId: 0
   prefabs:
   - prefab: {fileID: 1308631909760284, guid: 341c2e4ec799cef44a977bd064f326de, type: 2}
     spawnPoint: {fileID: 4890524678853290}
@@ -2904,6 +2952,8 @@ MonoBehaviour:
   rotateToDirection: 1
   trackMouseRotation: 0
   atMoveTrigger: AtMove
+  speedBeginDrag: 12.5
+  speedDragIncreaseRatio: 0.1
 --- !u!114 &114900762432100388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2915,7 +2965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6ec63ad6ef364ebece5cc90b6f378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageEnter: -1.5
+  damageEnter: -1.45
   damageStay: -0.5
   damageExit: 0
   removeOnEnter: 0
@@ -2935,7 +2985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6ec63ad6ef364ebece5cc90b6f378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageEnter: -1.5
+  damageEnter: -1.45
   damageStay: -0.5
   damageExit: 0
   removeOnEnter: 0

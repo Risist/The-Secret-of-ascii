@@ -25,7 +25,7 @@ public abstract class AiPerceptionBase : MonoBehaviour
                     return it;
         return null;
     }
-    public MemoryItem SearchInMemory(AiFraction fraction, string fractionName)
+    public MemoryItem SearchInMemory( string fractionName)
     {
         foreach (var it in memory)
             if (it.unit && it.unit.fraction)

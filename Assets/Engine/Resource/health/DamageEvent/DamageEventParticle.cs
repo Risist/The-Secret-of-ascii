@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DamageEventParticle : MonoBehaviour {
 
+    public int particleId;
 	public ParticleSystem particle;
 	public Timer emitCd;
 	public int minParticles;
@@ -12,19 +13,22 @@ public class DamageEventParticle : MonoBehaviour {
 
 	public int minParticlesDeath;
 	public float damageScaleDeath = 1.0f;
+    CharacterController character;
 
 	private void Start()
 	{
-		//if (!particle)
-		//	particle =  GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().particleBlood;
-
+		if (!particle)
+    
+        character = GetComponentInParent<CharacterController>();
 	}
 
 	void OnReceiveDamage(HealthController.DamageData data)
 	{
-		if (particle && data.damage < minimumDamage && emitCd.isReadyRestart() )
+        float damage = character ? character.GetDamageAccumulator() : data.damage;
+
+		if ( damage < minimumDamage && emitCd.isReadyRestart() )
 		{
-			int n = minParticles + (int)(-data.damage * damageScale);
+			int n = minParticles + (int)(-damage * damageScale);
 			particle.transform.position = transform.position;
 			particle.transform.rotation = transform.rotation;
 			particle.Emit(n);
@@ -33,9 +37,11 @@ public class DamageEventParticle : MonoBehaviour {
 
 	void OnDeath(HealthController.DamageData data)
 	{
-		if(particle)
+        float damage = character ? character.GetDamageAccumulator() : data.damage;
+
+        if (particle)
 		{
-			int n = minParticlesDeath + (int)(-data.damage * damageScaleDeath);
+			int n = minParticlesDeath + (int)(-damage * damageScaleDeath);
 			particle.transform.position = transform.position;
 			particle.transform.rotation = transform.rotation;
 			particle.Emit(n);
