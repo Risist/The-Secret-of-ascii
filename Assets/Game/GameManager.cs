@@ -15,14 +15,14 @@ public class GameManager : MonoBehaviour {
     {
         public Color color;
         public string fractionCode;
-        public GameObject prefab;
     }
+    public GameObject[] characters;
     public Team[] teams;
     public GameObject[] inputs;
     
-    public GameObject SpawnPlayer(Transform transform, int teamId, int inputTypeId)
+    public GameObject SpawnPlayer(Transform transform, int teamId, int inputTypeId, int characterId)
     {
-        var p = Instantiate(teams[teamId].prefab, transform.position, transform.rotation);
+        var p = Instantiate(characters[characterId], transform.position, transform.rotation);
 
         var healthStateDisplayer = p.GetComponentsInChildren<HealthStateDisplayer>();
         foreach (var it in healthStateDisplayer)

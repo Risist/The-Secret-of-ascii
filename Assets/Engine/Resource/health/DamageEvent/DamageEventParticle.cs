@@ -17,7 +17,8 @@ public class DamageEventParticle : MonoBehaviour {
 
 	private void Start()
 	{
-		if (!particle)
+        if (!particle)
+            particle = ParticleTypeController.instance.particles[particleId];
     
         character = GetComponentInParent<CharacterController>();
 	}
