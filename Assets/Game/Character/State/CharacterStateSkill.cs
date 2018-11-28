@@ -6,13 +6,16 @@ using System;
 
 namespace Character
 {
+    /// TODO component for resource drain & requirements
 
+    /// TODO component midify animation play speed relative to given resource state
     public class CStateReduceAnimatorSpeed : StateComponent
     {
         public int resourceId;
         public float energySpeedScale;
     }
 
+    /// component which instantly rotates character towards direction axies
     public class CStateInitDirection : StateComponent
     {
         public override void OnAnimationBeggin(AnimatorStateInfo stateInfo)
@@ -20,6 +23,8 @@ namespace Character
             controller.GetMovement().ApplyRotationToDirection();
         }
     }
+
+    /// component which smoothly rotates character towards direction axies
     public class CStateInitDirectionSmooth : StateComponent
     {
         public CStateInitDirectionSmooth(float _rotationSpeed, float _minimalDirectionInput = 0 ) {
@@ -70,7 +75,7 @@ namespace Character
         }
     }
 
-
+    /// detects if an colision is in front of the character
     public class CStateCollisionInFront : StateComponent
     {
         public CStateCollisionInFront(float _radius, Vector2 _offset)

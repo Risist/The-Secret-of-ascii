@@ -6,6 +6,7 @@ using System;
 
 namespace Character
 {
+    /// Allows to go into state if a given input is pressed
     public class CStateInput : StateComponent
     {
         public CStateInput(int _inputId) { inputId = _inputId; }
@@ -15,6 +16,9 @@ namespace Character
             return controller.GetInput().IsInputPressed(inputId);
         }
     }
+    /// allows to go into state if given cd is ready
+    /// then resets it
+    /// possible options to use only part of above functionalities
     public class CStateCd : StateComponent
     {
         public CStateCd(int _cdId, EMode _mode = EMode.EAll) { cdId = _cdId; mode = _mode; }
@@ -24,9 +28,9 @@ namespace Character
         public bool restartAfter = true;
         public enum EMode
         {
-            EAll,
-            ERestartOnly,
-            EConditionOnly,
+            EAll,           /// checks for cd readiness and resets it
+            ERestartOnly,   /// restarts cd at animation init only
+            EConditionOnly, /// only checks cd
         }
         EMode mode;
         public override bool CanEnter()
@@ -49,6 +53,9 @@ namespace Character
                 controller.RestartCd(cdId, restartOffset);
         }
     }
+
+    /// Dissalow to run the state if another is ready
+    /// (not sure if usefull at all)
     public class CStateExclusiveReady : StateComponent
     {
         public CStateExclusiveReady(State _target) { target = _target; }
@@ -60,6 +67,8 @@ namespace Character
         }
     }
 
+    /// allows to run at most 2 animations at the time 
+    /// used to ensure that animation transitions aren't that messy
     public class CStateMaxStateInstances : StateComponent
     {
         public CStateMaxStateInstances(State _exception = null) { exception = _exception; }
@@ -79,6 +88,7 @@ namespace Character
         }
     }
 
+    /// After succesful finish of animation playback state machine will auto transition to @target state
     public class CStateAutoTransition : StateComponent
     {
         public CStateAutoTransition(State _target) { target = _target; }
@@ -104,30 +114,28 @@ namespace Character
             controller.SetCurrentState(target);
         }*/
     }
+
+    /// allows to manual transition towards given target
     public class CStateTransition : StateComponent
     {
         public CStateTransition(State _target) { target = _target; }
         public State target;
         public override void OnAnimationUpdate(AnimatorStateInfo stateInfo)
         {
-
-            Debug.Log("In function");
             if (state == controller.GetCurrentState())
             {
-                Debug.Log("this state");
                 if (target.CanEnter() == false)
                     return;
-
-                Debug.Log("CanEnter");
-
+                
                 target.InitPlayback(null);
                 controller.SetCurrentState(target);
-
-                Debug.Log("Entered");
             }
         }
     }
 
+    /// Input buffer is a thing which remembers that the state could use given transition, but the time is before transition allowed period
+    /// So Input buffer remembers that transition should occur and even if conditions are not met fully transition goes on when in the right period
+    /// this component resets input buffer on @target state
     public class CStateResetBuffer : StateComponent
     {
         public CStateResetBuffer(State _target = null) { target = _target; }
@@ -142,6 +150,8 @@ namespace Character
 
     }
 
+    /// restarts all cds on given state 
+    /// TODO : kind of wtf it actually stays there? Probably legacy code
     class CStateResetCds : StateComponent
     {
         public CStateResetCds(float _cdState = 0)
@@ -155,6 +165,7 @@ namespace Character
         }
     }
 
+    /// allows to transition when character is/is not at move
     class CStateConditionAtMove : StateComponent
     {
         public CStateConditionAtMove(bool _negation = false)

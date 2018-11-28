@@ -57,6 +57,8 @@ public class CharacterStateStagger : MonoBehaviour
 
 namespace Character
 {
+    /// allows to transition if character have been damaged and has enough pains
+    /// TODO: maybe a little refractor sometime
     public class CStateDamage: StateComponent
     {
         public CStateDamage(float _minimumDamage=0, float _damageAccumulatorChange = 0) { minimumDamage = _minimumDamage; damageAccumulatorChange = _damageAccumulatorChange; }
@@ -96,6 +98,7 @@ namespace Character
             damaged = false;
         }
     }
+    /// Changes saved activation time of given cds
     public class CStateCdReduce : StateComponent
     {
         public CStateCdReduce() { }
@@ -124,6 +127,8 @@ namespace Character
         }
     }
 
+    /// Intention: when thrown onto wall then animation should play
+    /// TODO fix it to start actually work as intended :D
     public class CStateWallStagger : StateComponent
     {
         public CStateWallStagger(float _minVelocity, string[] _animCodes)
@@ -177,7 +182,8 @@ namespace Character
 
 
     }
-    
+
+    /// Does screan shake if DamageEventShake component is in character
     public class CStateDamageShake : StateComponent
     {
         DamageEventShake shake;

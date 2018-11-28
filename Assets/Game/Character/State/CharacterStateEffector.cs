@@ -7,6 +7,9 @@ using System;
 namespace Character
 {
 
+    /// TODO : refractorisation of CStateMovement 
+    ///     to work in FixedUpdate
+    ///     to work independently of animation update
     public class MonoCStateMotor : MonoBehaviour
     {
         public CStateMotor owner;
@@ -17,6 +20,7 @@ namespace Character
         }
     }
 
+    /// Applies force to character (aka dash)
     public class CStateMotor : StateComponent
     {
         public CStateMotor(Vector2 _force, float _ignoreDirectionRotation) { force = _force; ignoreDirectionRotation = _ignoreDirectionRotation; }
@@ -53,6 +57,7 @@ namespace Character
 
     }
 
+    /// prevents character from rotation towards direction axies during playback
     public class CStateBlockRotation : StateComponent
     {
         public CStateBlockRotation( float _maxTime = 1.0f)
@@ -71,6 +76,7 @@ namespace Character
         }
 
     }
+    /// prevents character from moving towards direction axies during playback
     public class CStateBlockMovement : StateComponent
     {
         public CStateBlockMovement(float _maxTime = 1.0f)
@@ -90,6 +96,7 @@ namespace Character
 
     }
 
+    /// Spawns prefab
     public class CStateSpawn : StateComponent
     {
         public CStateSpawn(int _prefabId, Vector2 _positionOffset, float _rotationOffset = 0)

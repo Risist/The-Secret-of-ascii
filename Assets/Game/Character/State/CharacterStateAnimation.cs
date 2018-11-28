@@ -7,7 +7,7 @@ using ReAnim;
 namespace Character
 {
     
-
+    /// Plays animation one after another
     public class CStateSequentionalAnimation : StateComponent
     {
         public CStateSequentionalAnimation(string[] _animcodes, int _stateId = -1, int _step = 1) { animCodes = _animcodes; stateId = _stateId; step = _step; }
@@ -43,6 +43,7 @@ namespace Character
             current = (current + step) % animCodes.Length;
         }
     }
+    /// plays random animation
     public class CStateRandomAnimation : StateComponent
     {
         public CStateRandomAnimation(string[] _animcodes) { animCodes = _animcodes; }
