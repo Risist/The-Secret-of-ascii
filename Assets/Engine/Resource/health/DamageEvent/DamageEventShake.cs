@@ -25,13 +25,13 @@ public class DamageEventShake : MonoBehaviour {
 	public float shakeScaleDamageDeath = 0.0f;
 
 	new MultiCameraController camera;
-    CharacterController controller;
+    CharacterStateController controller;
     
 
 	// Use this for initialization
 	void Start () {
 		camera = Camera.main.GetComponent<MultiCameraController>();
-        controller = GetComponentInParent<CharacterController>();
+        controller = GetComponentInParent<CharacterStateController>();
 	}
 
     public void shake()

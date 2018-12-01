@@ -118,11 +118,14 @@ namespace Character
     /// allows to manual transition towards given target
     public class CStateTransition : StateComponent
     {
-        public CStateTransition(State _target) { target = _target; }
+        public CStateTransition(State _target, Period _period) { target = _target; period = _period; }
+        public CStateTransition(State _target) { target = _target; period = new Period(0.0f, 1.0f); }
         public State target;
+        public Period period;
         public override void OnAnimationUpdate(AnimatorStateInfo stateInfo)
         {
-            if (state == controller.GetCurrentState())
+            if (state == controller.GetCurrentState() 
+                && period.min <= stateInfo.normalizedTime && (stateInfo.normalizedTime <= period.max || period.max >= 1f) )
             {
                 if (target.CanEnter() == false)
                     return;

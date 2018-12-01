@@ -27,7 +27,7 @@ namespace Character
     {
         public State state;
 
-        protected CharacterController controller {
+        protected CharacterStateController controller {
             get { return state.controller; }
         }
 
@@ -51,7 +51,7 @@ namespace Character
         /// When currently executing state has transition to this one and this State requirements are meet
         /// then this flag remembers that at the beggining of transition available perion the animation should init playback
         [NonSerialized] public bool bufferedInput = false;
-        public CharacterController controller;
+        public CharacterStateController controller;
 
         public void Update(float time)
         {

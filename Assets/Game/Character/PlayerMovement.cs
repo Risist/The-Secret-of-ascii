@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
             return controller.GetInput();
         }
     }
-    CharacterController controller;
+    CharacterStateController controller;
 
 
     [Space]
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         //animator = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
+        controller = GetComponent<CharacterStateController>();
         baseDrag = body.drag;
     }
 

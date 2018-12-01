@@ -43,4 +43,17 @@ namespace Character
         }
     }
 
+    public class CStateDebugKey : StateComponent
+    {
+        public CStateDebugKey(KeyCode _keyCode)
+        {
+            keyCode = _keyCode;
+        }
+        public KeyCode keyCode;
+        public override bool CanEnter()
+        {
+            return Input.GetKey(keyCode);
+        }
+    }
+
 }

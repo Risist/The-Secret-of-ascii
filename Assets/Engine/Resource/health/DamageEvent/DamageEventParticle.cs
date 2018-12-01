@@ -13,14 +13,14 @@ public class DamageEventParticle : MonoBehaviour {
 
 	public int minParticlesDeath;
 	public float damageScaleDeath = 1.0f;
-    CharacterController character;
+    CharacterStateController character;
 
 	private void Start()
 	{
         if (!particle)
             particle = ParticleTypeController.instance.particles[particleId];
     
-        character = GetComponentInParent<CharacterController>();
+        character = GetComponentInParent<CharacterStateController>();
 	}
 
 	void OnReceiveDamage(HealthController.DamageData data)

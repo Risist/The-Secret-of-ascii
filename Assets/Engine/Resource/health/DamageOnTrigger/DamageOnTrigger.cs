@@ -7,11 +7,10 @@ public class DamageOnTrigger : MonoBehaviour {
 	public float damageStay;
 	public float damageExit;
     [Space]
-    public float painEnter;
-    public float painStay;
-    public float painExit;
+    public float bunusPainEnter;
+    public float bonusPainStay;
+    public float bunusPainExit;
     [Space]
-    public bool customPain = false;
     public bool removeOnEnter = false;
 	public bool removeOnExit = false;
     public bool removeOnCollision = true;
@@ -41,7 +40,7 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageEnter, customPain? painEnter : damageEnter, instigator);
+			healthController.DealDamage(damageEnter, bunusPainEnter + damageEnter, instigator);
             if (removeOnEnter)
             {
                 if( (other.isTrigger && removeOnTrigger) ||
@@ -63,7 +62,7 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if (healthController != null)
 		{
-			healthController.DealDamage(damageStay, customPain ? painStay : damageStay, instigator);
+			healthController.DealDamage(damageStay, bonusPainStay + damageStay, instigator);
 		}
 	}
 
@@ -79,7 +78,7 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null)
 		{
-			healthController.DealDamage(damageExit, customPain ? painExit : damageExit, instigator);
+			healthController.DealDamage(damageExit, bunusPainExit + damageExit, instigator);
 			if (removeOnExit)
             {
                 if ((other.isTrigger && removeOnTrigger) ||
@@ -101,7 +100,7 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageEnter, customPain ? painEnter : damageEnter, gameObject);
+			healthController.DealDamage(damageEnter, bunusPainEnter + damageEnter, gameObject);
 			if (removeOnEnter)
             {
                 if ((other.collider.isTrigger && removeOnTrigger) ||
@@ -123,7 +122,7 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageStay, customPain ? painStay : damageStay, gameObject);
+			healthController.DealDamage(damageStay, bonusPainStay + damageStay, gameObject);
 		}
 	}
 
@@ -139,7 +138,7 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageExit, customPain ? painExit : damageExit, gameObject);
+			healthController.DealDamage(damageExit, bunusPainExit + damageExit, gameObject);
 			if (removeOnExit)
             {
                 if ((other.collider.isTrigger && removeOnTrigger) ||

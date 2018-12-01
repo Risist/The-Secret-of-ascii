@@ -6,7 +6,7 @@ using ReAnim;
 using Character;
 
 
-public class CharacterController : MonoBehaviour
+public class CharacterStateController : MonoBehaviour
 {
     #region State Managament
     [NonSerialized] public int appliedStatesCount;
@@ -137,8 +137,9 @@ public class CharacterController : MonoBehaviour
     private void LateUpdate()
     {
         StateUpdate();
-        if(logStateId)
+        if (logStateId)
             Debug.Log(currentState.stateId);
+            //Debug.Log(damageAccumulator < -0.1 ? damageAccumulator : 0.0f);
     }
     private void FixedUpdate()
     {

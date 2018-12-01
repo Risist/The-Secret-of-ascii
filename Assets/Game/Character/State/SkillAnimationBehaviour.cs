@@ -5,12 +5,12 @@ using UnityEngine;
 public class SkillAnimationBehaviour : StateMachineBehaviour
 {
     public int skillId;
-    CharacterController controller;
+    CharacterStateController controller;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        controller = animator.GetComponent<CharacterController>();
+        controller = animator.GetComponent<CharacterStateController>();
         if(controller)
             controller.GetState(skillId).OnAnimationBeggin(stateInfo);
     }

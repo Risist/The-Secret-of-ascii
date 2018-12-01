@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimalPositionInputStrength: 0
   minimalDirectionInputStrength: 0.1
-  input: 01010101
+  input: 01000101
   positionInput: {x: 0, y: 0}
   directionInput: {x: 0, y: 0}
   followPositionPlayer: 0

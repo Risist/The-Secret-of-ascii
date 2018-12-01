@@ -20,6 +20,7 @@ public class HealthStateDisplayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         float f = (controller.actual / controller.max);
+        f *= f;
         renderer.color = new Color(color.r * f, color.g * f, color.b * f, color.a);
 	}
 }

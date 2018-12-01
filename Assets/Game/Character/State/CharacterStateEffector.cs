@@ -7,19 +7,6 @@ using System;
 namespace Character
 {
 
-    /// TODO : refractorisation of CStateMovement 
-    ///     to work in FixedUpdate
-    ///     to work independently of animation update
-    public class MonoCStateMotor : MonoBehaviour
-    {
-        public CStateMotor owner;
-
-        private void FixedUpdate()
-        {
-            
-        }
-    }
-
     /// Applies force to character (aka dash)
     public class CStateMotor : StateComponent
     {
@@ -48,6 +35,7 @@ namespace Character
             if (state == controller.GetCurrentState())
             {
                 if (period.IsIn(stateInfo.normalizedTime))
+                  
                     controller.GetBody().AddForce(
                         directionUp * force.y +
                         directionRight * force.x

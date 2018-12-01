@@ -84,4 +84,3 @@ MonoBehaviour:
   shakeRotationDamageDeath: 0
   shakeScaleBaseDeath: 0
   shakeScaleDamageDeath: 0
-  damageDamping: 0.97

@@ -30,7 +30,7 @@ public class PlayerSpawner : MonoBehaviour {
 
     void InitDagger_testlight(GameObject gameObject)
     {
-        var ctrl = gameObject.GetComponent<CharacterController>();
+        var ctrl = gameObject.GetComponent<CharacterStateController>();
 
         var state_idle          = ctrl.AddState(true);        // 0
         var state_swing_light   = ctrl.AddState();            // 1
@@ -152,7 +152,7 @@ public class PlayerSpawner : MonoBehaviour {
 
     void InitDagger(GameObject gameObject)
     {
-        var ctrl = gameObject.GetComponent<CharacterController>();
+        var ctrl = gameObject.GetComponent<CharacterStateController>();
 
         var state_idle = ctrl.AddState(true);        // 0
         var state_swing = ctrl.AddState();           // 1
@@ -173,8 +173,8 @@ public class PlayerSpawner : MonoBehaviour {
         int cd_painWall = ctrl.AddCd(0.4f);          // 7
 
         float atackRotationSpeed = 0.45f;
-        float freeRotFar = 1f;
-        float freeRotClose = 1f;
+        float freeRotFar = 0.25f;
+        float freeRotClose = 0.25f;
 
         ctrl.AddTransitionAll(state_pain, new Period(0f, 1f));
         ctrl.AddTransitionAll(state_painWall, new Period(0f, 1f));
@@ -302,7 +302,7 @@ public class PlayerSpawner : MonoBehaviour {
 
     void InitSpear(GameObject gameObject)
     {
-        var ctrl = gameObject.GetComponent<CharacterController>();
+        var ctrl = gameObject.GetComponent<CharacterStateController>();
 
         var state_pose1 = ctrl.AddState();               //  0
         var stateLightAtack_pose1 = ctrl.AddState();     //  1
@@ -323,17 +323,39 @@ public class PlayerSpawner : MonoBehaviour {
         var stateBack_pose2 = ctrl.AddState();           //  11
 
         var state_idle = ctrl.AddState(true);            //  12
+        var state_pain = ctrl.AddState();                //  13
+        var state_deflect = ctrl.AddState();             //  14
 
 
-        int intPose = ctrl.AddCommonInt(1);
+        int intPose = ctrl.AddCommonInt(0);
 
-        int cdId_lightAtack = ctrl.AddCd(0.075f);
-        int cdId_HeavyAtack = ctrl.AddCd(0.5f);
-        int cdId_back = ctrl.AddCd(0.3f);
+        int cdId_lightAtack = ctrl.AddCd(0.15f);
+        int cdId_HeavyAtack = ctrl.AddCd(0.35f);
+        int cdId_back = ctrl.AddCd(0.1f);
         int cdId_Push = ctrl.AddCd(0.35f);
+        int cdId_Pain = ctrl.AddCd(0.5f);
 
         float atackRotationSpeed = 0.8f;
+        float freeRot = 0.75f;
 
+        ctrl.AddTransitionAll(state_pain, new Period(0.0f, 1.0f));
+
+        state_pain
+            .AddComponent(new CStateRandomAnimation(new string[] { "pain1", "pain2" }))
+            .AddComponent(new CStateDamageShake())
+            .AddComponent(new CStateDamage(18.0f, 0.0f))
+            .AddComponent(new CStateCd(cdId_Pain))
+            .AddComponent(new CStateAutoTransition(state_idle))
+            .AddTransition(state_pain)
+            ;
+
+        state_deflect
+            .AddComponent(new CStateDebugKey(KeyCode.Q))
+            // todo do a special animation component
+            .AddComponent(new CStateRandomAnimation(new string[] { "blow-p1-l", "blow-p1-r" }))
+
+            .AddComponent(new CStateAutoTransition(state_pose1))
+            ;
 
         /// Basic atacks (light)
         {
@@ -341,20 +363,22 @@ public class PlayerSpawner : MonoBehaviour {
             float movementSpeedAtack = 320.0f;
 
             stateLightAtack_pose1
-                .AddComponent(new CStateSetInt(intPose,0) )
+                .AddComponent(new CStateSetInt(intPose, 0))
                 .AddComponent(new CStateInput(0))
                 .AddComponent(new CStateSequentionalAnimation(new string[] { "slash-1-left", "slash-1-right" }))
                 .AddComponent(new CStateMaxStateInstances())
                 .AddComponent(new CStateCd(cdId_lightAtack))
                 //.AddComponent(new CStateCd(cd1Id_switchPose, CStateCd.EMode.EConditionOnly))
-                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, 1.5f, new Period(0, 0.35f)))
-                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, 1.5f, new Period(0.2f, 0.4f)))
+                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, freeRot, new Period(0, 0.35f)))
+                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, freeRot, new Period(0.2f, 0.4f)))
 
                 .AddComponent(new CStateAutoTransition(state_pose1))
 
-                .AddTransition(stateBack_pose1, new Period(0.85f), false)
-                .AddTransition(statePush_pose1, new Period(0.3f))
-                //.AddTransition(stateHeavyAtack_to2, new Period(0.5f), false)
+                .AddTransition(state_deflect)
+                .AddTransition(stateBack_pose1, new Period(0.9f), false)
+                .AddTransition(statePush_pose1, new Period(0.5f))
+                .AddTransition(stateHeavyAtack_to2, new Period(0.5f), false)
+                .AddTransition(stateSwitchPose_to2, new Period(0.75f), false)
                 //.AddTransition(stateLightAtack_pose1, new Period(0.9f))
             ;
 
@@ -365,21 +389,23 @@ public class PlayerSpawner : MonoBehaviour {
                 .AddComponent(new CStateMaxStateInstances())
                 .AddComponent(new CStateCd(cdId_lightAtack))
                 //.AddComponent(new CStateCd(cd1Id_switchPose, CStateCd.EMode.EConditionOnly))
-                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, 1.5f, new Period(0, 0.35f)))
-                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, 1.5f, new Period(0.2f, 0.4f)))
+                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, freeRot, new Period(0, 0.35f)))
+                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, freeRot, new Period(0.2f, 0.4f)))
 
                 .AddComponent(new CStateAutoTransition(state_pose2))
 
 
-                .AddTransition(stateBack_pose2, new Period(0.85f), false)
-                .AddTransition(statePush_pose2, new Period(0.3f))
-                //.AddTransition(stateHeavyAtack_to1, new Period(0.5f), false)
-                //.AddTransition(stateLightAtack_pose2, new Period(0.9f))
+                .AddTransition(state_deflect)
+                .AddTransition(stateBack_pose2, new Period(0.9f), false)
+                .AddTransition(statePush_pose2, new Period(0.5f))
+                .AddTransition(stateHeavyAtack_to1, new Period(0.5f), false)
+                .AddTransition(stateSwitchPose_to1, new Period(0.75f),false)
+            //.AddTransition(stateLightAtack_pose2, new Period(0.9f))
             ;
         }
         { /// pose transition
 
-            float movementSpeedAtack = 500.0f;
+            float movementSpeedAtack = 620.0f;
 
             /// heavy atack
             stateHeavyAtack_to2
@@ -391,15 +417,17 @@ public class PlayerSpawner : MonoBehaviour {
                 .AddComponent(new CStateCd(cdId_HeavyAtack))
                 //.AddComponent(new CStateCd(cdId_switchPose, CStateCd.EMode.ERestartOnly))
                 .AddComponent(new CStateCd(cdId_lightAtack, CStateCd.EMode.ERestartOnly))
-                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, 1.5f, new Period(0, 0.35f)))
-                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, 1.5f, new Period(0.2f, 0.4f)))
+                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, freeRot, new Period(0, 0.35f)))
+                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, freeRot, new Period(0.2f, 0.4f)))
 
                 .AddComponent(new CStateAutoTransition(state_pose2))
 
 
                 //.AddTransition(stateBack_pose2, new Period(0.85f))
                 //.AddTransition(statePush_pose1, new Period(0.2f,0.55f))
-                .AddTransition(statePush_pose2, new Period(0.35f))
+
+                .AddTransition(state_deflect)
+                .AddTransition(statePush_pose2, new Period(0.5f))
             ;
             stateHeavyAtack_to1
                 .AddComponent(new CStateSetInt(intPose, 0))
@@ -410,14 +438,16 @@ public class PlayerSpawner : MonoBehaviour {
                 .AddComponent(new CStateCd(cdId_HeavyAtack))
                 //.AddComponent(new CStateCd(cdId_switchPose, CStateCd.EMode.ERestartOnly))
                 .AddComponent(new CStateCd(cdId_lightAtack, CStateCd.EMode.ERestartOnly))
-                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, 1.5f, new Period(0, 0.35f)))
-                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, 1.5f, new Period(0.2f, 0.4f)))
+                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, freeRot, new Period(0, 0.35f)))
+                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, freeRot, new Period(0.2f, 0.4f)))
 
                 .AddComponent(new CStateAutoTransition(state_pose1))
 
                 //.AddTransition(stateBack_pose1, new Period(0.85f))
                 //.AddTransition(statePush_pose2, new Period(0.2f, 0.35f))
-                .AddTransition(statePush_pose1, new Period(0.35f))
+
+                .AddTransition(state_deflect)   
+                .AddTransition(statePush_pose1, new Period(0.5f))
             ;
 
             // pose transition
@@ -427,11 +457,15 @@ public class PlayerSpawner : MonoBehaviour {
                 .AddComponent(new CStateAnimation("switch-2"))
                 //.AddComponent(new CStateCd(cd1Id_switchPose, CStateCd.EMode.EConditionOnly))
                 .AddComponent(new CStateMaxStateInstances())
-                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, 1.5f))
+                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, freeRot))
                 .AddComponent(new CStateExclusiveReady(stateLightAtack_pose1))
                 //.AddComponent(new CStateExclusiveReady(stateHeavyAtack_to1))
                 //.AddComponent(new CStateExclusiveReady(stateHeavyAtack_to2))
                 .AddComponent(new CStateAutoTransition(state_pose2))
+                .AddComponent(new CStateAlias()
+                    .AddCondition(new CStateInput(1))
+                    .AddAliased(new CStateTransition(stateHeavyAtack_to2, new Period(0.2f, 0.4f)))
+                )
             ;
             stateSwitchPose_to1
                 .AddComponent(new CStateSetInt(intPose, 0))
@@ -439,17 +473,21 @@ public class PlayerSpawner : MonoBehaviour {
                 .AddComponent(new CStateAnimation("switch-1"))
                 //.AddComponent(new CStateCd(cd1Id_switchPose, CStateCd.EMode.EConditionOnly))
                 .AddComponent(new CStateMaxStateInstances())
-                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, 1.5f))
+                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, freeRot))
                 .AddComponent(new CStateExclusiveReady(stateLightAtack_pose2))
                 //.AddComponent(new CStateExclusiveReady(stateHeavyAtack_to1))
                 //.AddComponent(new CStateExclusiveReady(stateHeavyAtack_to2))
                 .AddComponent(new CStateAutoTransition(state_pose1))
+                .AddComponent(new CStateAlias()
+                    .AddCondition(new CStateInput(0))
+                    .AddAliased(new CStateTransition(stateHeavyAtack_to1, new Period(0.2f, 0.4f)))
+                )
             ;
         }
         
         // push
         {
-            float movementSpeedAtack = 500.0f;
+            float movementSpeedAtack = 620.0f;
 
             statePush_pose1
                 .AddComponent(new CStateSetInt(intPose, 0))
@@ -459,13 +497,14 @@ public class PlayerSpawner : MonoBehaviour {
                 .AddComponent(new CStateCd(cdId_Push))
                 //.AddComponent(new CStateCd(cd1Id_switchPose, CStateCd.EMode.ERestartOnly))
                 //.AddComponent(new CStateCd(cd1Id_lightAtack, CStateCd.EMode.ERestartOnly))
-                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, 1.5f, new Period(0, 0.35f)))
-                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, 1.5f, new Period(0.2f, 0.4f)))
+                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, freeRot, new Period(0, 0.35f)))
+                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, freeRot, new Period(0.2f, 0.4f)))
 
                 .AddComponent(new CStateAutoTransition(state_pose1))
-                .AddTransition(stateBack_pose1, new Period(0.85f), false)
-                .AddTransition(stateHeavyAtack_to2, new Period(0.3f))
-                //.AddTransition(stateLightAtack_pose1, new Period(0.9f))
+                .AddTransition(state_deflect)
+                .AddTransition(stateBack_pose1, new Period(0.9f), false)
+                .AddTransition(stateHeavyAtack_to2, new Period(0.75f))
+                .AddTransition(stateLightAtack_pose1, new Period(0.35f))
                 //.AddTransition(stateLightAtack_pose2, new Period(0.9f))
             ;
             statePush_pose2
@@ -476,19 +515,19 @@ public class PlayerSpawner : MonoBehaviour {
                 .AddComponent(new CStateCd(cdId_Push))
                 //.AddComponent(new CStateCd(cd1Id_switchPose, CStateCd.EMode.ERestartOnly))
                 //.AddComponent(new CStateCd(cd1Id_lightAtack, CStateCd.EMode.ERestartOnly))
-                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, 1.5f, new Period(0, 0.35f)))
-                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, 1.5f, new Period(0.2f, 0.4f)))
+                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, freeRot, new Period(0, 0.35f)))
+                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, freeRot, new Period(0.2f, 0.4f)))
 
                 .AddComponent(new CStateAutoTransition(state_pose2))
-                .AddTransition(stateBack_pose2, new Period(0.85f), false)
-                .AddTransition(stateHeavyAtack_to1, new Period(0.3f))
+                .AddTransition(stateBack_pose2, new Period(0.9f), false)
+                .AddTransition(stateHeavyAtack_to1, new Period(0.75f))
                 //.AddTransition(stateLightAtack_pose1, new Period(0.9f))
-                //.AddTransition(stateLightAtack_pose2, new Period(0.9f))
+                .AddTransition(stateLightAtack_pose2, new Period(0.35f))
             ;
         }
         // back
         {
-            float movementSpeedAtack = -650.0f;
+            float movementSpeedAtack = -1000.0f;
 
             stateBack_pose1
                 //.AddComponent(new CStateConditionAtMove(true))
@@ -499,14 +538,14 @@ public class PlayerSpawner : MonoBehaviour {
                 .AddComponent(new CStateCd(cdId_back))
                 //.AddComponent(new CStateCd(cd1Id_switchPose, CStateCd.EMode.ERestartOnly))
                 //.AddComponent(new CStateCd(cd1Id_lightAtack, CStateCd.EMode.ERestartOnly))
-                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, 1.5f, new Period(0, 0.35f)))
-                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, 1.5f, new Period(0.025f, 0.1f)))
+                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, freeRot, new Period(0, 0.35f)))
+                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, freeRot, new Period(0.025f, 0.15f)))
 
                 .AddComponent(new CStateAutoTransition(state_pose1))
                 
-                .AddTransition(statePush_pose1, new Period(0.15f))
-                .AddTransition(stateHeavyAtack_to2, new Period(0.3f))
-                .AddTransition(stateLightAtack_pose1, new Period(0.3f))
+                .AddTransition(statePush_pose1, new Period(0.4f))
+                .AddTransition(stateHeavyAtack_to2, new Period(0.4f))
+                .AddTransition(stateLightAtack_pose1, new Period(0.45f))
                 //.AddTransition(state_idle, new Period(0.95f), false)
                 //.AddTransition(stateLightAtack_pose2, new Period(0.3f))
             ;
@@ -519,14 +558,14 @@ public class PlayerSpawner : MonoBehaviour {
                 .AddComponent(new CStateCd(cdId_back))
                 //.AddComponent(new CStateCd(cd1Id_switchPose, CStateCd.EMode.ERestartOnly))
                 //.AddComponent(new CStateCd(cd1Id_lightAtack, CStateCd.EMode.ERestartOnly))
-                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, 1.5f, new Period(0, 0.35f)))
-                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, 1.5f, new Period(0.025f, 0.1f)))
+                .AddComponent(new CStateInitDirectionSmooth(atackRotationSpeed, freeRot, new Period(0, 0.35f)))
+                .AddComponent(new CStateMotor(Vector2.up * movementSpeedAtack, freeRot, new Period(0.025f, 0.15f)))
 
                 .AddComponent(new CStateAutoTransition(state_pose2))
                 
-                .AddTransition(statePush_pose2, new Period(0.15f))
-                .AddTransition(stateHeavyAtack_to1, new Period(0.3f))
-                .AddTransition(stateLightAtack_pose2, new Period(0.3f))
+                .AddTransition(statePush_pose2, new Period(0.4f))
+                .AddTransition(stateHeavyAtack_to1, new Period(0.4f))
+                .AddTransition(stateLightAtack_pose2, new Period(0.45f))
                 //.AddTransition(state_idle, new Period(0.95f), false)
                 //.AddTransition(stateLightAtack_pose1, new Period(0.3f))
             ;
@@ -535,6 +574,7 @@ public class PlayerSpawner : MonoBehaviour {
 
         state_pose1
 
+            .AddTransition(state_deflect)
             .AddTransition(state_idle)
             .AddTransition(stateBack_pose1)
             .AddTransition(statePush_pose1)

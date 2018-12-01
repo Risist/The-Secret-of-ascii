@@ -8,7 +8,7 @@ public class DirectionIndicator : MonoBehaviour {
     public float fadeRatio;
 
     SpriteRenderer[] renders;
-    CharacterController controller;
+    CharacterStateController controller;
     InputManagerBase input
     {
         get
@@ -22,7 +22,7 @@ public class DirectionIndicator : MonoBehaviour {
     public float alpha;
 	// Use this for initialization
 	void Start () {
-        controller = GetComponentInParent<CharacterController>();
+        controller = GetComponentInParent<CharacterStateController>();
         renders = GetComponentsInChildren<SpriteRenderer>();
 	}
 	

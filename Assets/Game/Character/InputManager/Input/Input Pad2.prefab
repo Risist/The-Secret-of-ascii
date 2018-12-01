@@ -64,7 +64,6 @@ MonoBehaviour:
   shakeRotationDamageDeath: 0
   shakeScaleBaseDeath: 0
   shakeScaleDamageDeath: 0
-  damageDamping: 0.97
 --- !u!114 &114985950168506128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,8 +78,8 @@ MonoBehaviour:
   minimalPositionInputStrength: 0.1
   minimalDirectionInputStrength: 0.1
   keyInputs:
-  - Fire1
   - Fire2
+  - Fire1
   - Fire3
   - Movement
   xAxisCode: Horizontal

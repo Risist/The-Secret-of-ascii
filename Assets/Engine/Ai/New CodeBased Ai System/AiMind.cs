@@ -39,7 +39,7 @@ namespace ReAi
             input = _input;
             perception = _input.GetComponentInParent<AiPerceptionBase>();
             fraction = input.GetComponentInParent<AiFraction>();
-            character = input.GetComponentInParent<CharacterController>();
+            character = input.GetComponentInParent<CharacterStateController>();
         }
         
         public void Update()
@@ -140,7 +140,7 @@ namespace ReAi
         #region Perception
         public AiPerceptionBase perception;
         public AiFraction fraction;
-        public CharacterController character;
+        public CharacterStateController character;
         public MemoryItem SearchInMemory(AiFraction.Attitude attitude)
         {
             return perception.SearchInMemory(fraction, attitude);
