@@ -7,6 +7,8 @@ using UnityEngine;
 public class AiPerceptionSmell : AiPerceptionBase
 {
     public float radius;
+    [Range(0f,1f)]
+    public float chance = 1.0f;
 
     void Update()
     {
@@ -26,7 +28,7 @@ public class AiPerceptionSmell : AiPerceptionBase
         for(int i = 0; i < n; ++i)
         {
             var unit = colliders[i].GetComponent<AiPerceiveUnit>();
-            if (unit && InsertToMemory(unit, (transform.position - unit.transform.position).sqrMagnitude))
+            if (unit && Random.value < chance && InsertToMemory(unit, (transform.position - unit.transform.position).sqrMagnitude))
                 any = true;
         }
         if (any)

@@ -208,4 +208,56 @@ namespace Character
     }
 
 
+    public class CStateDeflect : StateComponent
+    {
+        string deflectPath;
+        public CStateDeflect(string _deflectPath, string _animCodeLeft, string _animCodeRight)
+        {
+            deflectPath = _deflectPath;
+            animCodeLeft = _animCodeLeft;
+            animCodeRight = _animCodeRight;
+        }
+        public override void Init()
+        {
+            var tr = controller.transform.Find(deflectPath);
+            if(tr)
+                area = tr.GetComponent<DeflectionArea>();
+            else
+                Debug.LogError("wrong deflect area path");
+            if (!area)
+                Debug.LogError("not find deflect");
+        }
+
+        public override bool CanEnter()
+        {
+            return area.GetAnim() != 0;
+        }
+
+        int anim;
+        public override void InitPlayback(StateTransition transition)
+        {
+            anim = area.GetAnimReset();
+            //controller.PlayAnimation(anim == 1 ? animCodeRight : animCodeLeft);
+            controller.PlayAnimation(Random.value > 0.5f ? animCodeRight: animCodeLeft);
+        }
+
+        public override void OnAnimationBeggin(AnimatorStateInfo stateInfo)
+        {
+            //controller.ResetAnimation(anim == 1 ? animCodeRight : animCodeLeft);
+            controller.ResetAnimation(animCodeRight);
+            controller.ResetAnimation(animCodeLeft);
+        }
+
+        public override void FinishPlayback()
+        {
+            //controller.ResetAnimation(anim == 1 ? animCodeRight : animCodeLeft);
+            controller.ResetAnimation(animCodeRight);
+            controller.ResetAnimation(animCodeLeft);
+        }
+
+        public DeflectionArea area;
+        public string animCodeLeft;
+        public string animCodeRight;
+    }
+
 }

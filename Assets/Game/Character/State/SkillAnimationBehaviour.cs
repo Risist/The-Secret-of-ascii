@@ -11,8 +11,11 @@ public class SkillAnimationBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         controller = animator.GetComponent<CharacterStateController>();
-        if(controller)
+        if (controller)
+        {
+            controller.SetCurrentAnimatorBehaviour(this);
             controller.GetState(skillId).OnAnimationBeggin(stateInfo);
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

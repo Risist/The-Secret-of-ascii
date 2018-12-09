@@ -275,8 +275,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4197285424132134}
+  - component: {fileID: 61465996352247640}
   m_Layer: 0
-  m_Name: back_p2
+  m_Name: deflect_p2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -834,8 +835,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4748057018526674}
+  - component: {fileID: 61599508656197780}
   m_Layer: 0
-  m_Name: back_p1
+  m_Name: deflect_p1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1110,13 +1112,13 @@ GameObject:
   - component: {fileID: 50089362537316774}
   - component: {fileID: 58186864904391422}
   - component: {fileID: 95150703689036174}
-  - component: {fileID: 114988016898600144}
   - component: {fileID: 114319728167674172}
   - component: {fileID: 114020069426657362}
   - component: {fileID: 114277732007444510}
   - component: {fileID: 114977768339802784}
   - component: {fileID: 114801835823695690}
   - component: {fileID: 114602939062383732}
+  - component: {fileID: 114867178907523978}
   m_Layer: 0
   m_Name: PlayerSpear
   m_TagString: Untagged
@@ -2617,7 +2619,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 18
-  m_AngularDrag: 0
+  m_AngularDrag: 50
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -2729,6 +2731,56 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.35, y: 4.75}
   m_EdgeRadius: 0
+--- !u!61 &61465996352247640
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1246350495212580}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 1.75}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.15, y: 4.75}
+  m_EdgeRadius: 0
+--- !u!61 &61599508656197780
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1645288328266296}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -1.75}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.15, y: 5}
+  m_EdgeRadius: 0
 --- !u!61 &61635085795871106
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -2833,10 +2885,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
-  actual: 100
-  max: 100
-  regeneration: 0
+  actual: 40
+  max: 40
+  regeneration: 1
   removeAfterDeath: 1
   objectToRemove: {fileID: 0}
 --- !u!114 &114123544441494840
@@ -2862,11 +2913,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e93cbbf30e20542bfffc8caa671934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logStateId: 1
-  damageAccumulatorDamping: 0.99
+  logStateId: 0
+  damageAccumulatorDamping: 0.9975
   prefabs:
   - prefab: {fileID: 1308631909760284, guid: 341c2e4ec799cef44a977bd064f326de, type: 2}
     spawnPoint: {fileID: 0}
+  resources:
+  - {fileID: 114867178907523978}
 --- !u!114 &114319728167674172
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2880,8 +2933,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   forceBase: 0
-  forceScale: -10
-  forceMax: 500
+  forceScale: -6
+  forceMax: 450
   explosionRadius: 3
   removeDelay: 1.5
   linearDamping: 0.975
@@ -2900,7 +2953,7 @@ MonoBehaviour:
   damageEnter: -6
   damageStay: -0.1
   damageExit: 0
-  bunusPainEnter: -17
+  bunusPainEnter: -20
   bonusPainStay: 0
   bunusPainExit: 0
   removeOnEnter: 0
@@ -2932,10 +2985,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6ec63ad6ef364ebece5cc90b6f378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageEnter: -10
-  damageStay: -0.7
+  damageEnter: -11
+  damageStay: -1
   damageExit: 0
-  bunusPainEnter: 1
+  bunusPainEnter: -7
   bonusPainStay: 0
   bunusPainExit: 0
   removeOnEnter: 0
@@ -2988,10 +3041,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6ec63ad6ef364ebece5cc90b6f378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageEnter: -4
+  damageEnter: -3
   damageStay: -0.1
   damageExit: 0
-  bunusPainEnter: -15
+  bunusPainEnter: -19
   bonusPainStay: 0
   bunusPainExit: 0
   removeOnEnter: 0
@@ -3011,10 +3064,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6ec63ad6ef364ebece5cc90b6f378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageEnter: -4
+  damageEnter: -3
   damageStay: -0.1
   damageExit: 0
-  bunusPainEnter: -13
+  bunusPainEnter: -18
   bonusPainStay: 0
   bunusPainExit: 0
   removeOnEnter: 0
@@ -3051,6 +3104,23 @@ MonoBehaviour:
   enemyFractions:
   - Enemy
   - Player2
+--- !u!114 &114867178907523978
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1852410978934658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68fcabd5629c27b4789129611e4d3f02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actual: 115
+  max: 115
+  regeneration: 16
+  baseAnimatorSpeed: 0.9
+  dependedAnimatorSpeed: 0.1
+  painResistance: 0.0125
 --- !u!114 &114933564917729878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3062,13 +3132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea45d487bf4434044a374f554f0bc226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 125
-  rotationSpeed: 0.1
+  movementSpeed: 130
+  rotationSpeed: 0.08
   moveToDirection: 1
   rotateToDirection: 1
-  trackMouseRotation: 0
-  speedBeginDrag: 12
-  speedDragIncreaseRatio: 0
 --- !u!114 &114960695959788440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3080,10 +3147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6ec63ad6ef364ebece5cc90b6f378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageEnter: -7
-  damageStay: 0.35
+  damageEnter: -8
+  damageStay: -0.35
   damageExit: 0
-  bunusPainEnter: 1
+  bunusPainEnter: -2.5
   bonusPainStay: 0
   bunusPainExit: 0
   removeOnEnter: 0
@@ -3107,21 +3174,6 @@ MonoBehaviour:
   blocksVision: 1
   memoriable: 1
   fraction: {fileID: 114801835823695690}
---- !u!114 &114988016898600144
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1852410978934658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e13e60be8cdd58842b1e28e27656cd75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 
-  actual: 100
-  max: 100
-  regeneration: 0
 --- !u!114 &114997437695900096
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3133,10 +3185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6ec63ad6ef364ebece5cc90b6f378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageEnter: -7.5
+  damageEnter: -8
   damageStay: -0.25
   damageExit: 0
-  bunusPainEnter: 1
+  bunusPainEnter: -2.5
   bonusPainStay: 0
   bunusPainExit: 0
   removeOnEnter: 0

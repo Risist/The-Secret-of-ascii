@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed = 1.0f;
     [Range(0.0f, 1.0f)]
     public float rotationSpeed = 1.0f;
+
     Rigidbody2D body;
     InputManagerBase input
     {
@@ -18,19 +19,9 @@ public class PlayerMovement : MonoBehaviour
     }
     CharacterStateController controller;
 
-
     [Space]
     public bool moveToDirection = true;
     public bool rotateToDirection = true;
-    public bool trackMouseRotation = true;
-
-    //public string atMoveTrigger = "AtMove";
-    //Animator animator;
-
-    [Space]
-    public float speedBeginDrag;
-    public float speedDragIncreaseRatio;
-    float baseDrag;
 
     public void StopCurrentMovement()
     {
@@ -57,9 +48,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        //animator = GetComponent<Animator>();
         controller = GetComponent<CharacterStateController>();
-        baseDrag = body.drag;
     }
 
     private void LateUpdate()
@@ -70,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
         //animator.SetBool(atMoveTrigger, false);
         if (!enabled || !controller.GetInput())
             return;
@@ -77,12 +67,6 @@ public class PlayerMovement : MonoBehaviour
             return;
 
         float velocitySq = body.velocity.sqrMagnitude;
-        float desiredDrag = baseDrag + 
-            Mathf.Clamp(velocitySq - speedBeginDrag * speedBeginDrag, 0, float.PositiveInfinity)
-            * speedDragIncreaseRatio;
-        body.drag = desiredDrag;    
-
-
 
         if (!externalRotationApplied && rotateToDirection)
         {
@@ -94,12 +78,9 @@ public class PlayerMovement : MonoBehaviour
         {
             if (moveToDirection)
             {
-                //animator.SetBool(atMoveTrigger, true);
                 body.AddForce(input.GetLastPositionInput().normalized * movementSpeed);
             }
         }
-        else if (trackMouseRotation)
-            input.SetLastInput(input.GetDirectionInput().normalized);
     }
 }
     

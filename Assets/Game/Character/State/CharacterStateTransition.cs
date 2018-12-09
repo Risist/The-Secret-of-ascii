@@ -47,6 +47,11 @@ namespace Character
             if (mode != EMode.EConditionOnly)
                 controller.RestartCd(cdId, restartOffset);
         }
+        public override void OnAnimationUpdate(AnimatorStateInfo stateInfo)
+        {
+            if (mode != EMode.EConditionOnly)
+                controller.RestartCd(cdId, restartOffset);
+        }
         public override void OnAnimationEnd(AnimatorStateInfo stateInfo)
         {
             if (mode != EMode.EConditionOnly && restartAfter)

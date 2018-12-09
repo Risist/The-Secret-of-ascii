@@ -38,6 +38,7 @@ namespace Character
         public virtual void InitPlayback(StateTransition transition) {}
         public virtual void FinishPlayback() { }
         public virtual void Update() { }
+        public virtual void FixedUpdate(float time) { }
 
         public virtual void OnAnimationBeggin(AnimatorStateInfo stateInfo){}
         public virtual void OnAnimationEnd(AnimatorStateInfo stateInfo) {}
@@ -58,6 +59,7 @@ namespace Character
             foreach (var it in components)
                 it.Update();
 
+            if(controller.validateCurrentAnimatorBehaviour())
             foreach (var it in transitions)
                 if( it.timer.isReady() && (it.target.bufferedInput || it.target.CanEnter() ) )
                 {
@@ -75,6 +77,11 @@ namespace Character
                         it.target.bufferedInput = true;
                     // else ignore input
                 }//*/
+        }
+        public void FixedUpdate(float time)
+        {
+            foreach (var it in components)
+                it.FixedUpdate(time);
         }
 
         #region Transitions
@@ -177,7 +184,7 @@ namespace Character
         /// animation events -> used to make sure the events will be applied in correct time (can varry because of animation blending )
         public void OnAnimationBeggin(AnimatorStateInfo stateInfo)
         {
-            if(controller.GetPreviousState() != null)
+            if (controller.GetPreviousState() != null)
                 controller.GetPreviousState().FinishPlayback();
             controller.ResetInputBuffer();
             foreach (var it in components)

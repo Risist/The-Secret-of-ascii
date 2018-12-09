@@ -771,9 +771,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1899724979658506}
-  m_LocalRotation: {x: -0, y: -0, z: 0.9285036, w: 0.37132356}
-  m_LocalPosition: {x: -3.78, y: -17.17, z: 0}
-  m_LocalScale: {x: 1.0000002, y: 1.0000002, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.9099703, w: 0.41467354}
+  m_LocalPosition: {x: 52.25, y: 9.860001, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4633510569680784}
   - {fileID: 4585095698746824}
@@ -785,7 +785,7 @@ Transform:
   - {fileID: 4489157618368564}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 136.40501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 131.003}
 --- !u!4 &4563244022256774
 Transform:
   m_ObjectHideFlags: 1
@@ -977,8 +977,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   forceBase: 0
-  forceScale: -17
-  forceMax: 500
+  forceScale: -8
+  forceMax: 450
   explosionRadius: 3
   removeDelay: 1.5
   linearDamping: 0.975
@@ -996,7 +996,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceModificator: 1
   blocksVision: 1
-  memoriable: 1
+  memoriable: 0
   fraction: {fileID: 0}
 --- !u!114 &114915192034771734
 MonoBehaviour:
@@ -1009,9 +1009,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
-  actual: 225
-  max: 5000
+  actual: 250
+  max: 250
   regeneration: 0
   removeAfterDeath: 1
   objectToRemove: {fileID: 0}

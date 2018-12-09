@@ -68,7 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9cddd715e3a4df44a20ee38dcec86ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memoryTime: 20
+  memoryTime: 4
   timerPerformSearch:
-    cd: 0
-  radius: 200
+    cd: 0.1
+  radius: 9
+  chance: 0.15

@@ -7,9 +7,8 @@ using UnityEngine;
  *		void onResourceSpend(float amount);
  *		void onResourceLack(float amount);
  */
-public class ResourceController : MonoBehaviour {
-
-	public string type;
+public class ResourceController : MonoBehaviour
+{
 	public float actual = 100.0f;
 	public float max = 100.0f;
 	// health regeneration in units/s 
@@ -19,10 +18,7 @@ public class ResourceController : MonoBehaviour {
 	{
 		Gain(regeneration * Time.deltaTime);
 	}
-
-	void OnResourceSpend(float required){}
-	void OnResourceLack(float required){}
-
+    
 	public bool HasEnough(float required)
 	{
 		return required < actual;
@@ -32,10 +28,8 @@ public class ResourceController : MonoBehaviour {
 		if (HasEnough(required))
 		{
 			actual -= required;
-			BroadcastMessage("OnResourceSpend", required);
 			return true;
 		}
-		BroadcastMessage("OnResourceLack", required);
 		return false;
 	}
     public bool SpendClamp(float required)
@@ -43,11 +37,9 @@ public class ResourceController : MonoBehaviour {
         if (HasEnough(required))
         {
             actual -= required;
-            BroadcastMessage("OnResourceSpend", required);
             return true;
         }
         actual = 0;
-        BroadcastMessage("OnResourceLack", required);
         return false;
     }
     public void Gain(float amount)

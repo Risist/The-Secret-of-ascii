@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 4295582904228224}
   - component: {fileID: 58296606532214006}
   - component: {fileID: 114960393816322840}
-  - component: {fileID: 114403137313662530}
+  - component: {fileID: 114779645313925602}
   m_Layer: 0
   m_Name: white rock Elevator2
   m_TagString: rock
@@ -244,7 +244,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1630436582716254}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.161129, y: -3.6351314, z: 0}
+  m_LocalPosition: {x: 68.28125, y: 5.755568, z: 10}
   m_LocalScale: {x: 1.5000007, y: 1.5000007, z: 1}
   m_Children:
   - {fileID: 4281925022484140}
@@ -377,7 +377,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -394,7 +393,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -411,7 +409,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -428,33 +425,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
   removeAfterDeath: 1
   objectToRemove: {fileID: 0}
---- !u!114 &114403137313662530
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1630436582716254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 146a37bada162ca46ba90ecc1772a68d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 1
-  forceBase: 0
-  forceScale: -15
-  forceMax: 350
-  explosionRadius: 3
-  removeDelay: 1.5
-  linearDamping: 0.975
-  damageParticle: -0.85
-  damageRadius: 0.4
-  dmgDamping: 0.9
 --- !u!114 &114422346524754072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -466,7 +441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -483,7 +457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -500,12 +473,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
   removeAfterDeath: 1
   objectToRemove: {fileID: 0}
+--- !u!114 &114779645313925602
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1630436582716254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ccbfacab6ca02d4c9a2a8311b1e4501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  forceBase: 0
+  forceScale: -8
+  forceMax: 450
+  explosionRadius: 3
+  removeDelay: 1.5
+  linearDamping: 0.975
+  dmgDamping: 0.9
 --- !u!114 &114822060021754894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -517,7 +508,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -534,7 +524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -551,7 +540,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 75
   max: 750
   regeneration: 0

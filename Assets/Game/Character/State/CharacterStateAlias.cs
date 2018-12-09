@@ -8,17 +8,32 @@ namespace Character
 {
     public class CStateSetInt : StateComponent
     {
-        public CStateSetInt(int _id, int _value)
+        public CStateSetInt(int _id, int _value, Phase _phase = Phase.EBegin)
         {
             id = _id;
             value = _value;
+            phase = _phase;
         }
+        public enum Phase
+        {
+            EBegin,
+            EEnd,
+            EEndAndBegin
+        }
+        public Phase phase = Phase.EBegin;
+
         public int id;
         public int value;
 
         public override void InitPlayback(StateTransition transition)
         {
-            controller.SetCommonInt(id, value);
+            if(phase != Phase.EEnd)
+                controller.SetCommonInt(id, value);
+        }
+        public override void OnAnimationEnd(AnimatorStateInfo stateInfo)
+        {
+            if (phase != Phase.EBegin)
+                controller.SetCommonInt(id, value);
         }
     }
 

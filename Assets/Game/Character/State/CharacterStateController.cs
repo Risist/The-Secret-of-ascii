@@ -68,6 +68,16 @@ public class CharacterStateController : MonoBehaviour
         currentState.Update(time);
     }
 
+    void StateFixedUpdate()
+    {
+        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        float time = stateInfo.normalizedTime;
+
+
+        Debug.Assert(currentState != null);
+        currentState.FixedUpdate(time);
+    }
+
     #region Init Functions
     public State AddState( bool isCurrentState = false) {
         State state = new State();
@@ -109,6 +119,16 @@ public class CharacterStateController : MonoBehaviour
     }
     #endregion Utility Functions
 
+
+    SkillAnimationBehaviour currentAnimatorBehaviour;
+    public void SetCurrentAnimatorBehaviour(SkillAnimationBehaviour s)
+    {
+        currentAnimatorBehaviour = s;
+    }
+    public bool validateCurrentAnimatorBehaviour()
+    {
+        return currentAnimatorBehaviour && currentState != null && currentAnimatorBehaviour.skillId == currentState.stateId;
+    }
     #endregion State Managament
 
     #region Mono
@@ -145,6 +165,8 @@ public class CharacterStateController : MonoBehaviour
     {
         damageAccumulator *= damageAccumulatorDamping;
         painAccumulator *= damageAccumulatorDamping;
+
+        StateFixedUpdate();
     }
 
     #endregion Events
@@ -153,7 +175,7 @@ public class CharacterStateController : MonoBehaviour
     public InputManagerBase GetInput() { return input; }
     public PlayerMovement GetMovement() { return movement; }
     public Rigidbody2D GetBody() { return body; }
-    /// animator - provided functions only
+    public Animator GetAnimator() { return animator; }
     /// energy - TODO, probably same as animator
     #endregion Getters
 
@@ -253,6 +275,10 @@ public class CharacterStateController : MonoBehaviour
         commonInts[id] = var;
     }
     #endregion CommonInt
+
+    #region Resource
+    public ResourceController[] resources;
+    #endregion Resource
 
 }
 

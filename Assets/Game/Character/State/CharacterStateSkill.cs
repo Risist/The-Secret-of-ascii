@@ -6,14 +6,6 @@ using System;
 
 namespace Character
 {
-    /// TODO component for resource drain & requirements
-
-    /// TODO component midify animation play speed relative to given resource state
-    public class CStateReduceAnimatorSpeed : StateComponent
-    {
-        public int resourceId;
-        public float energySpeedScale;
-    }
 
     /// component which instantly rotates character towards direction axies
     public class CStateInitDirection : StateComponent
@@ -105,6 +97,39 @@ namespace Character
             Debug.DrawLine(point, point + (Vector2)controller.transform.right * radius, Color.red, 0.1f);
             Debug.DrawLine(point, point - (Vector2)controller.transform.right * radius, Color.red, 0.1f);*/
             //return c && !c.isTrigger && c.gameObject != controller.gameObject;
+        }
+    }
+
+    public class CStateEnergy : StateComponent
+    {
+        public enum Mode
+        {
+            EAll,
+            ECheckOnly,
+            EConsumeOnly
+        }
+        public int resourceId;
+        public Mode mode;
+        public float cost;
+
+        public CStateEnergy(int _resorceId, float _cost, Mode _mode = Mode.EAll)
+        {
+            resourceId = _resorceId;
+            cost = _cost;
+            mode = _mode;
+        }
+
+        public override bool CanEnter()
+        {
+            return mode == Mode.EConsumeOnly || controller.resources[resourceId].HasEnough(cost);
+        }
+
+        public override void InitPlayback(StateTransition transition)
+        {
+            if (mode == Mode.EConsumeOnly)
+                controller.resources[resourceId].Spend(cost);
+            if (mode != Mode.ECheckOnly)
+                controller.resources[resourceId].Spend(cost);
         }
     }
 }

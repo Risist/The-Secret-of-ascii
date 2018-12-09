@@ -310,9 +310,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1452750459279704}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 49.357803, y: -16.696384, z: 20}
-  m_LocalScale: {x: 1.5000007, y: 1.5000007, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7066916, w: 0.7075218}
+  m_LocalPosition: {x: 74.750725, y: 1.206508, z: 20}
+  m_LocalScale: {x: 1.5000014, y: 1.5000014, z: 1}
   m_Children:
   - {fileID: 4534926664113742}
   - {fileID: 4514704970512094}
@@ -326,7 +326,7 @@ Transform:
   - {fileID: 4243156999262572}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -87.429}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 89.93301}
 --- !u!4 &4753243864040868
 Transform:
   m_ObjectHideFlags: 1
@@ -379,7 +379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -398,7 +397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceModificator: 1
   blocksVision: 1
-  memoriable: 1
+  memoriable: 0
   fraction: {fileID: 0}
 --- !u!114 &114273724505644666
 MonoBehaviour:
@@ -411,7 +410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -430,8 +428,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   forceBase: 0
-  forceScale: -17
-  forceMax: 500
+  forceScale: -8
+  forceMax: 450
   explosionRadius: 3
   removeDelay: 1.5
   linearDamping: 0.975
@@ -447,7 +445,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -464,7 +461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -481,7 +477,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -498,7 +493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -515,7 +509,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -532,7 +525,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 500
   max: 10000
   regeneration: 0
@@ -549,7 +541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0
@@ -579,7 +570,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 1000
   max: 1000
   regeneration: 0

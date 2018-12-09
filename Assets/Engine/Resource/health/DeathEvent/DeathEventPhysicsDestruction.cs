@@ -25,7 +25,12 @@ public class DeathEventPhysicsDestruction : MonoBehaviour {
         if(data.damage < 0)
             dmgAccumulator += data.damage;
     }
-    void FixedUpdate()
+    /*void FixedUpdate()
+    {
+        dmgAccumulator *= dmgDamping;
+    }*/
+    /// faster than fixed update and effect almost same
+    void Update()
     {
         dmgAccumulator *= dmgDamping;
     }

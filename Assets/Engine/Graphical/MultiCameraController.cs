@@ -24,16 +24,17 @@ public class MultiCameraController : MonoBehaviour
         Vector3 sum = Vector2.zero;
         int i = 0;
         foreach (var it in targets)
-            if(it)
+            if(it != null)
         {
             sum += it.position;
             ++i;
         }
-        if (i != 0)
+
+        s = i == 0;
+        if (!s)
             return sum / i;
         else
         {
-            s = true;
             return sum;
         }
     }
@@ -61,12 +62,10 @@ public class MultiCameraController : MonoBehaviour
 
         float maxDist = 0;
         foreach (var it in targets)
-            if (it)
+            if (it != null)
             {
                 maxDist = Mathf.Max((middlePos - it.position).sqrMagnitude, maxDist);
             }
-
-        
 
         transform.rotation = Quaternion.Euler(0, 0, initialOffsetRotation + shakeRotationInfluence) ;
         Camera.main.orthographicSize = offsetScale * (1 + (maxDist - minScaleDistance * minScaleDistance) * scaleFactor) + shakeScaleInfluence;

@@ -35,10 +35,10 @@ namespace Character
             if (state == controller.GetCurrentState())
             {
                 if (period.IsIn(stateInfo.normalizedTime))
-                  
+
                     controller.GetBody().AddForce(
-                        directionUp * force.y +
-                        directionRight * force.x
+                        (directionUp * force.y +
+                        directionRight * force.x) * controller.GetAnimator().speed *40* Time.deltaTime
                     );
             }
         }
