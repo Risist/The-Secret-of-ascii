@@ -220,7 +220,7 @@ public class CharacterStateController : MonoBehaviour
         var _cd = new CdRecord();
         _cd.timer = new Timer(cd);
         if (restart)
-            _cd.timer.restart();
+            _cd.timer.Restart();
         cds.Add(_cd);
         return cds.Count-1;
     }
@@ -228,11 +228,11 @@ public class CharacterStateController : MonoBehaviour
 
     #region Utility
     public Timer GetCdTimer(int id) { return cds[id].timer; }
-    public bool IsCdReady(int id) { return cds[id].timer.isReady(); }
-    public void RestartCd(int id, float state = 0f) { cds[id].timer.restart(state); }
+    public bool IsCdReady(int id) { return cds[id].timer.IsReady(); }
+    public void RestartCd(int id, float state = 0f) { cds[id].timer.Restart(state); }
     public void RestartCdAll(float state = 0f) {
         foreach(var it in cds)
-            it.timer.restart(state);
+            it.timer.Restart(state);
     }
     #endregion Utility
 

@@ -19,8 +19,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4822473705391508}
-  - component: {fileID: 114927463196279932}
-  - component: {fileID: 114407256208765444}
+  - component: {fileID: 114628208498726084}
+  - component: {fileID: 114402811055177800}
+  - component: {fileID: 114595764384292802}
+  - component: {fileID: 114580370309276894}
+  - component: {fileID: 114279064976952180}
+  - component: {fileID: 114768160107729724}
   m_Layer: 0
   m_Name: Input Ai1
   m_TagString: Untagged
@@ -41,7 +45,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114407256208765444
+--- !u!114 &114279064976952180
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,30 +53,100 @@ MonoBehaviour:
   m_GameObject: {fileID: 1335421002140626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e89a664b15c43a4a90f186b448b6c9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e31d983963dd0945b6be9e6284a21ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimalPositionInputStrength: 0
-  minimalDirectionInputStrength: 0.1
-  input: 01000101
-  positionInput: {x: 0, y: 0}
-  directionInput: {x: 0, y: 0}
-  followPositionPlayer: 0
-  followDirectionPlayer: 0
-  player: {fileID: 0}
---- !u!114 &114927463196279932
+  shadeTime: 1
+  memoryTime: 0.4
+  matureTime: 0.15
+  propagateMode: 2
+  propagateRadius: 15
+  matureTimeMaxOffset: 0.5
+  knowledgeTimeMaxOffset: 0
+  propagateChance: 0.075
+--- !u!114 &114402811055177800
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1335421002140626}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1466dae50f531d479a661890fe8a8ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadeTime: 3
+  memoryTime: 1
+  matureTime: 0.25
+  predictionScale: 1
+  nSearch: 3
+  coneRadius: 170
+  searchDistance: 15
+  addictionalRotation: 0
+--- !u!114 &114580370309276894
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1335421002140626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f129b451ec18d4a86a6bd54162813d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tPerformClear:
+    cd: 0.2
+--- !u!114 &114595764384292802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1335421002140626}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9cddd715e3a4df44a20ee38dcec86ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memoryTime: 4
-  timerPerformSearch:
-    cd: 0.1
-  radius: 9
-  chance: 0.15
+  shadeTime: 2.5
+  memoryTime: 1
+  matureTime: 0
+  radius: 15
+  minWaitTime: 0.15
+  maxWaitTime: Infinity
+  chance: 0.001
+--- !u!114 &114628208498726084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1335421002140626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00dd0193dd2cc04db22afe00b9836f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimalPositionInputStrength: 0.1
+  minimalDirectionInputStrength: 0.1
+  input: 00000000
+  positionInput: {x: 0, y: 0}
+  directionInput: {x: 0, y: 0}
+  positionInputChange: 0.1
+  directionInputChange: 0.1
+--- !u!114 &114768160107729724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1335421002140626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f8c7f44066d8046b760ae9ee8ce969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadeTime: 1.5
+  memoryTime: 0.75
+  matureTime: 0.15
+  tInsert:
+    cd: 0.25
+  minimalSpeed: 0.25
+  predictionScale: 3

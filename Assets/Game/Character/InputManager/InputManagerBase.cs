@@ -46,6 +46,13 @@ public abstract class InputManagerBase : MonoBehaviour {
     public abstract bool IsInputDown(int id);
     public abstract bool IsInputUp(int id);
 
+
+    protected void Start()
+    {
+        Rigidbody2D rb = GetComponentInParent<Rigidbody2D>();
+        if(rb)
+            lastPositionInput = rb.transform.up;
+    }
     protected void Update()
     {
         UpdateLastPositionInput();

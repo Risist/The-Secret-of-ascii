@@ -61,7 +61,7 @@ namespace Character
 
             if(controller.validateCurrentAnimatorBehaviour())
             foreach (var it in transitions)
-                if( it.timer.isReady() && (it.target.bufferedInput || it.target.CanEnter() ) )
+                if( it.timer.IsReady() && (it.target.bufferedInput || it.target.CanEnter() ) )
                 {
                     var p = it.period;
                     //Debug.Log(time + ", " + p.min + ", " + p.max);
@@ -70,7 +70,7 @@ namespace Character
                     {
                         it.target.bufferedInput = false;
                         it.target.InitPlayback(it);
-                        it.timer.restart();
+                        it.timer.Restart();
                         break;
                     }
                     else if (time < p.min && it.bufferInput)

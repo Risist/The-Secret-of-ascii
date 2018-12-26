@@ -113,11 +113,58 @@ namespace Character
             if (end && state == controller.GetCurrentState())
                 controller.SetCurrentState(target);
         }
-        /*public override void FinishPlayback()
+    }
+    public class CStateAutoTransitionPrev : StateComponent
+    {
+        public CStateAutoTransitionPrev() {}
+        public bool beggin = false;
+        public bool end = true;
+
+        public CStateAutoTransitionPrev ApplyOnBeggin(bool b = true) { beggin = b; return this; }
+        public CStateAutoTransitionPrev ApplyOnEnd(bool b = true) { beggin = b; return this; }
+        public override void OnAnimationUpdate(AnimatorStateInfo stateInfo)
         {
-            //if (state == controller.GetCurrentState())
-            controller.SetCurrentState(target);
-        }*/
+            if (beggin)
+                controller.SetCurrentState(controller.GetPreviousState());
+        }
+        public override void OnAnimationEnd(AnimatorStateInfo stateInfo)
+        {
+            if (end && state == controller.GetCurrentState())
+                controller.SetCurrentState(controller.GetPreviousState());
+        }
+    }
+    public class CStateAutoTransitionPose : StateComponent
+    {
+        public CStateAutoTransitionPose(int _valId, State _defaultState, State[] _states, string[] _triggers)
+        {
+            valId = _valId;
+            defaultState = _defaultState;
+            states = _states;
+            triggers = _triggers;
+        }
+        public State defaultState;
+        public State[] states;
+        public string[] triggers;
+        public int valId;
+
+        public override void OnAnimationEnd(AnimatorStateInfo stateInfo)
+        {
+            if (state == controller.GetCurrentState())
+            {
+                var prevState = controller.GetPreviousState();
+                if (prevState == defaultState)
+                    controller.SetCurrentState(prevState);
+                else
+                {
+                    int val = controller.GetCommonInt(valId);
+                    if (val < states.Length && val < triggers.Length)
+                    {
+                        controller.SetCurrentState(states[val]);
+                        controller.PlayAnimationTrigger(triggers[val]);
+                    }
+                }
+            }
+        }
     }
 
     /// allows to manual transition towards given target

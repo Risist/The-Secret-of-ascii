@@ -42,6 +42,12 @@ namespace Character
         public Period periodTrackDir = new Period(0f,0f);
         float desiredRotation;
         bool changeRotation;
+        Transform tr;
+
+        public override void Init()
+        {
+            tr = controller.transform.Find("modelCharacter");
+        }
 
         public override void OnAnimationBeggin(AnimatorStateInfo stateInfo)
         {
@@ -62,6 +68,8 @@ namespace Character
                     OnAnimationBeggin(stateInfo);
 
                 var body = controller.GetBody();
+                float trRot = tr.rotation.eulerAngles.z;
+                float trDiff = body.rotation - trRot;
                 body.rotation = Mathf.LerpAngle(body.rotation, desiredRotation, rotationSpeed);
             }
         }
