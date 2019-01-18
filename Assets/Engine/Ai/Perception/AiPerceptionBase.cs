@@ -5,8 +5,15 @@ using UnityEngine;
 public abstract class AiPerceptionBase : MonoBehaviour
 {
 
-    protected AiPerceptionHolder holder;
-    protected AiPerceiveUnit myUnit;
+    [System.NonSerialized]
+    public AiPerceptionHolder holder;
+
+    [System.NonSerialized]
+    public AiPerceiveUnit myUnit;
+    
+    public float shadeTime = 5f;
+    public float memoryTime = 5f;
+    public float matureTime = 0f;
 
     private void Start()
     {

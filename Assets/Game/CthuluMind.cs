@@ -16,23 +16,23 @@ public class CthuluMind : MonoBehaviour {
 
     float averageTorque;
     Rigidbody2D rb;
-    AiPerceptionBase perception;
+    AiPerceptionHolder perception;
     AiFraction fraction;
 
     void Start ()
     {
         rb = GetComponent<Rigidbody2D>();
-        perception = GetComponent<AiPerceptionBase>();
+        perception = GetComponent<AiPerceptionHolder>();
         fraction = GetComponent<AiFraction>();
     }
 
     void Update()
     {
-        var enemy = perception.SearchInMemory(fraction, AiFraction.Attitude.enemy);
+        /*var enemy = perception.SearchInMemory(fraction, AiFraction.Attitude.enemy);
         if(enemy != null)
         {
             aim = enemy.unit.gameObject;
-        }
+        }*/
     }
 
     void FixedUpdate () {

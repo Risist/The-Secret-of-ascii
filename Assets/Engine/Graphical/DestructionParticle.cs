@@ -15,12 +15,12 @@ public class DestructionParticle : MonoBehaviour {
 	// Use this for initialization
 	public void Start () {
         renderer = GetComponent<SpriteRenderer>();
-        delayTime.restart();
+        delayTime.Restart();
         initialColorAlpha = renderer.color.a;
 	}
     void Update()
     {
-        if (delayTime.isReady())
+        if (delayTime.IsReady())
             Destroy(gameObject);
         else
         {

@@ -101,7 +101,7 @@ public class AiUnitMind : MonoBehaviour
 		foreach (var itMemory in memory)
 			if (itMemory.unit == unit)
 			{
-				itMemory.remainedTime.restart();
+				itMemory.remainedTime.Restart();
 				itMemory.lastDistance = distance;
 				bFound = true;
 				break;

@@ -6,7 +6,7 @@ public class InputManagerMK : InputManagerBase
 {
     [Space]
     [SerializeField]
-    protected string[] keyInputs = new string[] { "Fire1", "Fire2", "Fire3", "Movement" };
+    protected string[] keyInputs = new string[] { "Fire1", "Fire2", "Fire3", "Movement", "Enviro" };
     [Space]
     [SerializeField]
     protected string xAxisCode = "Horizontal";

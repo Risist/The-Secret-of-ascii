@@ -44,7 +44,8 @@ public class DamageEventShake : MonoBehaviour {
 		}
 	}
 
-	public void OnDeath(HealthController.DamageData data)
+    /// TODO this doesnt work
+	/*public void OnDeath(DamageData data)
 	{
         camera.shakePosition(Random.insideUnitCircle.normalized * (shakePositionDamageDeath + shakePositionDamageDeath * controller.GetDamageAccumulator()));
         camera.shakeRotation(Random.Range(-1, 1) * (shakeRotationDamage + shakeRotationDamageDeath * controller.GetDamageAccumulator()));
@@ -56,5 +57,5 @@ public class DamageEventShake : MonoBehaviour {
 		camera.shakePosition(Random.insideUnitCircle.normalized * (shakePositionDamageDeath + shakePositionDamageDeath * controller.GetDamageAccumulator()));
 		camera.shakeRotation(Random.Range(-1, 1) * (shakeRotationDamage + shakeRotationDamageDeath * controller.GetDamageAccumulator()));
 		camera.shakeScale(Random.Range(-1, 1) * (shakeScaleDamageDeath + shakeScaleDamageDeath * controller.GetDamageAccumulator()));
-	}
+	}*/
 }

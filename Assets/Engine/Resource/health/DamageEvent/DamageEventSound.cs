@@ -20,7 +20,7 @@ public class DamageEventSound : MonoBehaviour {
 
 	void OnReceiveDamage(HealthController.DamageData data)
 	{
-		if (data.damage >= 0 || !restartCd.isReadyRestart() )
+		if (data.damage >= 0 || !restartCd.IsReadyRestart() )
 			return;
 
 		AudioManager.inst.CreateInstance(audioClip, transform.position,

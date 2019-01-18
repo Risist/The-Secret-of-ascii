@@ -7,9 +7,9 @@ public class DamageOnTrigger : MonoBehaviour {
 	public float damageStay;
 	public float damageExit;
     [Space]
-    public float bunusPainEnter;
+    public float bonusPainEnter;
     public float bonusPainStay;
-    public float bunusPainExit;
+    public float bonusPainExit;
     [Space]
     public bool removeOnEnter = false;
 	public bool removeOnExit = false;
@@ -39,8 +39,15 @@ public class DamageOnTrigger : MonoBehaviour {
 
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
-		{
-			healthController.DealDamage(damageEnter, bunusPainEnter + damageEnter, instigator);
+        {
+            HealthController.DamageData damageData = new HealthController.DamageData();
+            damageData.causer = instigator;
+            damageData.damage = damageEnter;
+            damageData.pain = bonusPainEnter + damageEnter;
+            damageData.position = transform.position;
+
+            healthController.DealDamage(damageData);
+
             if (removeOnEnter)
             {
                 if( (other.isTrigger && removeOnTrigger) ||
@@ -62,7 +69,13 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if (healthController != null)
 		{
-			healthController.DealDamage(damageStay, bonusPainStay + damageStay, instigator);
+            HealthController.DamageData damageData = new HealthController.DamageData();
+            damageData.causer = instigator;
+            damageData.damage = damageStay;
+            damageData.pain = bonusPainStay + damageStay;
+            damageData.position = transform.position;
+
+            healthController.DealDamage(damageData);
 		}
 	}
 
@@ -78,8 +91,15 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null)
 		{
-			healthController.DealDamage(damageExit, bunusPainExit + damageExit, instigator);
-			if (removeOnExit)
+            HealthController.DamageData damageData = new HealthController.DamageData();
+            damageData.causer = instigator;
+            damageData.damage = damageStay;
+            damageData.pain = bonusPainExit + damageExit;
+            damageData.position = transform.position;
+
+            healthController.DealDamage(damageData);
+
+            if (removeOnExit)
             {
                 if ((other.isTrigger && removeOnTrigger) ||
                     (!other.isTrigger && removeOnCollision))
@@ -100,8 +120,14 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageEnter, bunusPainEnter + damageEnter, gameObject);
-			if (removeOnEnter)
+            HealthController.DamageData damageData = new HealthController.DamageData();
+            damageData.causer = instigator;
+            damageData.damage = damageEnter;
+            damageData.pain = bonusPainEnter + damageEnter;
+            damageData.position = transform.position;
+
+            healthController.DealDamage(damageData);
+            if (removeOnEnter)
             {
                 if ((other.collider.isTrigger && removeOnTrigger) ||
                     (!other.collider.isTrigger && removeOnCollision))
@@ -122,8 +148,14 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageStay, bonusPainStay + damageStay, gameObject);
-		}
+            HealthController.DamageData damageData = new HealthController.DamageData();
+            damageData.causer = instigator;
+            damageData.damage = damageStay;
+            damageData.pain = bonusPainStay + damageStay;
+            damageData.position = transform.position;
+
+            healthController.DealDamage(damageData);
+        }
 	}
 
 	void OnCollisionExit2D(Collision2D other)
@@ -138,8 +170,15 @@ public class DamageOnTrigger : MonoBehaviour {
 		HealthController healthController = other.gameObject.GetComponent<HealthController>();
 		if ( healthController != null )
 		{
-			healthController.DealDamage(damageExit, bunusPainExit + damageExit, gameObject);
-			if (removeOnExit)
+            HealthController.DamageData damageData = new HealthController.DamageData();
+            damageData.causer = instigator;
+            damageData.damage = damageExit;
+            damageData.pain = bonusPainExit + damageExit;
+            damageData.position = transform.position;
+
+            healthController.DealDamage(damageData);
+
+            if (removeOnExit)
             {
                 if ((other.collider.isTrigger && removeOnTrigger) ||
                     (!other.collider.isTrigger && removeOnCollision))

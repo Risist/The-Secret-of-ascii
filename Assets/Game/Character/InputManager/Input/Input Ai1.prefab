@@ -78,10 +78,10 @@ MonoBehaviour:
   shadeTime: 3
   memoryTime: 1
   matureTime: 0.25
-  predictionScale: 1
-  nSearch: 3
-  coneRadius: 170
-  searchDistance: 15
+  predictionScale: 1.5
+  nSearch: 2
+  coneRadius: 160
+  searchDistance: 25
   addictionalRotation: 0
 --- !u!114 &114580370309276894
 MonoBehaviour:
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1335421002140626}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9cddd715e3a4df44a20ee38dcec86ad, type: 3}
   m_Name: 
@@ -110,8 +110,8 @@ MonoBehaviour:
   shadeTime: 2.5
   memoryTime: 1
   matureTime: 0
-  radius: 15
-  minWaitTime: 0.15
+  radius: 5
+  minWaitTime: 0.35
   maxWaitTime: Infinity
   chance: 0.001
 --- !u!114 &114628208498726084
@@ -127,11 +127,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimalPositionInputStrength: 0.1
   minimalDirectionInputStrength: 0.1
-  input: 00000000
+  input: 0000000000
   positionInput: {x: 0, y: 0}
   directionInput: {x: 0, y: 0}
-  positionInputChange: 0.1
-  directionInputChange: 0.1
+  positionInputChange: 0.15
+  directionInputChange: 0.15
+  nInputRecord: 3
 --- !u!114 &114768160107729724
 MonoBehaviour:
   m_ObjectHideFlags: 1

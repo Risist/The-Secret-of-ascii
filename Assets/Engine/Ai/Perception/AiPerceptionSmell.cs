@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class AiPerceptionSmell : AiPerceptionBase
 {
+    [Space]
     public float radius;
     public float minWaitTime;
     public float maxWaitTime;
@@ -15,10 +16,10 @@ public class AiPerceptionSmell : AiPerceptionBase
 
     void Update()
     {
-        if((tLastSearch.isReady(minWaitTime) && Random.value < chance)
-            || tLastSearch.isReady(maxWaitTime))
+        if((tLastSearch.IsReady(minWaitTime) && Random.value < chance)
+            || tLastSearch.IsReady(maxWaitTime))
         {
-            tLastSearch.restart();
+            tLastSearch.Restart();
             PerformSearch();
         }
     }
@@ -27,12 +28,15 @@ public class AiPerceptionSmell : AiPerceptionBase
     public void PerformSearch()
     {
         int n =  Physics2D.OverlapCircleNonAlloc(transform.position, radius, colliders);
-        
+
         for(int i = 0; i < n; ++i)
         {
             var unit = colliders[i].GetComponent<AiPerceiveUnit>();
             if (unit && unit != myUnit)
-                holder.InsertToMemory(unit, (transform.position - unit.transform.position).sqrMagnitude);
+            {
+                holder.InsertToMemory(unit, EMemoryEvent.ENoise, unit.transform.position, 1f,
+                    memoryTime, matureTime, shadeTime);
+            }
         }
     }
 }

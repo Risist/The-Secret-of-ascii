@@ -75,6 +75,34 @@ namespace Character
             controller.ResetAnimation(animCode);
         }
     }
+
+    public class CStateAnimationAtMove : StateComponent
+    {
+        public CStateAnimationAtMove(string _animcode, bool _negation = false) { animCode = _animcode; negation = _negation; }
+        public string animCode;
+        public bool negation;
+
+        public override void OnAnimationUpdate(AnimatorStateInfo stateInfo)
+        {
+            if (negation)
+            {
+                if (controller.GetInput().IsAtMove())
+                    controller.ResetAnimation(animCode);
+                else
+                    controller.PlayAnimation(animCode);
+            }else
+            {
+                if (controller.GetInput().IsAtMove())
+                    controller.PlayAnimation(animCode);
+                else
+                    controller.ResetAnimation(animCode);
+            }
+        }
+        public override void OnAnimationBeggin(AnimatorStateInfo stateInfo)
+        {
+            controller.ResetAnimation(animCode);
+        }
+    }
     public class CStateAnimationTrigger : StateComponent
     {
         public CStateAnimationTrigger(string _animcode) { animCode = _animcode; }

@@ -17,7 +17,7 @@ public class AttachOnCollision : MonoBehaviour
 
     private void Start()
     {
-        attachCd.restart();
+        attachCd.Restart();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,7 +29,7 @@ public class AttachOnCollision : MonoBehaviour
             return;
 
         var hp = collision.GetComponent<HealthController>();
-        if (hp && hp.tag != ignoreTag && attachCd.isReadyRestart())
+        if (hp && hp.tag != ignoreTag && attachCd.IsReadyRestart())
         {
             Attach(collision.gameObject);
         }
@@ -43,7 +43,7 @@ public class AttachOnCollision : MonoBehaviour
         if (fraction && otherFraction && fraction.GetAttitude(otherFraction.fractionName) == AiFraction.Attitude.friendly)
             return;
         var hp = collision.GetComponent<HealthController>();
-        if (hp && hp.tag != ignoreTag && attachCd.isReadyRestart())
+        if (hp && hp.tag != ignoreTag && attachCd.IsReadyRestart())
         {
             Attach(collision.gameObject);
         }
@@ -56,7 +56,7 @@ public class AttachOnCollision : MonoBehaviour
         if (fraction && otherFraction && fraction.GetAttitude(otherFraction.fractionName) == AiFraction.Attitude.friendly)
             return;
         var hp = collision.gameObject.GetComponent<HealthController>();
-        if (hp && hp.tag != ignoreTag && attachCd.isReadyRestart())
+        if (hp && hp.tag != ignoreTag && attachCd.IsReadyRestart())
         {
             Attach(collision.gameObject);
         }
@@ -69,7 +69,7 @@ public class AttachOnCollision : MonoBehaviour
         if (fraction && otherFraction && fraction.GetAttitude(otherFraction.fractionName) == AiFraction.Attitude.friendly)
             return;
         var hp = collision.gameObject.GetComponent<HealthController>();
-        if (hp && hp.tag != ignoreTag && attachCd.isReadyRestart())
+        if (hp && hp.tag != ignoreTag && attachCd.IsReadyRestart())
         {
             Attach(collision.gameObject);
         }
@@ -81,7 +81,7 @@ public class AttachOnCollision : MonoBehaviour
         foreach (var it in attaches)
             if (it.type == attachType)
             {
-                it.stayTime.restart();
+                it.stayTime.Restart();
                 return;
             }
 

@@ -2520,7 +2520,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceModificator: 1
-  blocksVision: 1
+  transparencyLevel: 0.7
+  blocksVision: 0
   memoriable: 1
   fraction: {fileID: 114552724277482320}
 --- !u!114 &114526543389190376
@@ -2539,6 +2540,7 @@ MonoBehaviour:
   prefabs:
   - prefab: {fileID: 1442637358512346, guid: 0f3bd8a5938e39e4d8a40d3b61116fbf, type: 2}
     spawnPoint: {fileID: 4466436571328156}
+  resources: []
 --- !u!114 &114552724277482320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2583,10 +2585,6 @@ MonoBehaviour:
   rotationSpeed: 0.1
   moveToDirection: 1
   rotateToDirection: 1
-  trackMouseRotation: 0
-  atMoveTrigger: AtMove
-  speedBeginDrag: 10
-  speedDragIncreaseRatio: 0.65
 --- !u!114 &114615084728210570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2660,10 +2658,9 @@ MonoBehaviour:
   damageEnter: -0.9
   damageStay: -1.2
   damageExit: 0
-  painEnter: 0
-  painStay: 0
-  painExit: 0
-  customPain: 0
+  bonusPainEnter: 0
+  bonusPainStay: 0
+  bonusPainExit: 0
   removeOnEnter: 0
   removeOnExit: 0
   removeOnCollision: 0
@@ -2694,6 +2691,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeRatio: 0.1
+  viewfinder: {fileID: 0}
+  useViewFinder: 0
   alpha: 0.09803922
 --- !u!114 &114782156700517694
 MonoBehaviour:
@@ -2706,7 +2705,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 100
   max: 100
   regeneration: 0.75
@@ -2725,7 +2723,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   forceBase: 0
-  forceScale: -10
+  forceScale: 10
   forceMax: 500
   explosionRadius: 3
   removeDelay: 1.5
@@ -2755,7 +2753,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e13e60be8cdd58842b1e28e27656cd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
   actual: 100
   max: 100
   regeneration: 0
@@ -2773,10 +2770,9 @@ MonoBehaviour:
   damageEnter: -0.45
   damageStay: -0.95
   damageExit: 0
-  painEnter: 0
-  painStay: 0
-  painExit: 0
-  customPain: 0
+  bonusPainEnter: 0
+  bonusPainStay: 0
+  bonusPainExit: 0
   removeOnEnter: 0
   removeOnExit: 0
   removeOnCollision: 0

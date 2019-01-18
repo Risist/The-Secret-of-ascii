@@ -9,13 +9,13 @@ public class AttachBase : MonoBehaviour {
 
 	// Use this for initialization
 	protected void Start () {
-		stayTime.restart();
+		stayTime.Restart();
 	}
 
 	// Update is called once per frame
 	protected void Update ()
 	{
-		if(stayTime.isReady())
+		if(stayTime.IsReady())
 		{
 			Destroy(gameObject);
 		}

@@ -51,11 +51,9 @@ public class DeathEventPhysicsDestruction : MonoBehaviour {
 
         OnReceiveDamage(data);
 
-		Vector2 explosionPosition = transform.position;
-		if (data.causer)
-			explosionPosition = data.causer.transform.position;
+		Vector2 explosionPosition = data.position;
 
-		var sprites = GetComponentsInChildren<SpriteRenderer>();
+        var sprites = GetComponentsInChildren<SpriteRenderer>();
 		foreach(var it in sprites)
 		{
 			it.transform.parent = null;

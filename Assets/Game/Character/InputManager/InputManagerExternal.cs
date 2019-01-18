@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class InputManagerExternal : InputManagerBase
 {
-    public bool[] input = new bool[4] { false, false, false, false };
+    /*
+     * Input meaning: 
+     * 
+     * 0, 1, 2 - ordinary abilities highly depended on weapon you hold
+     * 3 - dash movement with special interaction with environment
+     * 4 - ability to interact with environment
+     */
+    public bool[] input = new bool[5] { false, false, false, false, false };
     public Vector2 positionInput;
     public Vector2 directionInput;
 

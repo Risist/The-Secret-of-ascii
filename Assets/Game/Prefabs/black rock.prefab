@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114159058085203006}
   - component: {fileID: 114641875404646944}
   - component: {fileID: 114517823135666680}
+  - component: {fileID: 114731759904042538}
   m_Layer: 0
   m_Name: black rock
   m_TagString: rock
@@ -408,6 +409,17 @@ MonoBehaviour:
   blocksVision: 1
   memoriable: 0
   fraction: {fileID: 0}
+--- !u!114 &114731759904042538
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1083574125446290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c86459c0ccc776740bf0fdb0f6fb7cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212153637957105766
 SpriteRenderer:
   m_ObjectHideFlags: 1

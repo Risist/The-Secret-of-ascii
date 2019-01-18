@@ -11,6 +11,7 @@ public class BulletController : MonoBehaviour {
     [Range(0f,1f)] public float forceFallof = 1f;
     public float forceMinimal = 1f;
     public float damageDealed = -30f;
+    public float painDealed = -30f;
     public bool removeOnHit;
 
     [Space]
@@ -26,17 +27,17 @@ public class BulletController : MonoBehaviour {
         body = GetComponent<Rigidbody2D>();
         body.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        destroyAfter.restart();
+        destroyAfter.Restart();
         body.AddForce(transform.up * initialForce);
     }
 
     private void Update()
     {
-        if (turnOnCollisionAfter.isReady())
+        /*if (turnOnCollisionAfter.IsReady())
         {
             GetComponent<PointEffector2D>().enabled = true;
-        }
-        if (destroyAfter.isReady())
+        }*/
+        if (destroyAfter.IsReady())
         {
             GetComponent<DeathEventPhysicsDestruction>().AlterDamageAccumulator(destructionForce);
             GetComponent<DeathEventPhysicsDestruction>().OnDeath(transform.position +
@@ -57,19 +58,11 @@ public class BulletController : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        {/// Rotate towards direction of movement
-            Vector2 velocity = body.velocity;
-            float angle = Vector2.Angle(Vector2.up, velocity) * (velocity.x > 0 ? -1 : 1);
-            body.rotation = angle;
-        }
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         {/// Rotate towards direction of movement
             Vector2 velocity = body.velocity;
-            float angle = Vector2.Angle(Vector2.up, velocity) * (velocity.x > 0 ? -1 : 1);
+            float angle = Vector2.SignedAngle(Vector2.up, velocity);
             body.rotation = angle;
         }
 
@@ -77,7 +70,14 @@ public class BulletController : MonoBehaviour {
         HealthController healthController = collision.gameObject.GetComponent<HealthController>();
         if (healthController != null)
         {
-            healthController.DealDamage(damageDealed, null);
+            HealthController.DamageData damageData = new HealthController.DamageData();
+            damageData.causer = gameObject;
+            damageData.damage = damageDealed;
+            damageData.pain = painDealed;
+            damageData.position = transform.position;
+
+            healthController.DealDamage(damageData);
+
             if (removeOnHit)
             {
                 if (!collision.isTrigger)

@@ -40,9 +40,9 @@ namespace Character
         public float minimalDirectionInput;
         public Period period;
         public Period periodTrackDir = new Period(0f,0f);
-        float desiredRotation;
-        bool changeRotation;
-        Transform tr;
+        protected float desiredRotation;
+        protected bool changeRotation;
+        protected Transform tr;
 
         public override void Init()
         {
@@ -74,6 +74,204 @@ namespace Character
             }
         }
     }
+
+    public class CStateInitDirectionUpdate : StateComponent
+    {
+        public CStateInitDirectionUpdate(float _rotationSpeed, float _minimalDirectionInput = 0, float _maxRotDiff = float.PositiveInfinity)
+        {
+            rotationSpeed = _rotationSpeed;
+            period = new Period(0f, 1f);
+            minimalDirectionInput = _minimalDirectionInput;
+            maxRotDiff = _maxRotDiff;
+        }
+        public CStateInitDirectionUpdate(float _rotationSpeed, float _minimalDirectionInput, float _maxRotDiff, Period _period)
+        {
+            rotationSpeed = _rotationSpeed;
+            period = _period;
+            minimalDirectionInput = _minimalDirectionInput;
+            maxRotDiff = _maxRotDiff;
+        }
+        public float rotationSpeed;
+        public float minimalDirectionInput;
+        public float maxRotDiff;
+        public Period period;
+
+        Vector2 mouseDir;
+
+        public override void OnAnimationUpdate(AnimatorStateInfo stateInfo)
+        {
+            Vector2 _mouseDir = controller.GetInput().GetDirectionInput();
+            float minDir = minimalDirectionInput * controller.GetInput().minimalDirectionInputStrength;
+            bool changeRotation = _mouseDir.sqrMagnitude > minDir * minDir;
+            if (changeRotation)
+            {
+                float desiredRotation = Vector2.Angle(Vector2.up, _mouseDir) * (_mouseDir.x > 0 ? -1 : 1);
+                _mouseDir = mouseDir;
+
+                if(period.IsIn(stateInfo.normalizedTime))
+                {
+                    var body = controller.GetBody();
+
+                    float angle = Mathf.LerpAngle(body.rotation, desiredRotation, rotationSpeed);
+                    //float diff = Mathf.DeltaAngle(body.rotation, angle);
+                    float diff = -body.rotation + angle;
+
+                    body.rotation = body.rotation + Mathf.Clamp(diff, -maxRotDiff, maxRotDiff);
+                }
+            }
+        }
+
+        public override void OnAnimationEnd(AnimatorStateInfo stateInfo)
+        {
+            controller.GetInput().SetLastInput(mouseDir);
+        }
+    }
+    public class CStateReflectedDirection : CStateInitDirectionSmooth
+    {
+        public CStateReflectedDirection(float _rayInitialDistance, float _rayLength, float _rotationSpeed, float _minimalDirectionInput = 0)
+            : base(_rotationSpeed, _minimalDirectionInput)
+        {
+            rayLength = _rayLength;
+            rayInitialDistance = _rayInitialDistance;
+        }
+        public CStateReflectedDirection(float _rayInitialDistance, float _rayLength, float _rotationSpeed, float _minimalDirectionInput, Period _period)
+            : base(_rotationSpeed, _minimalDirectionInput, _period)
+        {
+            rayLength = _rayLength;
+            rayInitialDistance = _rayInitialDistance;
+        }
+        public CStateReflectedDirection(float _rayInitialDistance, float _rayLength, float _rotationSpeed, float _minimalDirectionInput, Period _period, Period _periodTrackDir)
+            : base(_rotationSpeed, _minimalDirectionInput, _period, _periodTrackDir)
+        {
+            rayLength = _rayLength;
+            rayInitialDistance = _rayInitialDistance;
+        }
+        public float rayInitialDistance;
+        public float rayLength;
+        public float raySeparation;
+        public CStateReflectedDirection SetRaySeparation(float s)
+        {
+            raySeparation = s;
+            return this;
+        }
+
+
+        CharacterUiIndicator indicator;
+        Vector2 lastMouseDir;
+
+        public override void Init()
+        {
+            base.Init();
+            indicator = controller.GetComponentInChildren<CharacterUiIndicator>();
+            Debug.Assert(indicator);
+        }
+
+        public override bool CanEnter()
+        {
+            return indicator.environmentIndicators[0].use;
+        }
+        public override void OnAnimationBeggin(AnimatorStateInfo stateInfo)
+        {
+            Vector2 mouseDir = -indicator.environmentIndicators[0].hit.normal;//lastMouseDir - 2*Vector2.Dot(lastMouseDir, lastHit.normal) * lastHit.normal;
+            float minDir = minimalDirectionInput * controller.GetInput().minimalDirectionInputStrength;
+            changeRotation = mouseDir.sqrMagnitude > minDir * minDir;
+            if (changeRotation)
+            {
+                desiredRotation = Vector2.Angle(Vector2.up, mouseDir) * (mouseDir.x > 0 ? -1 : 1);
+                controller.GetInput().SetLastInput(mouseDir);
+            }
+        }
+    }
+    /*public class CStateReflectedDirection : CStateInitDirectionSmooth
+    {
+        public CStateReflectedDirection(float _rayInitialDistance, float _rayLength, float _rotationSpeed, float _minimalDirectionInput = 0)
+            : base( _rotationSpeed, _minimalDirectionInput)
+        {
+            rayLength = _rayLength;
+            rayInitialDistance = _rayInitialDistance;
+        }
+        public CStateReflectedDirection(float _rayInitialDistance, float _rayLength, float _rotationSpeed, float _minimalDirectionInput, Period _period)
+            : base(_rotationSpeed, _minimalDirectionInput, _period)
+        {
+            rayLength = _rayLength;
+            rayInitialDistance = _rayInitialDistance;
+        }
+        public CStateReflectedDirection(float _rayInitialDistance, float _rayLength, float _rotationSpeed, float _minimalDirectionInput, Period _period, Period _periodTrackDir)
+            : base(_rotationSpeed, _minimalDirectionInput, _period, _periodTrackDir)
+        {
+            rayLength = _rayLength;
+            rayInitialDistance = _rayInitialDistance;
+        }
+        public float rayInitialDistance;
+        public float rayLength;
+        public float raySeparation;
+        public CStateReflectedDirection SetRaySeparation(float s)
+        {
+            raySeparation = s;
+            return this;    
+        }
+
+
+        RaycastHit2D lastHit;
+        Vector2 lastMouseDir;
+        public override bool CanEnter()
+        {
+            Vector2 mouseDir = controller.GetInput().GetDirectionInput().normalized;
+            RaycastHit2D hit = Physics2D.Raycast(
+                (Vector2)controller.transform.position + mouseDir*rayInitialDistance,
+                mouseDir, rayLength
+            );
+
+            if(hit.collider&& !hit.collider.isTrigger)
+            {
+                Debug.Assert(hit.collider.gameObject != controller.gameObject);
+                lastMouseDir = -mouseDir;
+                lastHit = hit;
+                return true;
+            }
+
+            hit = Physics2D.Raycast(
+                (Vector2)controller.transform.position + mouseDir * rayInitialDistance + new Vector2(-mouseDir.y, mouseDir.x)*raySeparation,
+                mouseDir, rayLength
+            );
+
+            if (hit.collider && !hit.collider.isTrigger)
+            {
+                Debug.Assert(hit.collider.gameObject != controller.gameObject);
+                lastMouseDir = -mouseDir;
+                lastHit = hit;
+                return true;
+            }
+
+            hit = Physics2D.Raycast(
+                (Vector2)controller.transform.position + mouseDir * rayInitialDistance - new Vector2(-mouseDir.y, mouseDir.x) * raySeparation,
+                mouseDir, rayLength
+            );
+
+            if (hit.collider && !hit.collider.isTrigger)
+            {
+                Debug.Assert(hit.collider.gameObject != controller.gameObject);
+                lastMouseDir = -mouseDir;
+                lastHit = hit;
+                return true;
+            }
+
+            return false;
+        }
+        public override void OnAnimationBeggin(AnimatorStateInfo stateInfo)
+        {
+            Vector2 mouseDir = -lastHit.normal;//lastMouseDir - 2*Vector2.Dot(lastMouseDir, lastHit.normal) * lastHit.normal;
+            float minDir = minimalDirectionInput * controller.GetInput().minimalDirectionInputStrength;
+            changeRotation = mouseDir.sqrMagnitude > minDir * minDir;
+            if (changeRotation)
+            {
+                desiredRotation = Vector2.Angle(Vector2.up, mouseDir) * (mouseDir.x > 0 ? -1 : 1);
+                controller.GetInput().SetLastInput(mouseDir);
+            }
+        }
+    }*/
+
+
 
     /// detects if an colision is in front of the character
     public class CStateCollisionInFront : StateComponent

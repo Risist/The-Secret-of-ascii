@@ -27,7 +27,7 @@ public class DamageEventParticle : MonoBehaviour {
 	{
         float damage = character ? character.GetDamageAccumulator() : data.damage;
 
-		if ( damage < minimumDamage && emitCd.isReadyRestart() )
+		if ( damage < minimumDamage && emitCd.IsReadyRestart() )
 		{
 			int n = minParticles + (int)(-damage * damageScale);
 			particle.transform.position = transform.position;

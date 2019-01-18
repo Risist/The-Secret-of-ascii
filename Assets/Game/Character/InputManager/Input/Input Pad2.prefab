@@ -82,6 +82,7 @@ MonoBehaviour:
   - Fire1
   - Fire3
   - Movement
+  - Eviro
   xAxisCode: Horizontal
   yAxisCode: Vertical
   playerId: 2

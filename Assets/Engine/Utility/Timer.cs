@@ -4,6 +4,49 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+
+public class MinimalTimer
+{
+    public MinimalTimer()
+    {
+        actualTime = 0;
+    }
+
+    // actual time of timmer; when the timmer was last restarted
+    [System.NonSerialized]
+    public float actualTime = 0;
+
+    // resets actual time
+    public void Restart()
+    {
+        actualTime = Time.time;
+    }
+    public void Restart(float diff)
+    {
+        actualTime = Time.time + diff;
+    }
+    public float ElapsedTime()
+    {
+        return Time.time - actualTime;
+    }
+
+    // returns true if time elapsed from last reset is greather than passed argument (cd)
+    public bool IsReady(float cd)
+    {
+        return Time.time - actualTime >= cd;
+    }
+    // the same as above but automatically resets if timer was ready
+    public bool IsReadyRestart(float cd)
+    {
+        if (Time.time - actualTime >= cd)
+        {
+            Restart();
+            return true;
+        }
+        return false;
+    }
+}
+
 /*
  * usage:
  * create timmer, set up cd;
@@ -13,7 +56,7 @@ using UnityEngine;
  */
 
 [System.Serializable]
-public class Timer
+public class Timer : MinimalTimer
 {
 
     public Timer( float _cd)
@@ -25,49 +68,43 @@ public class Timer
     {
         actualTime = 0;
     }
-    // actual time of timmer; when the timmer was last restarted
-    [System.NonSerialized]
-    public float actualTime = 0;
     // how much time have to be elapsed from last reset to be ready
     public float cd = 1;
 
-    // resets actual time
-    public void restart()
-    {
-        actualTime = Time.time;
-    }
-    public void restart(float diff)
-    {
-        actualTime = Time.time + diff;
-    }
-    public void restartIncrease()
-    {
-
-    }
-
-    // returns true if time elapsed from last reset is greather than passed argument (cd)
-    public bool isReady( float cd)
-    {
-        return Time.time - actualTime >= cd;
-    }
     // returns true if time elapsed from last reset is greather than public member of this class (cd)
-    public bool isReady()
+    public bool IsReady()
     {
-        return isReady(cd);
+        return IsReady(cd);
+    }
+    new public bool IsReady(float cd)
+    {
+        return base.IsReady(cd);
     }
     // the same as above but automatically resets if timer was ready
-    public bool isReadyRestart(float cd)
+    public bool IsReadyRestart()
     {
-        if( Time.time - actualTime >= cd )
-        {
-            restart();
-            return true;
-        }
-        return false;
+        return IsReadyRestart(cd);
     }
-    // the same as above but automatically resets if timer was ready
-    public bool isReadyRestart()
+    new public bool IsReadyRestart(float cd)
     {
-        return isReadyRestart(cd);
+        return base.IsReadyRestart(cd);
+    }
+}
+
+[System.Serializable]
+public class MatureTimer : Timer
+{
+    public float matureCd = 0;
+
+    public MatureTimer(float readyCd = 1f, float matureCd = 0f)
+    {
+        actualTime = 0;
+        this.matureCd = matureCd;
+        cd = readyCd;
+    }
+
+    public bool IsMature()
+    {
+        return IsReady(matureCd);
     }
 }

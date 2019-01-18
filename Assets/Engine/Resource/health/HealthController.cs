@@ -40,36 +40,55 @@ public class HealthController : ResourceController
         if (actual > max)
             actual = max;
         else if (!IsAlive())
-            BroadcastMessage("OnDeath", new DamageData(regeneration, gameObject));
+            BroadcastMessage("OnDeath", new DamageData(transform.position, regeneration, gameObject));
     }
 
 	/// struct for broadcasting messages
 	public struct DamageData
     {
-        public DamageData(float _d, GameObject _o) { damage = _d; causer = _o; pain = _d; }
-        public DamageData(float _d, float _p = 0, GameObject _o = null) { damage = _d; causer = _o; pain = _p; }
+        public DamageData(Vector2 _position, float _d, GameObject _o)
+        {
+            damage = _d;
+            causer = _o;
+            pain = _d;
+            position = _position;
+        }
+        public DamageData(Vector2 _position, float _d, float _p = 0, GameObject _o = null)
+        {
+            damage = _d;
+            causer = _o;
+            pain = _p;
+            position = _position;
+        }
+
         public float damage;
-        public GameObject causer;
         public float pain;
+
+        public Vector2 position;
+
+        public GameObject causer;
     }
 
-    public void DealDamage(float damage, float pain, GameObject causer = null)
+    /*public void DealDamage(float damage, float pain, GameObject causer = null)
     {
-        var data = new DamageData(damage, pain, causer);
+        var data = new DamageData(Vector2.zero, damage, pain, causer);
+        DealDamage(data);
+    }
+    public void DealDamage(float damage, GameObject causer = null)
+    {
+        DealDamage(damage, damage, causer);
+    }*/
+    public void DealDamage(DamageData data)
+    {
+        actual = Mathf.Clamp(actual + data.damage, -max, max);
 
         if (IsAlive())
             BroadcastMessage("OnReceiveDamage", data);
         else
             BroadcastMessage("OnDeath", data);
-
-        actual = Mathf.Clamp(actual + data.damage, -max, max);
-    }
-    public void DealDamage(float damage, GameObject causer = null)
-    {
-        DealDamage(damage, damage, causer);
     }
 
-	public void OnReceiveDamage(DamageData data){}
+    public void OnReceiveDamage(DamageData data){}
 	public void OnDeath(DamageData data)
 	{
 		if(objectToRemove && removeAfterDeath)

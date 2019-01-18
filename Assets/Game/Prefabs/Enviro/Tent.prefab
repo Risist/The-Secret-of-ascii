@@ -4615,6 +4615,8 @@ GameObject:
   - component: {fileID: 61525482808490944}
   - component: {fileID: 114771488182347026}
   - component: {fileID: 114363258745797858}
+  - component: {fileID: 114797022759446482}
+  - component: {fileID: 114204226306635084}
   m_Layer: 0
   m_Name: Tent
   m_TagString: Untagged
@@ -6543,9 +6545,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1948644397842752}
-  m_LocalRotation: {x: -0, y: -0, z: 0.26587632, w: 0.9640072}
-  m_LocalPosition: {x: 107.83, y: -9.36, z: 10}
-  m_LocalScale: {x: 0.86250067, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.6263966, w: -0.7795046}
+  m_LocalPosition: {x: -7.790001, y: -3.5099993, z: -2.4959059}
+  m_LocalScale: {x: 0.8625009, y: 1, z: 1}
   m_Children:
   - {fileID: 4923397633042476}
   - {fileID: 4691771145550852}
@@ -6553,7 +6555,7 @@ Transform:
   - {fileID: 4077636479734936}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30.838001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -282.43}
 --- !u!4 &4379838886189654
 Transform:
   m_ObjectHideFlags: 1
@@ -9257,6 +9259,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.5, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &114204226306635084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1948644397842752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a3db3dbb54a78b4d9c63366c14b75e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceModificator: 1
+  transparencyLevel: 1
+  blocksVision: 1
+  memoriable: 0
+  fraction: {fileID: 0}
 --- !u!114 &114363258745797858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9292,6 +9310,17 @@ MonoBehaviour:
   regeneration: 0
   removeAfterDeath: 1
   objectToRemove: {fileID: 0}
+--- !u!114 &114797022759446482
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1948644397842752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c86459c0ccc776740bf0fdb0f6fb7cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212001504181016230
 SpriteRenderer:
   m_ObjectHideFlags: 1

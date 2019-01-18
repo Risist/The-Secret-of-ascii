@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -26,6 +27,39 @@ public class RandomChance
 
         float lastSum = 0;
         for (int i = 0; i < chances.Length; ++i)
+            if (randed > lastSum && randed < lastSum + chances[i])
+            {
+                return i;
+            }
+            else
+            {
+                lastSum += chances[i];
+            }
+
+        return -1;
+    }
+}
+
+[System.Serializable]
+public class RandomChanceList
+{
+    public RandomChanceList() { }
+    public RandomChanceList(List<float> _chances) { chances = _chances; }
+    public List<float> chances = null;
+
+    public int GetRandedId()
+    {
+        float sum = 0;
+        foreach (float it in chances)
+            sum += it;
+
+        if (sum == 0)
+            return -1;
+
+        float randed = Random.Range(0, sum);
+
+        float lastSum = 0;
+        for (int i = 0; i < chances.Count; ++i)
             if (randed > lastSum && randed < lastSum + chances[i])
             {
                 return i;

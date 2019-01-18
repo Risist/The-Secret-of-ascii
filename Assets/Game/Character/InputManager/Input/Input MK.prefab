@@ -59,6 +59,7 @@ MonoBehaviour:
   - Fire2
   - Fire3
   - Movement
+  - Eviro
   xAxisCode: Horizontal
   yAxisCode: Vertical
 --- !u!114 &114426530896520388

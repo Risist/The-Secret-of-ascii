@@ -9,9 +9,10 @@ using UnityEngine;
 public class AiPerceiveUnit : MonoBehaviour
 {
 	/// <summary>
-	/// modifies how far the agents will perceive the unit
+	/// modifies how far the agents will perceive this unit
 	/// </summary>
 	public float distanceModificator = 1.0f;
+    public float transparencyLevel = 1.0f;
 	public bool blocksVision = true;
     public bool memoriable = true;
 

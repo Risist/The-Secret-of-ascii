@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 61116709872133158}
   - component: {fileID: 114520369034676956}
   - component: {fileID: 114117518502500506}
+  - component: {fileID: 114417564097625380}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -364,6 +365,29 @@ MonoBehaviour:
   removeDelay: 1.5
   linearDamping: 0.975
   dmgDamping: 0.9
+--- !u!114 &114417564097625380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1249126083102856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2965c051517a1847ba25af7060e20d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadeTime: 4
+  memoryTime: 3
+  matureTime: 0.25
+  tInsert:
+    cd: 0.5
+  propagateChance: 0.15
+  pushRadiusRatio: 2.25
+  minimalPushSpeed: 6.75
+  pushPedictionScale: -0.25
+  damageRadiusRatio: 0.25
+  minimalDamage: -20
+  damageAccumulatorDecrease: 5
 --- !u!114 &114520369034676956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -376,7 +400,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceModificator: 1
-  blocksVision: 1
+  transparencyLevel: 0.075
+  blocksVision: 0
   memoriable: 0
   fraction: {fileID: 0}
 --- !u!212 &212148330316289624

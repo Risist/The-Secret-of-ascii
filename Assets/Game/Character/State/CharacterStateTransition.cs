@@ -9,11 +9,15 @@ namespace Character
     /// Allows to go into state if a given input is pressed
     public class CStateInput : StateComponent
     {
-        public CStateInput(int _inputId) { inputId = _inputId; }
+        public CStateInput(int _inputId, bool _negation = false) { inputId = _inputId; negation = _negation; }
         public int inputId;
+        public bool negation;
         public override bool CanEnter()
         {
-            return controller.GetInput().IsInputPressed(inputId);
+            if(negation)
+                return !controller.GetInput().IsInputPressed(inputId);
+            else
+                return controller.GetInput().IsInputPressed(inputId);
         }
     }
     /// allows to go into state if given cd is ready

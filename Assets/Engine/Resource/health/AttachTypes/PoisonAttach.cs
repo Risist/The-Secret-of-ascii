@@ -16,9 +16,15 @@ public class PoisonAttach : AttachBase
 
 	protected new void Update()
 	{
-		if(applyCd.isReadyRestart())
+		if(applyCd.IsReadyRestart())
 		{
-			parentHealth.DealDamage(damage, gameObject);
+            HealthController.DamageData damageData = new HealthController.DamageData();
+            damageData.causer = gameObject;
+            damageData.damage = damage;
+            damageData.pain = damage;
+            damageData.position = transform.position;
+
+            parentHealth.DealDamage(damageData);
 		}
 		base.Update();
 	}

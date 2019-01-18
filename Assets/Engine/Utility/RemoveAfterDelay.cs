@@ -8,13 +8,13 @@ public class RemoveAfterDelay : MonoBehaviour
 
 	private void Start()
 	{
-		timer.restart();
+		timer.Restart();
 		//timeLeft = timer.cd;
 	}
 
 	void Update()
     {
-        if (timer.isReady())
+        if (timer.IsReady())
             Destroy(gameObject);
     }
 

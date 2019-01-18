@@ -28,7 +28,12 @@ public class GameManager : MonoBehaviour {
         foreach (var it in healthStateDisplayer)
             it.color = teams[teamId].color;
 
-        var dirInput = p.GetComponentInChildren<DirectionIndicator>();
+        var indicators = p.GetComponentInChildren<CharacterUiIndicator>();
+        Debug.Assert(indicators);
+        indicators.InitIndicators(indicators.animationIndicators, teams[teamId].color);
+        indicators.InitIndicators(indicators.environmentIndicators, teams[teamId].color);
+
+        /*var dirInput = p.GetComponentInChildren<CharacterUiIndicator>();
         dirInput.alpha = teams[teamId].color.a;
         var directionIndicatorRenderers = dirInput.GetComponentsInChildren<SpriteRenderer>();
         foreach (var it in directionIndicatorRenderers)
@@ -37,6 +42,18 @@ public class GameManager : MonoBehaviour {
                 teams[teamId].color.g,
                 teams[teamId].color.b,
                 teams[teamId].color.a);
+        if (dirInput.viewfinder)
+        {
+            directionIndicatorRenderers = dirInput.viewfinder.GetComponentsInChildren<SpriteRenderer>();
+            foreach (var it in directionIndicatorRenderers)
+                it.color = new Color(
+                    teams[teamId].color.r,
+                    teams[teamId].color.g,
+                    teams[teamId].color.b,
+                    teams[teamId].color.a);
+        }*/
+
+
         var fraction = p.GetComponent<AiFraction>();
         fraction.fractionName = teams[teamId].fractionCode;
 
