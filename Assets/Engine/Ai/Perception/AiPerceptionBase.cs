@@ -14,6 +14,8 @@ public abstract class AiPerceptionBase : MonoBehaviour
     public float shadeTime = 5f;
     public float memoryTime = 5f;
     public float matureTime = 0f;
+    [Space]
+    public float priority = 1.0f;
 
     private void Start()
     {

@@ -12,6 +12,8 @@ class AiNoiseSource : MonoBehaviour
     public float memoryTime = 5f;
     public float matureTime = 0f;
     [Space]
+    public float priority;
+    [Space]
 
     /// how often callback can be cend out
     public Timer tInsert;
@@ -76,7 +78,7 @@ class AiNoiseSource : MonoBehaviour
             var holder = colliders[i].GetComponentInChildren<AiPerceptionHolder>();
             if(holder && Random.value <= propagateChance)
                 holder.InsertToMemory(EMemoryEvent.ENoise, position, direction,
-                    memoryTime, matureTime, shadeTime
+                    memoryTime, matureTime, shadeTime, priority
                 );
         }
     }

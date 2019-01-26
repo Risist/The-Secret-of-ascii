@@ -631,7 +631,6 @@ GameObject:
   - component: {fileID: 114182489517784284}
   - component: {fileID: 114457612245566400}
   - component: {fileID: 114374081637060308}
-  - component: {fileID: 114605756320825934}
   m_Layer: 0
   m_Name: Player bow
   m_TagString: Untagged
@@ -6698,8 +6697,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 18
+  m_Mass: 1.25
+  m_LinearDrag: 16
   m_AngularDrag: 50
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -6826,7 +6825,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actual: 40
   max: 40
-  regeneration: 0
+  regeneration: 0.25
   removeAfterDeath: 1
   objectToRemove: {fileID: 0}
 --- !u!114 &114085140578072726
@@ -7007,7 +7006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea45d487bf4434044a374f554f0bc226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 130
+  movementSpeed: 120
   rotationSpeed: 0.1
   moveToDirection: 1
   rotateToDirection: 1
@@ -7024,17 +7023,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 50916196319068946}
   movementSpeed: -425
---- !u!114 &114605756320825934
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1156181964133878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a31072870cfb7444fa05508f9ad0b50d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114672864223468744
 MonoBehaviour:
   m_ObjectHideFlags: 1

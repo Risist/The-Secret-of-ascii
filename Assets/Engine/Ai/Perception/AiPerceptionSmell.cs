@@ -35,7 +35,7 @@ public class AiPerceptionSmell : AiPerceptionBase
             if (unit && unit != myUnit)
             {
                 holder.InsertToMemory(unit, EMemoryEvent.ENoise, unit.transform.position, 1f,
-                    memoryTime, matureTime, shadeTime);
+                    memoryTime, matureTime, shadeTime, priority);
             }
         }
     }

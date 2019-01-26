@@ -99,6 +99,17 @@ public class CharacterStateController : MonoBehaviour
     }
     public State GetCurrentState() { return currentState; }
     public State GetPreviousState() { return previousState; }
+
+    public void ClearStates()
+    {
+        currentState.FinishPlayback();
+        previousState = null;
+        currentState = null;
+
+        states.Clear();
+        commonInts.Clear();
+        cds.Clear();
+    }
     #endregion Init Functions;
 
     #region Utility Functions

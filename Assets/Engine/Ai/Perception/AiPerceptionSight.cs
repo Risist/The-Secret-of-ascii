@@ -51,6 +51,7 @@ public class AiPerceptionSight : AiPerceptionBase
 
 
         foreach (var it in rayList)
+            if(it.collider)
         {
             var unit = it.collider.GetComponent<AiPerceiveUnit>();
             if (unit && unit != myUnit)
@@ -90,7 +91,7 @@ public class AiPerceptionSight : AiPerceptionBase
                 }
 
                 holder.InsertToMemory(unit, eventType, 
-                    unit.transform.position, predictionScale, memoryTime, matureTime, shadeTime);
+                    unit.transform.position, predictionScale, memoryTime, matureTime, shadeTime, priority);
 
                 if (unit.blocksVision)
                     return;

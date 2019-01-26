@@ -2916,8 +2916,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 18
+  m_Mass: 1.25
+  m_LinearDrag: 16
   m_AngularDrag: 50
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -3184,9 +3184,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0aa6eb71009e41818fffc6d4f46ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actual: 60
+  actual: 40
   max: 40
-  regeneration: 0
+  regeneration: 0.25
   removeAfterDeath: 1
   objectToRemove: {fileID: 0}
 --- !u!114 &114123544441494840
@@ -3473,7 +3473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea45d487bf4434044a374f554f0bc226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 130
+  movementSpeed: 120
   rotationSpeed: 0.1
   moveToDirection: 1
   rotateToDirection: 1

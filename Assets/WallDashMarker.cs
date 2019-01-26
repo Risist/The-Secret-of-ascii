@@ -100,7 +100,7 @@ namespace Character
 
 
             Vector2 toFinal = -(initPosition - finalPosition).normalized;
-            controller.GetMovement().ApplyExternalRotation(toFinal);
+            controller.GetMovement().ApplyExternalRotationI(toFinal);
             final = false;
         }
         public override void OnAnimationUpdate(AnimatorStateInfo stateInfo)
@@ -124,7 +124,7 @@ namespace Character
                 else
                 {
                     Vector2 toFinal = -(initPosition - finalPosition).normalized;
-                    controller.GetMovement().ApplyExternalRotation(toFinal);
+                    controller.GetMovement().ApplyExternalRotationI(toFinal);
                     lastMarker.UpdateJump(controller.transform, initPosition, finalPosition, period);
                 }
             }

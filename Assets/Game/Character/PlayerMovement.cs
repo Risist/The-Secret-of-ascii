@@ -33,9 +33,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     bool externalRotationApplied = false;
-    public void ApplyExternalRotation(Vector2 direction)
+    public void ApplyExternalRotationI(Vector2 direction)
     {
         input.SetLastInput(direction);
+        body.rotation = Vector2.SignedAngle(Vector2.up, direction);
+        externalRotationApplied = true;
+    }
+    public void ApplyExternalRotation(Vector2 direction)
+    {
         body.rotation = Vector2.SignedAngle(Vector2.up, direction);
         externalRotationApplied = true;
     }
@@ -65,19 +70,25 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        //animator.SetBool(atMoveTrigger, false);
         if (!enabled || !controller.GetInput())
             return;
         if (!moveToDirection)
             return;
 
-        float velocitySq = body.velocity.sqrMagnitude;
+        //float velocitySq = body.velocity.sqrMagnitude;
 
         if (!externalRotationApplied && rotateToDirection)
         {
-            Vector2 rotationInput = input.GetLastPositionInput();
-            body.rotation = Mathf.LerpAngle(body.rotation, Vector2.SignedAngle(Vector2.up, rotationInput), rotationSpeed);
+            if (input.GetRotationInput().sqrMagnitude > input.minimalRotationInputStrength * input.minimalRotationInputStrength)
+            {
+                Vector2 rotationInput = input.GetRotationInput();
+                body.rotation = Mathf.LerpAngle(body.rotation, Vector2.SignedAngle(Vector2.up, rotationInput), rotationSpeed);
+            }
+            else
+            {
+                Vector2 rotationInput = input.GetLastPositionInput();
+                body.rotation = Mathf.LerpAngle(body.rotation, Vector2.SignedAngle(Vector2.up, rotationInput), rotationSpeed);
+            }
         }
 
         if (input.IsAtMove())

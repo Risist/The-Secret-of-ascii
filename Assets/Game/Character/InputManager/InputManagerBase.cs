@@ -6,9 +6,9 @@ public abstract class InputManagerBase : MonoBehaviour {
 
     public float minimalPositionInputStrength = 0.1f;
     public float minimalDirectionInputStrength = 0.1f;
+    public float minimalRotationInputStrength = 0.1f;
 
     protected Vector2 lastPositionInput;
-    protected Vector2 lastDirectionInput;
     protected bool atMove;
 
     public bool IsAtMove() { return atMove; }
@@ -36,6 +36,8 @@ public abstract class InputManagerBase : MonoBehaviour {
 
     /// returns mouse position input (e.g. the direction character is targeting to, the direction character will shoot or strike)
     public abstract Vector2 GetDirectionInput();
+    
+    public virtual Vector2 GetRotationInput() { return Vector2.zero; }
 
     public bool isDirectionInputApplied()
     {

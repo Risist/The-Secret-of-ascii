@@ -43,7 +43,7 @@ public class AiPerceptionTouchReal : AiPerceptionBase
 
         if (collision.relativeVelocity.sqrMagnitude >= minimalSpeed * minimalSpeed)
         {
-            holder.InsertToMemory(EMemoryEvent.ENoise, collision.rigidbody.position, -collision.relativeVelocity, memoryTime, matureTime, shadeTime);
+            holder.InsertToMemory(EMemoryEvent.ENoise, collision.rigidbody.position, -collision.relativeVelocity, memoryTime, matureTime, shadeTime, priority);
             tInsert.Restart();
         }
     }

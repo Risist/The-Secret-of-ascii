@@ -3,6 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+/*
+ * Categories of memory events:
+ * 
+ * - enemy
+ * see enemy
+ * 
+ * - ally
+ * see ally
+ * 
+ * - noise
+ * loud far
+ * touch
+ * ally scream
+ * 
+ */
+
 /// types of memory events
 public enum EMemoryEvent
 {
@@ -16,6 +32,7 @@ public enum EMemoryEvent
     /// works only when not on combat
     ENoise, 
     /// Todo other types
+    /// 
     ECount
 }
 /// An structure to hold data about event that happened nearby
@@ -229,10 +246,10 @@ public class AiPerceptionHolder : MonoBehaviour
     {
         return eventMemory[(int)eventType];
     }
-    public MemoryEvent SearchInMemory(EMemoryEvent eventType)
+    public MemoryEvent SearchInMemory(EMemoryEvent eventType, int objectId = 0)
     {
         int id = (int)eventType;
-        if (eventMemory[id].Count == 0)
+        if (eventMemory[id].Count < objectId+1)
             return null;
 
         if (anyEventAdded[id])
@@ -241,9 +258,9 @@ public class AiPerceptionHolder : MonoBehaviour
             anyEventAdded[id] = false;
         }
 
-        var e = eventMemory[id][0];
+        var e = eventMemory[id][objectId];
         if(e.remainedTime.IsReady(e.matureTime))
-            return eventMemory[id][0];
+            return eventMemory[id][objectId];
 
         return null;
     }
@@ -278,8 +295,12 @@ public class AiPerceptionHolder : MonoBehaviour
                 else if (item2.remainedTime.IsReady(item2.matureTime))
                     return -1;
 
-                float item1Distance = ((Vector2)transform.position - item1.exactPosition).sqrMagnitude * item1.importance;
-                float item2Distance = ((Vector2)transform.position - item2.exactPosition).sqrMagnitude * item2.importance;
+                var diff = item1.importance.CompareTo(item2.importance);
+                if (diff != 0)
+                    return diff;
+
+                float item1Distance = ((Vector2)transform.position - item1.exactPosition).sqrMagnitude;
+                float item2Distance = ((Vector2)transform.position - item2.exactPosition).sqrMagnitude;
                 return item1Distance.CompareTo(item2Distance);
             });
     }

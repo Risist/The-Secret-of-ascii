@@ -379,6 +379,7 @@ MonoBehaviour:
   shadeTime: 4
   memoryTime: 3
   matureTime: 0.25
+  priority: 0
   tInsert:
     cd: 0.5
   propagateChance: 0.15
@@ -400,7 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceModificator: 1
-  transparencyLevel: 0.075
+  transparencyLevel: 0.04
   blocksVision: 0
   memoriable: 0
   fraction: {fileID: 0}

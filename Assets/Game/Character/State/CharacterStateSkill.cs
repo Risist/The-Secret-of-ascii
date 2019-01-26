@@ -106,7 +106,7 @@ namespace Character
             if (changeRotation)
             {
                 float desiredRotation = Vector2.Angle(Vector2.up, _mouseDir) * (_mouseDir.x > 0 ? -1 : 1);
-                _mouseDir = mouseDir;
+                mouseDir = _mouseDir;
 
                 if(period.IsIn(stateInfo.normalizedTime))
                 {
@@ -123,7 +123,8 @@ namespace Character
 
         public override void OnAnimationEnd(AnimatorStateInfo stateInfo)
         {
-            controller.GetInput().SetLastInput(mouseDir);
+            //if(mouseDir.sqrMagnitude > minimalDirectionInput*minimalDirectionInput)
+                controller.GetInput().SetLastInput(mouseDir);
         }
     }
     public class CStateReflectedDirection : CStateInitDirectionSmooth
@@ -168,7 +169,7 @@ namespace Character
 
         public override bool CanEnter()
         {
-            return indicator.environmentIndicators[0].use;
+            return indicator.environmentIndicators[0].use && indicator.environmentIndicators[0].rayDistance < rayLength;
         }
         public override void OnAnimationBeggin(AnimatorStateInfo stateInfo)
         {

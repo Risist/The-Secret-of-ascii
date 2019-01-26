@@ -88,10 +88,10 @@ class AiNavmesh : MonoBehaviour
     /// Wip
     public Vector2Int GetClosestNode(Vector2 v)
     {
-        Vector2 middle = (Vector2)transform.position- new Vector2(cellRadius*0.25f, -cellRadius * 0.25f);
+        Vector2 middle = (Vector2)transform.position;
         return new Vector2Int(
-            (int)( (v.x - middle.x)/cellRadius) + (cellCount.x ) / 2,
-            (int)( (v.y - middle.y) /cellRadius) + (cellCount.y)/2
+            (int)( (v.x - middle.x) / cellRadius) + (cellCount.x) / 2,
+            (int)( (v.y - middle.y) / cellRadius) + (cellCount.y) / 2
             )
             ;
     }
