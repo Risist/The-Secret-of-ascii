@@ -56,9 +56,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e31d983963dd0945b6be9e6284a21ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadeTime: 1
-  memoryTime: 0.4
-  matureTime: 0.15
+  shadeTime: 4
+  memoryTime: 0.5
+  matureTime: 0.1
   priority: 0.5
   propagateMode: 2
   propagateRadius: 15
@@ -76,9 +76,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1466dae50f531d479a661890fe8a8ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadeTime: 3
-  memoryTime: 1
-  matureTime: 0.25
+  shadeTime: 20
+  memoryTime: 1.5
+  matureTime: 0.5
   priority: 1
   predictionScale: 1.5
   nSearch: 4
@@ -131,9 +131,6 @@ MonoBehaviour:
   minimalPositionInputStrength: 0.1
   minimalDirectionInputStrength: 0.5
   minimalRotationInputStrength: 0.1
-  positionInputChange: 0.15
-  directionInputChange: 0.15
-  rotationInputChange: 0.1
 --- !u!114 &114768160107729724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -145,9 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f8c7f44066d8046b760ae9ee8ce969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadeTime: 1.5
-  memoryTime: 0.75
-  matureTime: 0.15
+  shadeTime: 0.5
+  memoryTime: 0.5
+  matureTime: 0.1
   priority: 0.5
   tInsert:
     cd: 0.25

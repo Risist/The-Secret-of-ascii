@@ -30,11 +30,24 @@ public enum EMemoryEvent
     /// ai should not take immediatelly actions
     /// instead just walk towards the source of attraction and check what is going on
     /// works only when not on combat
-    ENoise, 
+    ENoise,
     /// Todo other types
     /// 
+    
+    /// lower priority noise detection for touch
+    ENoise_Touch,
+    /// lower priority enemy detection fot pain events
+    EEnemy_Pain,
     ECount
 }
+public enum EMemoryState
+{
+    EImmature,
+    EKnowledge,
+    EShade,
+    EToRemove
+}
+
 /// An structure to hold data about event that happened nearby
 public class MemoryEvent
 {
@@ -79,6 +92,18 @@ public class MemoryEvent
         {
             return exactPosition + direction * remainedTime.ElapsedTime();
         }
+    }
+
+    public EMemoryState GetState()
+    {
+        if (remainedTime.IsReady(shadeTime))
+            return EMemoryState.EToRemove;
+        else if (remainedTime.IsReady(knowledgeTime))
+            return EMemoryState.EShade;
+        else if (remainedTime.IsReady(matureTime))
+            return EMemoryState.EKnowledge;
+
+        return EMemoryState.EImmature;
     }
 }
 
@@ -270,6 +295,12 @@ public class AiPerceptionHolder : MonoBehaviour
         eventMemory[(int)eventType].Sort(
             delegate (MemoryEvent item1, MemoryEvent item2) 
             {
+                
+
+                /*var diff = item2.importance.CompareTo(item1.importance);
+                if (diff != 0)
+                    return diff;*/
+
                 if (item1.remainedTime.IsReady(item1.knowledgeTime))
                 {
                     if (!item2.remainedTime.IsReady(item2.knowledgeTime))
@@ -286,7 +317,7 @@ public class AiPerceptionHolder : MonoBehaviour
                 }
                 else if (item2.unit != null)
                     return -1;
-                
+
                 if (item1.remainedTime.IsReady(item1.matureTime))
                 {
                     if (!item2.remainedTime.IsReady(item2.matureTime))
@@ -295,9 +326,6 @@ public class AiPerceptionHolder : MonoBehaviour
                 else if (item2.remainedTime.IsReady(item2.matureTime))
                     return -1;
 
-                var diff = item1.importance.CompareTo(item2.importance);
-                if (diff != 0)
-                    return diff;
 
                 float item1Distance = ((Vector2)transform.position - item1.exactPosition).sqrMagnitude;
                 float item2Distance = ((Vector2)transform.position - item2.exactPosition).sqrMagnitude;

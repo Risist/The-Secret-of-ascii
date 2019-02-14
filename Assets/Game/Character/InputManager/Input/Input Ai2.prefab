@@ -19,8 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4822473705391508}
-  - component: {fileID: 114682186563545494}
-  - component: {fileID: 114927463196279932}
+  - component: {fileID: 114473451377631820}
   m_Layer: 0
   m_Name: Input Ai2
   m_TagString: Untagged
@@ -41,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114682186563545494
+--- !u!114 &114473451377631820
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,27 +48,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 1335421002140626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00dd0193dd2cc04db22afe00b9836f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 1710658f260e4b149a794f00b025bca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minimalPositionInputStrength: 0.1
   minimalDirectionInputStrength: 0.1
-  input: 00000000
-  positionInput: {x: 0, y: 0}
-  directionInput: {x: 0, y: 0}
---- !u!114 &114927463196279932
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1335421002140626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9cddd715e3a4df44a20ee38dcec86ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  memoryTime: 4
-  timerPerformSearch:
-    cd: 0.1
-  radius: 9
-  chance: 0.15
+  minimalRotationInputStrength: 0.1
+  goalField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.033333335
+      outSlope: -0.033333335
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 15
+      value: 0.5
+      inSlope: -0.026666667
+      outSlope: -0.026666667
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 40
+      value: 0
+      inSlope: -0.033333324
+      outSlope: -0.033333324
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

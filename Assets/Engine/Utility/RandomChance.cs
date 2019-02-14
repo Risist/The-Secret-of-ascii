@@ -27,7 +27,7 @@ public class RandomChance
 
         float lastSum = 0;
         for (int i = 0; i < chances.Length; ++i)
-            if (randed > lastSum && randed < lastSum + chances[i])
+            if (randed >= lastSum && randed <= lastSum + chances[i])
             {
                 return i;
             }
@@ -50,8 +50,8 @@ public class RandomChanceList
     public int GetRandedId()
     {
         float sum = 0;
-        foreach (float it in chances)
-            sum += it;
+        for(int i = 0; i < chances.Count; ++i)
+            sum += chances[i];
 
         if (sum == 0)
             return -1;
@@ -60,7 +60,7 @@ public class RandomChanceList
 
         float lastSum = 0;
         for (int i = 0; i < chances.Count; ++i)
-            if (randed > lastSum && randed < lastSum + chances[i])
+            if (randed >= lastSum && randed <= lastSum + chances[i])
             {
                 return i;
             }

@@ -1036,17 +1036,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2965c051517a1847ba25af7060e20d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadeTime: 4
-  memoryTime: 3
+  shadeTime: 20
+  memoryTime: 2.5
   matureTime: 0.25
+  priority: 1
   tInsert:
     cd: 0.5
   propagateChance: 0.15
   pushRadiusRatio: 2.25
-  minimalPushSpeed: 7
+  minimalPushSpeed: 6.75
   pushPedictionScale: -0.25
   damageRadiusRatio: 0.25
-  minimalDamage: -20
+  minimalDamage: -19
   damageAccumulatorDecrease: 5
 --- !u!114 &114422523092643994
 MonoBehaviour:

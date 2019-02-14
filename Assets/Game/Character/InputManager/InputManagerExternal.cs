@@ -13,42 +13,34 @@ public class InputManagerExternal : InputManagerBase
     */
     public class InputData
     {
-        public bool[] input = new bool[5] { false, false, false, false, false };
+        public bool[] keys = new bool[5] { false, false, false, false, false };
         public Vector2 positionInput;
         public Vector2 directionInput;
         public Vector2 rotationInput;
     }
-    [System.NonSerialized]
-    public bool[] input = new bool[5] { false, false, false, false, false };
-    [System.NonSerialized]
-    public Vector2 positionInput;
-    [System.NonSerialized]
-    public Vector2 directionInput;
-    [System.NonSerialized]
-    public Vector2 rotationInput;
+    protected InputData inputData = new InputData();
 
-    public override Vector2 GetPositionInput() { return positionInput; }
+    public override Vector2 GetPositionInput() { return inputData.positionInput; }
 
     public override Vector2 GetDirectionInput()
     {
-        return directionInput;
+        return inputData.directionInput;
     }
     public override Vector2 GetRotationInput()
     {
-        return rotationInput;
+        return inputData.rotationInput;
     }
 
     public override bool IsInputPressed(int id)
     {
-        return input[id];
+        return inputData.keys[id];
     }
     public override bool IsInputDown(int id)
     {
-        return input[id];
+        return inputData.keys[id];
     }
     public override bool IsInputUp(int id)
     {
-        return input[id];
+        return inputData.keys[id];
     }
-
 }

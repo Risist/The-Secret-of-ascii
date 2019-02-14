@@ -11,11 +11,11 @@ class AiNavmesh : MonoBehaviour
 
     /// ractangular table of vaues indicating whether or not given area is blocked
     [System.NonSerialized]
-    public int[,] occuped;
+    public float[,] occupied;
 
     private void OnValidate()
     {
-        occuped = new int[cellCount.x, cellCount.y];
+        occupied = new float[cellCount.x, cellCount.y];
         instance = this;
 
         
@@ -24,32 +24,54 @@ class AiNavmesh : MonoBehaviour
     {
         instance = this;
         OnValidate();
+        UpdateNavmesh();
     }
 
     [ContextMenu("UpdateNavmesh")]
     void UpdateNavmesh()
     {
-        occuped = new int[cellCount.x, cellCount.y];
+        occupied = new float[cellCount.x, cellCount.y];
         var objs = FindObjectsOfType(typeof(AiNavigationObject));
         foreach (var it in objs)
         {
-            ((AiNavigationObject)it).ToggleNavmesh(1);
+            for (int i = 0; i < cellCount.x; ++i) {
+                for (int j = 0; j < cellCount.y; ++j)
+                {
+                    occupied[i, j] += 
+                        ((AiNavigationObject)it).eval(GetCellPosition(i,j))
+                        + Random.value * 0.025f;
+                }
+            }
         }
     }
+    float EvaluateAllAt(Vector2 pos,Vector2 goal, AnimationCurve goalField) {
+        Vector2Int cell= GetCellAt(pos);
+        float valueFromMap = -occupied[cell.x, cell.y];
+        float valueFromGoal = goalField.Evaluate((goal - pos).magnitude);
+        return valueFromGoal + valueFromMap ;
+    }
+    public Vector2 EvaluateAttractionDir(Vector2 pos,Vector2 goal, AnimationCurve goalField) {
+        Vector2 ret = Vector2.zero;
+        float potential = Mathf.NegativeInfinity;
+        for (int i = 0; i < 32; ++i) {
+            Vector2 samplePoint = pos +(Vector2)( Quaternion.Euler(0, 0, i * 360 / 32)*Vector2.up);
+            var q = EvaluateAllAt(samplePoint, goal, goalField);
+            if (q> potential) {
+                potential = q;
+                ret = samplePoint;
+            }
+        }
+        return ret - pos;
 
-
+    }
     private void OnDrawGizmosSelected()
     {
-        var node = GetClosestNode( Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        //Debug.Log("id = " + node);
-
+       
         for (int x = 0; x < cellCount.x; ++x)
             for(int y = 0; y < cellCount.y; ++y)
             {
-                Gizmos.color = occuped[x, y]  != 0 ? Color.red : Color.green;
-
-                if (node.x == x && node.y == y)
-                    Gizmos.color = Color.blue;
+                Gizmos.color = Color.HSVToRGB(0.5f, 1, occupied[x, y]);
+                
                 Gizmos.DrawSphere(GetCellPosition(x,y), (cellRadius + cellRadius) * 0.1f);
             }
     }
@@ -63,47 +85,14 @@ class AiNavmesh : MonoBehaviour
     {
         Vector2 position = transform.position;
         position += new Vector2( 
-            (x - cellCount.x * 0.5f) * cellRadius,
-            (y - cellCount.y * 0.5f) * cellRadius
+            x * cellRadius,
+            y * cellRadius
         );
         return position;
     }
-
-
-    public List<Vector2> FindPath(Vector2 from, Vector2 to)
+    public Vector2Int GetCellAt(Vector2 position)
     {
-        List<Vector2> path = new List<Vector2>();
-
-        /// find closest node related to given vector
-
-
-        return path;
-    }
-
-
-    public Vector2Int GetMiddleNode()
-    {
-        return new Vector2Int(cellCount.x / 2, cellCount.y / 2);
-    }
-    /// Wip
-    public Vector2Int GetClosestNode(Vector2 v)
-    {
-        Vector2 middle = (Vector2)transform.position;
-        return new Vector2Int(
-            (int)( (v.x - middle.x) / cellRadius) + (cellCount.x) / 2,
-            (int)( (v.y - middle.y) / cellRadius) + (cellCount.y) / 2
-            )
-            ;
-    }
-
-    public void GetPath(ref List<Vector2> path, Vector2 from, Vector2 to)
-    {
-        /// TODO
-        path.Add(to);
-    }
-    public void GetPath(ref Vector2[] path, Vector2 from, Vector2 to)
-    {
-        /// TODO
-        path[0] = to;
+        position -= (Vector2)transform.position;  
+        return new Vector2Int(Mathf.FloorToInt(position.x/cellRadius), Mathf.FloorToInt(position.y/cellRadius));
     }
 }

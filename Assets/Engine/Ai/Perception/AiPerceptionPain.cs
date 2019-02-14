@@ -35,7 +35,7 @@ public class AiPerceptionPain : AiPerceptionBase
         }
         else*/
         {   
-            holder.InsertToMemory(EMemoryEvent.EEnemy, data.position, Vector2.zero, memoryTime, matureTime, shadeTime);
+            holder.InsertToMemory(EMemoryEvent.EEnemy_Pain, data.position, Vector2.zero, memoryTime, matureTime, shadeTime);
             if (propagateMode != EPropagateMode.ENone)
                 Propagate(data);
         }

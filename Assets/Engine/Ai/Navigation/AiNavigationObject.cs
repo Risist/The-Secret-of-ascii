@@ -4,38 +4,14 @@ using UnityEngine;
 
 class AiNavigationObject : MonoBehaviour    
 {
-    private void Start()
-    {
-        Debug.Assert(AiNavmesh.instance, "No AiNavmesh on scene");
-        ToggleNavmesh(1);
-    }
-    private void OnEnable()
-    {
-        ToggleNavmesh(1);
-    }
-    private void OnDisable()
-    {
-        ToggleNavmesh(-1);
-    }
-    private void OnDestroy()
-    {
-        ToggleNavmesh(-1);
-    }
+    [SerializeField]
+    AnimationCurve potentialField=AnimationCurve.Linear(0,1.0f,1.0f,0.0f);
 
-    public void ToggleNavmesh(int value)
-    {
-        if (!AiNavmesh.instance)
-            return;
-
-        var colliders = GetComponentsInChildren<Collider2D>();
-        foreach (var it in colliders)
-        {
-            for (int x = 0; x < AiNavmesh.instance.cellCount.x; ++x)
-                for (int y = 0; y < AiNavmesh.instance.cellCount.y; ++y)
-                {
-                    if (it.OverlapPoint(AiNavmesh.instance.GetCellPosition(x, y)))
-                        AiNavmesh.instance.occuped[x, y] += value;
-                }
-        }
+    public float eval(Vector2 at) {
+        Vector2 test = at - (Vector2)transform.position;
+        float value = potentialField.Evaluate(test.magnitude);
+        if (value > 1) return Mathf.Infinity;
+        else if (value < -1) return Mathf.NegativeInfinity;
+        return value;
     }
 }

@@ -250,7 +250,7 @@ public class PlayerSpawner : MonoBehaviour {
 
             .AddTransition(state_bowHit, new Period(0.5f))
             .AddTransition(state_dash, new Period(0.5f))
-            .AddTransition(state_releaseArrow_fake, new Period(0.35f))
+            .AddTransition(state_releaseArrow_fake, new Period(0.35f, 0.75f))
         ;
         state_holdArrow
             .AddComponent(new CStateMaxStateInstances())
@@ -258,8 +258,8 @@ public class PlayerSpawner : MonoBehaviour {
 
             .AddTransition(state_bowHit)
             .AddTransition(state_dash)
-            .AddTransition(state_releaseArrow)
             .AddTransition(state_shootArrow)
+            
         ;
         state_releaseArrow
              .AddComponent(new CStateInput(2))
@@ -303,6 +303,8 @@ public class PlayerSpawner : MonoBehaviour {
 
             .AddComponent(new CStateAutoTransition(state_idle))
             .AddTransition(state_dash, new Period(0.3f))
+            .AddTransition(state_drawArrow, new Period(0.65f))
+            ;
 
         ;
 

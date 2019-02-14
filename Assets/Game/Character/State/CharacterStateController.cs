@@ -148,6 +148,7 @@ public class CharacterStateController : MonoBehaviour
     protected PlayerMovement movement;
     protected Rigidbody2D body;
     protected Animator animator;
+    protected CharacterUiIndicator indicators;
 
     #region Events
     protected void Start()
@@ -157,6 +158,7 @@ public class CharacterStateController : MonoBehaviour
         animator = GetComponent<Animator>();
         movement = GetComponent<PlayerMovement>();
         body = GetComponent<Rigidbody2D>();
+        indicators = GetComponentInChildren<CharacterUiIndicator>();
 
         //InitDagger();
 
@@ -187,6 +189,7 @@ public class CharacterStateController : MonoBehaviour
     public PlayerMovement GetMovement() { return movement; }
     public Rigidbody2D GetBody() { return body; }
     public Animator GetAnimator() { return animator; }
+    public CharacterUiIndicator GetIndicators() { return indicators; }
     /// energy - TODO, probably same as animator
     #endregion Getters
 

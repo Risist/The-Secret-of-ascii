@@ -83,6 +83,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 Vector2 rotationInput = input.GetRotationInput();
                 body.rotation = Mathf.LerpAngle(body.rotation, Vector2.SignedAngle(Vector2.up, rotationInput), rotationSpeed);
+                if(!input.IsAtMove())
+                {
+                    input.SetLastInput(rotationInput);
+                }
             }
             else
             {

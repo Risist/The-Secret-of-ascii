@@ -116,7 +116,6 @@ namespace Character
                 {
                     final = true;
                     lastMarker.OutJump(controller.GetBody());
-                    Debug.Log(stateInfo.normalizedTime);
                     controller.GetMovement().StopCurrentMovement();
 
                     return;
