@@ -21,6 +21,7 @@ namespace ReAi
         public AiPerceptionHolder memory { get { return behaviour.memory; } }
         public Transform transform { get { return character.transform; } }
         public CharacterStateController character{ get { return machine.character; } }
+        public Blackboard blackboard { get { return machine.blackboard; } }
         #endregion Data
 
         public virtual void Init() { }
@@ -167,6 +168,7 @@ namespace ReAi
         public InputManagerExternal.InputData data;
         public CharacterStateController character;
         public AiPerceptionHolder memory;
+        public Blackboard blackboard = new Blackboard();
 
         BehaviourHolder current;
         public MemoryEvent target;

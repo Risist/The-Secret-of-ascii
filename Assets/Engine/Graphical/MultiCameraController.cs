@@ -80,14 +80,14 @@ public class MultiCameraController : MonoBehaviour
             }
 
 
-        directionInput.y /= Camera.main.aspect;
-        float vLength = directionInput.magnitude;
-        directionInput /= vLength;
-        vLength = Mathf.Clamp(vLength, 0.0f, maxMouseOffset);
-        //lastMousePosition = player.position + v;
-        directionInput.y *= Camera.main.aspect;
+        /* directionInput.y /= Camera.main.aspect;
+         float vLength = directionInput.magnitude;
+         directionInput /= vLength;
+         vLength = Mathf.Clamp(vLength, 0.0f, maxMouseOffset);
+         //lastMousePosition = player.position + v;
+         directionInput.y *= Camera.main.aspect;*/
 
-        return directionInput * vLength;
+        return directionInput;// * vLength;
     }
 
     // Use this for initialization
