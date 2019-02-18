@@ -30,6 +30,7 @@ public class CharacterUiIndicator : MonoBehaviour {
         public GameObject obj;
 
         public bool use;
+        public bool nonDependedOnInput;
     }
     public Indicator[] animationIndicators;
     
@@ -40,7 +41,7 @@ public class CharacterUiIndicator : MonoBehaviour {
         {
             foreach (var r in ind.renderers)
             {
-                r.color = new Color(r.color.r, r.color.g, r.color.b, Mathf.Lerp(r.color.a, ind.use && rev ? ind.alpha : 0f, fadeRatio));
+                r.color = new Color(r.color.r, r.color.g, r.color.b, Mathf.Lerp(r.color.a, ind.use && (rev || ind.nonDependedOnInput) ? ind.alpha : 0f, fadeRatio));
             }
             ++i;
         }

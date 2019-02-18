@@ -355,7 +355,7 @@ public class PlayerSpawner : MonoBehaviour {
             .AddComponent(new CStateCd(cd_dash_long, CStateCd.EMode.ERestartOnly))
             .AddComponent(new CStateCd(cd_bowHit, CStateCd.EMode.ERestartOnly))
             
-            .AddComponent(new CStateReflectedDirection(0.65f, 0.75f, atackRotationSpeed, freeRotFar, new Period(0, 0.65f)).SetRaySeparation(0.35f))
+            .AddComponent(new CStateReflectedDirection(0.6f, 0.45f, atackRotationSpeed, freeRotFar, new Period(0, 0.65f)).SetRaySeparation(0.35f))
             .AddComponent(new CStateEnergy(0, 5f, CStateEnergy.Mode.EConsumeOnly))
 
             .AddComponent(new CStateAutoTransition(state_idle))

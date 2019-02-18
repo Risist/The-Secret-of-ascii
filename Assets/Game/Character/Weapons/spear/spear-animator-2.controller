@@ -1309,7 +1309,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: spear-push-pose1
-  m_Speed: 1.35
+  m_Speed: 1.55
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101359984315117794}
@@ -1338,7 +1338,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: spear-slash-left-pose1
-  m_Speed: 1.1
+  m_Speed: 1.35
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101733753105505542}
@@ -1393,7 +1393,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: spear-back-pose2
-  m_Speed: 1.35
+  m_Speed: 1.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101628520692562376}
@@ -1449,7 +1449,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: spear-slash-left-pose2
-  m_Speed: 1.1
+  m_Speed: 1.35
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101777058467702584}
@@ -1476,7 +1476,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: spear-slash-heavy-toPose2
-  m_Speed: 1.35
+  m_Speed: 1.55
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101055084836102058}
@@ -1503,7 +1503,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: spear-slash-right-pose2
-  m_Speed: 1.1
+  m_Speed: 1.35
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101636765529381682}
@@ -1557,7 +1557,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: spear-slash-heavy-toPose1
-  m_Speed: 1.35
+  m_Speed: 1.55
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101410091844132452}
@@ -1610,7 +1610,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: spear-slash-right-pose1
-  m_Speed: 1.1
+  m_Speed: 1.35
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101959734309276862}
@@ -1637,7 +1637,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: spear-back-pose1
-  m_Speed: 1.35
+  m_Speed: 1.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101804634031031076}
@@ -1692,7 +1692,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: spear-push-pose2
-  m_Speed: 1.35
+  m_Speed: 1.55
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101125727988413804}

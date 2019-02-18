@@ -60,11 +60,16 @@ MonoBehaviour:
   memoryTime: 0.5
   matureTime: 0.1
   priority: 0.5
+  propatationPrefab: {fileID: 1772080251609222, guid: 0814d3e827ba83e4a98f88ee33882f43,
+    type: 2}
   propagateMode: 2
   propagateRadius: 15
   matureTimeMaxOffset: 0.5
   knowledgeTimeMaxOffset: 0
-  propagateChance: 0.075
+  propagateChance: 0.45
+  tPropagate:
+    cd: 2.5
+  propagateChanceSpawn: 0.025
 --- !u!114 &114402811055177800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -81,8 +86,8 @@ MonoBehaviour:
   matureTime: 0.5
   priority: 1
   predictionScale: 1.5
-  nSearch: 4
-  coneRadius: 160
+  nSearch: 3
+  coneRadius: 150
   searchDistance: 25
   addictionalRotation: 0
 --- !u!114 &114580370309276894

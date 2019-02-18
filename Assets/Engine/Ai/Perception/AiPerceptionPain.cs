@@ -15,12 +15,16 @@ public class AiPerceptionPain : AiPerceptionBase
         EAll
     }
     [Space]
+    public GameObject propatationPrefab;
     public EPropagateMode propagateMode = EPropagateMode.ENone;
     public float propagateRadius;
     public float matureTimeMaxOffset;
     public float knowledgeTimeMaxOffset;
     [Range(0f,1f)]
     public float propagateChance;
+    public Timer tPropagate;
+    [Range(0f, 1f)]
+    public float propagateChanceSpawn;
 
     public void OnReceiveDamage(HealthController.DamageData data)
     {
@@ -36,7 +40,7 @@ public class AiPerceptionPain : AiPerceptionBase
         else*/
         {   
             holder.InsertToMemory(EMemoryEvent.EEnemy_Pain, data.position, Vector2.zero, memoryTime, matureTime, shadeTime);
-            if (propagateMode != EPropagateMode.ENone)
+            if (propagateMode != EPropagateMode.ENone && Random.value <= propagateChanceSpawn && tPropagate.IsReadyRestart()) 
                 Propagate(data);
         }
     }
@@ -54,6 +58,8 @@ public class AiPerceptionPain : AiPerceptionBase
                     memoryTime, matureTime + matureTimeMaxOffset * Random.value, shadeTime);
             }
         }
+        if (propatationPrefab)
+            Instantiate(propatationPrefab, transform.position, Quaternion.identity);
     }
     void Propagate(HealthController.DamageData data)
     {
@@ -68,5 +74,7 @@ public class AiPerceptionPain : AiPerceptionBase
                     memoryTime + knowledgeTimeMaxOffset * Random.value, matureTime + matureTimeMaxOffset * Random.value, shadeTime);
             }
         }
+        if(propatationPrefab)
+            Instantiate(propatationPrefab, transform.position, Quaternion.identity);
     }
 }

@@ -34,6 +34,7 @@ namespace Character
         public virtual void Init() { }
 
         public virtual bool CanEnter() { return true; }
+        public virtual bool CanEnterSoft() { return CanEnter(); }
 
         public virtual void InitPlayback(StateTransition transition) {}
         public virtual void FinishPlayback() { }
@@ -161,6 +162,13 @@ namespace Character
         {
             foreach (var it in components)
                 if (!it.CanEnter())
+                    return false;
+            return true;
+        }
+        public bool CanEnterSoft()
+        {
+            foreach (var it in components)
+                if (!it.CanEnterSoft())
                     return false;
             return true;
         }

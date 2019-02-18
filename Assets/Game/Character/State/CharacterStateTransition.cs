@@ -19,6 +19,10 @@ namespace Character
             else
                 return controller.GetInput().IsInputPressed(inputId);
         }
+        public override bool CanEnterSoft()
+        {
+            return true;
+        }
     }
     /// allows to go into state if given cd is ready
     /// then resets it
@@ -235,6 +239,10 @@ namespace Character
         public override bool CanEnter()
         {
             return negation ? !controller.GetInput().IsAtMove() : controller.GetInput().IsAtMove();
+        }
+        public override bool CanEnterSoft()
+        {
+            return true;
         }
     }
 }

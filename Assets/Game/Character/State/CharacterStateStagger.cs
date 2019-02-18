@@ -76,6 +76,7 @@ namespace Character
             }
         }
         public override bool CanEnter() { return damaged; }
+        public override bool CanEnterSoft() { return false; }
 
         public override void Init()
         {
@@ -144,6 +145,7 @@ namespace Character
         int enter = -1;
 
         public override bool CanEnter() { return enter != -1; }
+        public override bool CanEnterSoft() { return false; }
 
         public override void Init()
         {

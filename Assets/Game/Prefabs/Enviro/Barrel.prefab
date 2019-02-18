@@ -376,19 +376,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2965c051517a1847ba25af7060e20d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notificationPrefab: {fileID: 1772080251609222, guid: 368500005904e9b4592c19c099f72b66,
+    type: 2}
   shadeTime: 20
   memoryTime: 2.5
   matureTime: 0.25
   priority: 1
   tInsert:
-    cd: 0.5
-  propagateChance: 0.15
+    cd: 2
+  propagateChance: 0.5
   pushRadiusRatio: 2.25
-  minimalPushSpeed: 6.6
+  minimalPushSpeed: 6.75
   pushPedictionScale: -0.25
   damageRadiusRatio: 0.25
-  minimalDamage: -18
-  damageAccumulatorDecrease: 5
+  minimalDamage: -28
+  damageAccumulatorDecrease: 3
 --- !u!114 &114520369034676956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -402,7 +404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceModificator: 1
   transparencyLevel: 0.04
-  blocksVision: 0
+  blocksVision: 1
   memoriable: 0
   fraction: {fileID: 0}
 --- !u!212 &212148330316289624

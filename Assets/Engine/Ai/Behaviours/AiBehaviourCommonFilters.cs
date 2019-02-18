@@ -24,22 +24,66 @@ namespace ReAi
             return distSq >= minDistance * minDistance && distSq <= maxDistance * maxDistance;
         }
     }
-    public class BFilterCharacterStateAvailable : BehaviourFilterBase
+    public class BFilterRequireCharacterState : BehaviourFilterBase
     {
-        public BFilterCharacterStateAvailable(int stateId)
+        public BFilterRequireCharacterState(int stateId)
         {
-            state = character.GetState(stateId);
+            id = stateId;
         }
+        int id;
         public Character.State state;
-        
+
+        List<BehaviourHolder> comboTransitions = new List<BehaviourHolder>();
+        public BFilterRequireCharacterState AddComboTransition(BehaviourHolder s) { comboTransitions.Add(s); return this; }
+        bool ComboTransition()
+        {
+            foreach (var it in comboTransitions)
+                if (it.CanEnter(target))
+                    return true;
+            return false;
+        }
+
+        int delay;
+
+        public bool requireTransition;
+        public BFilterRequireCharacterState SetRequireTransition(bool b)
+        {
+            requireTransition = b;
+            return this;
+        }
+
         public override bool CanEnter(MemoryEvent target)
         {
-            /// TODO character state can enter caching
+            Character.State state = character.GetState(id);
+
             return
                 /// can transition happen from current state?
-                character.GetCurrentState().GetTransition(state) != null && 
+                (requireTransition || character.GetCurrentState().GetTransition(state) != null) && 
                 /// can enter atm?
-                state.CanEnter();
+                state.CanEnterSoft();
+        }
+
+        public override void Beggin()
+        {
+            state = character.GetState(id);
+            delay = 5;
+        }
+
+        
+
+        public override EBehaviourStateReturn Update()
+        {
+            if (requireTransition)
+                return EBehaviourStateReturn.ENextStateIfAll;
+
+            if(delay > 0)
+            {
+                delay--;
+            }else if ( state != character.GetCurrentState() || ComboTransition() )
+            {
+                return EBehaviourStateReturn.ENextStateIfAll;
+            }
+            return EBehaviourStateReturn.EStillExecute;
         }
     }
 
@@ -71,23 +115,6 @@ namespace ReAi
         public override EBehaviourStateReturn Update()
         {
             return tExecutionTime.IsReady() ? stateReturn : EBehaviourStateReturn.EStillExecute;
-        }
-    }
-    public class BFilterCharacterStateChange : BehaviourFilterBase
-    {
-        BFilterCharacterStateChange(EBehaviourStateReturn stateReturn = EBehaviourStateReturn.ENextStateIfAll)
-        {
-            this.stateReturn = stateReturn;
-        }
-        public EBehaviourStateReturn stateReturn;
-        Character.State initState;
-        public override void Beggin()
-        {
-            initState = character.GetCurrentState();
-        }
-        public override EBehaviourStateReturn Update()
-        {
-            return character.GetCurrentState() != initState ? stateReturn : EBehaviourStateReturn.EStillExecute;
         }
     }
 
@@ -270,7 +297,6 @@ namespace ReAi
             this.indicatorId = indicatorId;
             this.maximalDistance = maximalDistance;
         }
-        CharacterUiIndicator indicators;
         public float maximalDistance = 0.85f;
         public int indicatorId = 1;
 
@@ -290,23 +316,33 @@ namespace ReAi
 
         bool CanJump()
         {
-            return indicators.environmentIndicators[indicatorId].use &&
-                indicators.environmentIndicators[indicatorId].rayDistance < maximalDistance;
-        }
-        public override void Init()
-        {
-            base.Init();
-            indicators = character.GetIndicators();
+            return character.GetIndicators().environmentIndicators[indicatorId].use &&
+                character.GetIndicators().environmentIndicators[indicatorId].rayDistance < maximalDistance;
         }
         public override EBehaviourStateReturn Update()
         {
             if (CanJump())
             {
                 if(press)
-                    data.keys[id] = data.keys[id] || Random.value <= chance;
+                    data.keys[id] = Random.value <= chance;
                 return stateReturn;
             }
-            return base.Update();
+            return EBehaviourStateReturn.ENextStateIfAll;
+        }
+    }
+
+    public class BFilterSwitchAnimationIndicator : BehaviourFilterBase
+    {
+        public BFilterSwitchAnimationIndicator(int id, bool b)
+        {
+            this.id = id;
+            bNewValue = b;
+        }
+        public int id;
+        public bool bNewValue;
+        public override void Beggin()
+        {
+            character.GetIndicators().animationIndicators[id].use = bNewValue;
         }
     }
 
@@ -344,8 +380,6 @@ namespace ReAi
                 targetPosition = (Vector2)transform.position + Random.insideUnitCircle * baseSearchArea;
             else
                 targetPosition = GetNewPosition();
-
-            Debug.Log(targetPosition - (Vector2)transform.position);
         }
 
         public override EBehaviourStateReturn Update()
@@ -354,9 +388,18 @@ namespace ReAi
             if (((Vector2)transform.position - targetPosition).sqrMagnitude < stopDistance * stopDistance)
                 return EBehaviourStateReturn.ENextStateImmidiate;
 
-            data.positionInput =
-                data.positionInput * (1 - positionInputChange) +
-                (targetPosition - (Vector2)transform.position) * positionInputChange;
+
+            /*if (AiNavmesh.instance)
+            {
+                 Vector2 desired = AiNavmesh.instance.EvaluateAttractionDir(transform.position,
+                    targetPosition,
+                    AnimationCurve.Linear(0, 1.0f, 1.0f, 0.0f));
+
+                data.positionInput = Vector2.Lerp(data.positionInput, desired, positionInputChange);
+            }else*/
+                data.positionInput =
+                    data.positionInput * (1 - positionInputChange) +
+                    (targetPosition - (Vector2)transform.position) * positionInputChange;
 
             return base.Update();
         }
@@ -369,20 +412,41 @@ namespace ReAi
             this.stateReturnNormal = stateReturnNormal;
         }
         public float rotationInputChange;
-        public BFilterLookAround SetMinTargetDifference(float s) { minTargetAngleDifference = s; return this; }
+        public BFilterLookAround SetTargetDifference(float min, float max) { minTargetAngleDifference = min; maxTargetAngleDifference = max; return this; }
         public float minTargetAngleDifference = 45;
-        
+        public float maxTargetAngleDifference = 120;
+
+
+        public float tChangeAngleMin = 1f;
+        public float tChangeAngleMax = 1f;
+        public BFilterLookAround SetTChangeAngle(float min, float max)
+        {
+            tChangeAngleMin = min;
+            tChangeAngleMax = max;
+            return this;
+        }
+        public BFilterLookAround SetTChangeAngle(float s)
+        {
+            tChangeAngleMin = s;
+            tChangeAngleMax = s;
+            return this;
+        }
+        Timer tChangeDesiredAngle = new Timer();
+
         /// current angle the agent wants to look at
         float angle;
         float GetNewAngle()
         {
-            return angle + minTargetAngleDifference + Random.value * (360 - 2 * minTargetAngleDifference);
+            //return angle + minTargetAngleDifference + Random.value * (360 - 2 * minTargetAngleDifference);
+            if(Random.value > 0.5f)
+                return angle + Random.Range(minTargetAngleDifference, maxTargetAngleDifference);
+            else
+                return angle - Random.Range(minTargetAngleDifference, maxTargetAngleDifference);
         }
         public override void Beggin()
         {
             angle = transform.rotation.eulerAngles.z;
             angle = GetNewAngle();
-            Debug.Log(angle);
         }
 
         public BFilterLookAround SetCloseAngle(float minAngleDifference, EBehaviourStateReturn stateReturnClose = EBehaviourStateReturn.ENextStateIfAll)
@@ -398,7 +462,15 @@ namespace ReAi
         public override EBehaviourStateReturn Update()
         {
             Vector2 desiredRotationInput = Quaternion.Euler(0, 0, angle) * Vector2.up;
-            
+
+            if (tChangeDesiredAngle.IsReadyRestart())
+            {
+                tChangeDesiredAngle.cd = Random.Range(tChangeAngleMin, tChangeAngleMax);
+
+                angle = transform.rotation.eulerAngles.z;
+                angle = GetNewAngle();
+            }
+
             data.rotationInput = data.rotationInput * (1 - rotationInputChange) +
                 desiredRotationInput * rotationInputChange;
             
@@ -408,6 +480,75 @@ namespace ReAi
             }
 
             return stateReturnNormal;
+        }
+    }
+
+    public class BFilterPatrol : BehaviourFilterBase
+    {
+        public BFilterPatrol(float maxPatrolPathDistance, float positionInputChange = 0.1f, float closeDistance = 1.5f)
+        {
+            this.maxPatrolPathDistance = maxPatrolPathDistance;
+            this.closeDistance = closeDistance;
+            this.positionInputChange = positionInputChange;
+        }
+
+        PatrolManager.PatrolPath currentPath;
+        PatrolManager.PatrolPath pretendingPath;
+        int pointId;
+        int direction;
+
+        public float maxPatrolPathDistance;
+
+        public float positionInputChange = 0.1f;
+        public float closeDistance;
+
+        public override bool CanEnter(MemoryEvent target)
+        {
+            if (!PatrolManager.instance)
+            {
+                Debug.LogWarning("No Patrol Manager on map");
+                return false;
+            }
+
+            pretendingPath = PatrolManager.instance.GetRandomUnusedPath(transform.position - PatrolManager.instance.transform.position, maxPatrolPathDistance);
+
+            return pretendingPath != null;
+        }
+
+        public override void Beggin()
+        {
+            currentPath = pretendingPath;
+            pointId = currentPath.GetClosestPointId(transform.position- PatrolManager.instance.transform.position);
+            if (pointId == 0)
+                direction = 1;
+            else if (pointId == currentPath.points.Length - 1)
+                direction = -1;
+            else direction = Random.Range(0, 2) * 2 - 1; // +1 or -1
+        }
+
+        public override EBehaviourStateReturn Update()
+        {
+
+
+            Vector2 toPoint = currentPath.points[pointId] - (Vector2)transform.position + (Vector2)PatrolManager.instance.transform.position;
+            /*if(AiNavmesh.instance)
+            {
+                toPoint = AiNavmesh.instance.EvaluateAttractionDir(transform.position,
+                    (Vector2)PatrolManager.instance.transform.position + currentPath.points[pointId],
+                    AnimationCurve.Linear(0, 1.0f, 1.0f, 0.0f));
+            }*/
+
+            data.positionInput = Vector2.Lerp(data.positionInput, toPoint, positionInputChange);
+
+            if (toPoint.sqrMagnitude < closeDistance * closeDistance)
+            {
+                pointId += direction;
+                if((direction == 1 && pointId == currentPath.points.Length) || 
+                    (direction == -1 && pointId == 0))
+                    return EBehaviourStateReturn.ENextStateImmidiate;
+            }
+
+            return EBehaviourStateReturn.ENextStateIfAll;
         }
     }
 
@@ -451,188 +592,6 @@ namespace ReAi
             return stateReturnNotFind;
         }
     }
-
-    /*
-     * Manages state interruption
-     * e.g. If character perception will find information about higher priority event
-     * the behaviour will transition towards given entry point after a short delay
-     */
-    public class BFilterStateInteruption : BehaviourFilterBase
-    {
-        struct UpdateMemoryData
-        {
-            public BehaviourHolder entry;
-            public EMemoryEvent eventType;
-            public EMemoryState eventState;
-            public ECurrentState lastState;
-        }
-
-        #region Transition Entry Points
-        public BehaviourHolder enemyKnowledgeEntry;
-        public BehaviourHolder enemyShadeEntry;
-        public BehaviourHolder enemyPainEntry;
-        public BehaviourHolder enemyPainShadeEntry;
-
-        public BehaviourHolder noiseKnowledgeEntry;
-        public BehaviourHolder noiseShadeEntry;
-        public BehaviourHolder noiseTouchEntry;
-        public BehaviourHolder noiseTouchShadeEntry;
-
-        public BehaviourHolder neutralEntry;
-        #endregion Transition Entry Points
-
-        #region Delay
-        public float tDelayMin = 0.1f;
-        public float tDelayMax = 0.25f;
-        Timer tDelay = new Timer();
-        #endregion Delay
-
-        #region Transition
-        enum ECurrentState
-        {
-            EEnemyShade,
-            EEnemyKnowledge,
-            EEnemyPain,
-            EEnemyPainShade,
-
-            ENoiseShade,
-            ENoiseKnowledge,
-            ENoiseTouch,
-            ENoiseTouchShade,
-            
-            ENeutral
-        }
-        ECurrentState currentState = ECurrentState.ENeutral;
-
-        BehaviourHolder currentTransition;
-        MemoryEvent targetTransition;
-        void ScheduleTransition( BehaviourHolder towards, MemoryEvent target)
-        {
-            tDelay.cd = Random.Range(tDelayMin, tDelayMax);
-            tDelay.Restart();
-            currentTransition = towards;
-            targetTransition = target;
-        }
-
-        void UpdateMemoryEnemy()
-        {
-            var ev = memory.SearchInMemory(EMemoryEvent.EEnemy);
-            if (ev != null)
-            {
-                var state = ev.GetState();
-                if (state == EMemoryState.EKnowledge && currentState != ECurrentState.EEnemyKnowledge)
-                {
-                    currentState = ECurrentState.EEnemyKnowledge;
-                    ScheduleTransition(enemyKnowledgeEntry, ev);
-                    return;
-                }
-
-                if (state == EMemoryState.EShade && currentState != ECurrentState.EEnemyKnowledge)
-                {
-                    currentState = ECurrentState.EEnemyKnowledge;
-                    ScheduleTransition(enemyShadeEntry, ev);
-                    return;
-                }
-            }
-            else
-                UpdateMemoryNoise();
-        }
-        void UpdateMemoryPain()
-        {
-            var ev = memory.SearchInMemory(EMemoryEvent.EEnemy_Pain);
-            if (ev != null)
-            {
-                var state = ev.GetState();
-                if (state == EMemoryState.EKnowledge && currentState != ECurrentState.EEnemyPain)
-                {
-                    currentState = ECurrentState.EEnemyPain;
-                    ScheduleTransition(enemyPainEntry, ev);
-                    return;
-                }
-
-                if (state == EMemoryState.EShade && currentState != ECurrentState.EEnemyPainShade)
-                {
-                    currentState = ECurrentState.EEnemyPainShade;
-                    ScheduleTransition(enemyPainShadeEntry, ev);
-                    return;
-                }
-            }
-            else
-                UpdateMemoryNoise();
-        }
-        void UpdateMemoryNoise()
-        {
-            var ev = memory.SearchInMemory(EMemoryEvent.ENoise);
-            if (ev != null)
-            {
-                var state = ev.GetState();
-                if (state == EMemoryState.EKnowledge && currentState != ECurrentState.ENoiseKnowledge)
-                {
-                    currentState = ECurrentState.ENoiseKnowledge;
-                    ScheduleTransition(noiseKnowledgeEntry, ev);
-                    return;
-                }
-
-                if (state == EMemoryState.EShade && currentState != ECurrentState.ENoiseShade)
-                {
-                    currentState = ECurrentState.ENoiseShade;
-                    ScheduleTransition(noiseShadeEntry, ev);
-                    return;
-                }
-            }
-            else
-                UpdateMemoryTouch();
-        }
-        void UpdateMemoryTouch()
-        {
-            var ev = memory.SearchInMemory(EMemoryEvent.ENoise_Touch);
-            if( ev != null)
-            {
-                var state = ev.GetState();
-                if(state == EMemoryState.EKnowledge && currentState != ECurrentState.ENoiseTouch)
-                {
-                    currentState = ECurrentState.ENoiseTouch;
-                    ScheduleTransition(noiseTouchEntry, ev);
-                    return;
-                }
-
-                if (state == EMemoryState.EShade && currentState != ECurrentState.ENoiseTouchShade)
-                {
-                    currentState = ECurrentState.ENoiseTouchShade;
-                    ScheduleTransition(noiseTouchShadeEntry, ev);
-                    return;
-                }
-            }
-            else
-                UpdateMemoryNeutral();
-        }
-        void UpdateMemoryNeutral()
-        {
-            if(currentState != ECurrentState.ENeutral)
-            {
-                currentState = ECurrentState.ENeutral;
-                ScheduleTransition(neutralEntry, null);
-            }
-        }
-        #endregion Transition
-
-        public override EBehaviourStateReturn Update()
-        {
-            if(currentTransition != null && tDelay.IsReady())
-            {
-                /// Do transition 
-                machine.SetCurrentBehaviour(currentTransition);
-                target = targetTransition;
-
-                return EBehaviourStateReturn.EDoNotTransition;
-            }
-            else /// check if there is a higher priority event happening
-            {
-                UpdateMemoryEnemy();
-            }
-
-            return EBehaviourStateReturn.ENextStateIfAll;
-        }
-    }
+    
 
 }

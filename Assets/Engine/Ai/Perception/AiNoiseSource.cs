@@ -8,6 +8,11 @@ using UnityEngine;
 /// - got pushed too hard
 class AiNoiseSource : MonoBehaviour
 {
+    static Timer tPropagate = new Timer(0.4f);
+
+    public GameObject notificationPrefab;
+    [Space]
+
     public float shadeTime = 5f;
     public float memoryTime = 5f;
     public float matureTime = 0f;
@@ -32,7 +37,7 @@ class AiNoiseSource : MonoBehaviour
         if (!tInsert.IsReady() || !collision.rigidbody)
             return;
 
-        if (collision.relativeVelocity.sqrMagnitude >= minimalPushSpeed * minimalPushSpeed)
+        if (collision.relativeVelocity.sqrMagnitude >= minimalPushSpeed * minimalPushSpeed && tInsert.IsReady() && tPropagate.IsReadyRestart())
         {
             Propagate(collision.collider.transform.position, -collision.relativeVelocity*pushPedictionScale, collision.relativeVelocity.magnitude*pushRadiusRatio);
             tInsert.Restart();
@@ -59,11 +64,21 @@ class AiNoiseSource : MonoBehaviour
     {
         if (data.damage >= 0)
             return;
-        damageAccumulator += data.damage;
+        damageAccumulator += data.damage + data.pain;
         
-        if(damageAccumulator < minimalDamage && tInsert.IsReadyRestart())
+        if(damageAccumulator < minimalDamage && tInsert.IsReady() && tPropagate.IsReadyRestart())
         {
+            tInsert.Restart();
             Propagate(data.position, Vector2.zero, -data.damage*damageRadiusRatio);
+        }
+    }
+    public void OnDeath(HealthController.DamageData data)
+    {
+        damageAccumulator += (data.damage + data.pain)*4;
+
+        if (damageAccumulator < minimalDamage && tPropagate.IsReadyRestart())
+        {
+            Propagate(data.position, Vector2.zero, -data.damage * damageRadiusRatio);
         }
     }
     #endregion Damage
@@ -81,6 +96,8 @@ class AiNoiseSource : MonoBehaviour
                     memoryTime, matureTime, shadeTime, priority
                 );
         }
+        if (notificationPrefab)
+            Instantiate(notificationPrefab, transform.position, Quaternion.identity);
     }
 
     
